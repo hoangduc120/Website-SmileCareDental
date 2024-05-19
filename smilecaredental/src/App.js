@@ -1,10 +1,11 @@
 /* The following line can be included in your src/index.js or App.js file */
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import Homepage from './pages/users/homepage/Home';
+import Homepage from './pages/users/homepage/Home.js';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import RouterCustom from './Router';
 import Header from './components/Header';
+// import Footer from './components/Footer';
 
 function App() {
   return (
@@ -14,8 +15,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Header />}>
               <Route index element={<Homepage />} />
-              {/* <Route path="register" element={<null />} />
-              <Route path="forgetpassword" element={<null />} />
+              {/* <Route path="/" element={<Footer />} /> */}
+              {/* <Route path="forgetpassword" element={<null />} />
               <Route path="forgetpassword2" element={<null />} />
               <Route path="login" element={<null />} /> */}
               <Route path="home" element={<Homepage />} />

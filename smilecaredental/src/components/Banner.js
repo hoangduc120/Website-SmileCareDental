@@ -3,7 +3,10 @@ import React from 'react'
 
 function Banner() {
 
-    <img src="../public/images/banner" alt="Logo" />
+    return (
+        <>
+        </>
+    )
 
 }
 export default Banner;

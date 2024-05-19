@@ -77,7 +77,17 @@ function Header() {
 
 
             </Box >
-            <Banner />
+            <Box>
+                <img
+                    src={
+                        "https://content.pancake.vn/1/s1000x500/8e/b2/f4/f4/91d7206d6bd21531b6f4ecee3e726615d7e17ac32c6755ad8004f49b.png"
+                    }
+                    alt=""
+                    loading="lazy"
+                    width="100%"
+                    height="auto"
+                />
+            </Box>
 
 
 
