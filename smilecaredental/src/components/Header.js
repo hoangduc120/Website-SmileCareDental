@@ -1,6 +1,10 @@
-import { Box, Grid, Stack, TextField, Toolbar, Typography } from "@mui/material";
+import { Badge, Box, Grid, Stack, TextField, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { Outlet, Link } from "react-router-dom";
+import MailIcon from '@mui/icons-material/Mail';
+import PersonIcon from '@mui/icons-material/Person';
+import Banner from "./Banner";
+
 
 function Header() {
     return (
@@ -28,7 +32,6 @@ function Header() {
                     <Stack
                         direction="row"
                         spacing={20}
-                        sx={{ color: '#2098D1' }}
                         ml="50px"
                     >
                         <Link to="/Home" style={{ textDecoration: "none", color: "#FFFF" }}  >
@@ -53,48 +56,35 @@ function Header() {
                             </Typography>
                         </Link>
 
-                        <form>
+                        <form >
                             <Stack padding={"0px"} >
                                 <TextField label="Tìm kiếm" variant="outlined" size="small" />
                             </Stack>
 
                         </form>
+
+                        <Grid item xs={2}  >
+                            <Badge badgeContent={4} color="primary" style={{ color: "#FFF " }} >
+                                <MailIcon color="action" style={{ color: "#FFF " }} />
+                            </Badge>
+                            <Badge color="primary" style={{ color: "#FFF " }}>
+                                <PersonIcon color="action" style={{ color: "#FFF " }} />
+                            </Badge>
+                        </Grid>
                     </Stack>
 
                 </Grid >
 
+
             </Box >
-
-            <img
-                src="../public/images/banner.jpg"
-                alt="Mô tả hình ảnh"
-                width={200}
-                height={150}
-            />
-
+            <Banner />
 
 
 
             <Outlet />
 
             <Toolbar />
-            <Box
-                sx={{ position: "fixed", left: 0, bottom: 0, right: 0, zIndex: "999" }}
-                bgcolor="#CCCCCC"
-                padding="20px"
-            >
-                <Grid container>
-                    <Grid item xs={4}>
-                        Thông tin
-                    </Grid>
-                    <Grid item xs={4}>
-                        Địa chỉ
-                    </Grid>
-                    <Grid item xs={4}>
-                        Image map
-                    </Grid>
-                </Grid>
-            </Box>
+
         </>
     );
 }
