@@ -31,7 +31,7 @@ import {
               <form>
                 <Stack spacing={4}>
                   <TextField
-                    label="Email hoặc số điện thoại"
+                    label=" Nhập email "
                     variant="outlined"
                     size="small"
                   />
@@ -65,7 +65,7 @@ import {
                 src={
                   "https://www.inglewoodfamilydental.ca/wp-content/uploads/2023/10/choosing-the-right-dentist-for-your-dental-crown-procedure-scaled.jpg"
                 }
-                alt=""
+                alt=" image_login "
                 loading="lazy"
                 width="100%"
                 height="auto"
