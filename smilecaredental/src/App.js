@@ -5,7 +5,7 @@ import Home from './pages/users/homepage/Home.js'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import RouterCustom from './Router';
 import Header from './components/Header.js';
-import Footer from './components/Footer';
+
 import Price from './pages/users/homepage/Price.js';
 import Introduce from './pages/users/homepage/Introduce.js';
 import Service from './pages/users/homepage/Service.js';

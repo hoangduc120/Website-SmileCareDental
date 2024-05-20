@@ -7,8 +7,9 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { Grid, List, Typography } from '@mui/material';
-
+import { Box, Grid, List, ListItem, Stack, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 function Price() {
     const [open, setOpen] = React.useState(true);
 
@@ -34,57 +35,109 @@ function Price() {
         { label: 'Nướu mài xương ổ', price: '10.000.000(VNĐ)' },
         { label: 'Cắt nạo chóp', price: '2.000.000(VNĐ)' }
     ];
-    const listItems = itemList.map((item, index) => <li key={index}></li>)
-    { }
+    const titleList = [
+        { name: 'CẤY GHÉP IMPLANT (ĐÃ BAO GỒM ABUTMENT)' },
+        { name: 'NIẾNG RĂNG CHỈNH' },
+        { name: 'BỌC RĂNG SỨ THẨM MỸ ' },
+        { name: 'TẨY TRẮNG RĂNG ' },
+        { name: 'TRÁM RĂNG THẨM MỸ' },
+        { name: 'NHỔ RĂNG KHÔN ' },
+        { name: 'NỘI NHA CHỮA TỦY' },
+        { name: 'HÀM GIẢ THÁO LẮP ' },
+        { name: 'CẠO VÔI RĂNG  ' },
+        { name: 'CẮT NẠO CHÓP ' },
+        { name: 'NHỔ RĂNG THƯỜNG ' },
+        { name: 'ĐIỀU TRỊ CƯỜI HỞ LỢI  ' },
+        { name: 'PHẪU THUẬT NƯỚU' }
+    ]
+
     return (
+        <>
+            <Box textAlign="center" height="20vh">
+                <Typography>Bảng giá dịch vụ</Typography>
+                <Box>
+                    <Stack direction="row" alignItems="center" spacing={3} >
+                        <Typography>
+                            <Link to="/Home" style={{ textDecoration: "none", color: "#64D3E3" }}>
+                                Trang chủ
+                            </Link>
+                        </Typography>
+                        <ArrowForwardIosIcon sx={{ color: "#64D3E3", fontSize: "16px" }} />
+                        <Typography>
+                            <Link to="/Price" style={{ textDecoration: "none", color: "#64D3E3" }}>
+                                Bảng giá
+                            </Link>
+                        </Typography>
+                    </Stack>
+                </Box>
+            </Box>
+            <Grid container spacing={1}>
+                <Grid item xs={5} md={5}>
+                    {titleList.map}
+                    <ListItemButton onClick={handleClick}>
+                        <ListItemText primary="ĐIỀU TRỊ CƯỜI HỞ LỢI" />
+                        {open ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            <ListItemButton sx={{ pl: 3 }}>
+                                <ListItemText primary="Nướu mài xương ổ" />
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 3 }}>
+                                <ListItemText primary="Cắt nạo chóp" />
+                            </ListItemButton>
+                        </List>
+                    </Collapse>
+                    <ListItemButton onClick={handleClick}>
+                        <ListItemText primary="ĐIỀU TRỊ CƯỜI HỞ LỢI" />
+                        {open ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
 
-        <Grid container>
-            <Grid item xs={5}>
-                <ListItemButton onClick={handleClick}>
-                    <ListItemText primary="ĐIỀU TRỊ CƯỜI HỞ LỢI" />
-                    {open ? <ExpandLess /> : <ExpandMore />}
-                </ListItemButton>
-                <Collapse in={open} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemText primary="Nướu mài xương ổ" />
-                        </ListItemButton>
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemText primary="Cắt nạo chóp" />
-                        </ListItemButton>
+                </Grid>
+                <Grid item xs={4}>
+                    <List
+                        sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}
+                        component="nav"
+                        aria-labelledby="nested-list-subheader"
+                        subheader={
+                            <ListSubheader component="div" id="nested-list-subheader"  >
+
+                                <Typography variant='h4' p="25px" color="#2098D1" fontWeight="700">
+                                    BẢNG GIÁ
+                                </Typography>
+
+                                <List sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}>
+                                    {itemList.map((value) => (
+                                        <ListItem
+                                            key={value}
+                                            disableGutters
+                                            secondaryAction={
+                                                <Typography variant='h7'  >
+                                                    {`${value.price}`}
+                                                </Typography>
+                                            }
+                                        >
+                                            <ListItemText primary={` ${value.label}`} />
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </ListSubheader>
+                        }
+                    >
                     </List>
-                </Collapse>
-                <ListItemButton onClick={handleClick}>
-                    <ListItemText primary="ĐIỀU TRỊ CƯỜI HỞ LỢI" />
-                    {open ? <ExpandLess /> : <ExpandMore />}
-                </ListItemButton>
 
+                </Grid>
+                <Grid item xs={2} p="25px">
+                    <Autocomplete
+                        disablePortal
+                        options={itemList}
+                        sx={{ width: 400 }}
+                        renderInput={(params) => <TextField {...params} label="Chọn theo dịch vụ" />}
+                    />
+                </Grid>
             </Grid>
-            <Grid item xs={4}>
-                <List
-                    sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}
-                    component="nav"
-                    aria-labelledby="nested-list-subheader"
-                    subheader={
-                        <ListSubheader component="div" id="nested-list-subheader"  >
-                            <Typography variant='h4' p="25px" color="#2098D1" fontWeight="700">
-                                BẢNG GIÁ
-                            </Typography>
-                        </ListSubheader>
-                    }
-                >
-                </List>
-            </Grid>
-            <Grid item xs={2} p="25px">
-                <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={itemList}
-                    sx={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="Chọn theo dịch vụ" />}
-                />
-            </Grid>
-        </Grid>
+        </>
+
     );
 }
 export default Price
