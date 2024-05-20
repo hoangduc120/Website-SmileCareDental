@@ -54,8 +54,8 @@ function Price() {
     return (
         <>
             <Box textAlign="center" height="20vh">
-                <Typography>Bảng giá dịch vụ</Typography>
-                <Box>
+                <Typography variant='h3' pt="25px" color="#64D3E3">Bảng giá dịch vụ</Typography>
+                <Box display="flex" justifyContent="center" pt="15px">
                     <Stack direction="row" alignItems="center" spacing={3} >
                         <Typography>
                             <Link to="/Home" style={{ textDecoration: "none", color: "#64D3E3" }}>
@@ -70,43 +70,44 @@ function Price() {
                         </Typography>
                     </Stack>
                 </Box>
-            </Box>
+            </Box >
             <Grid container spacing={1}>
-                <Grid item xs={5} md={5}>
-                    {titleList.map}
+                <Grid item xs={5} >
                     <ListItemButton onClick={handleClick}>
                         <ListItemText primary="ĐIỀU TRỊ CƯỜI HỞ LỢI" />
                         {open ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItemButton sx={{ pl: 3 }}>
+                            <ListItemButton sx={{ pl: 5 }}>
                                 <ListItemText primary="Nướu mài xương ổ" />
                             </ListItemButton>
-                            <ListItemButton sx={{ pl: 3 }}>
+                            <ListItemButton sx={{ pl: 5 }}>
                                 <ListItemText primary="Cắt nạo chóp" />
                             </ListItemButton>
                         </List>
                     </Collapse>
-                    <ListItemButton onClick={handleClick}>
-                        <ListItemText primary="ĐIỀU TRỊ CƯỜI HỞ LỢI" />
-                        {open ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemButton>
-
                 </Grid>
-                <Grid item xs={4}>
+
+                <Grid item xs={7} p="25px"  >
+                    <Box display='flex'>
+                        <Typography variant='h4' color="#2098D1" fontWeight="700">
+                            BẢNG GIÁ
+                        </Typography>
+                        <Autocomplete
+                            disablePortal
+                            options={itemList}
+                            sx={{ width: 400, marginLeft: 'auto' }}
+                            renderInput={(params) => <TextField {...params} label="Chọn theo dịch vụ" />}
+                        />
+                    </Box>
                     <List
-                        sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}
+                        sx={{ width: '100%', maxWidth: 1200, bgcolor: 'background.paper', justifyContent: 'flex-end' }}
                         component="nav"
                         aria-labelledby="nested-list-subheader"
                         subheader={
                             <ListSubheader component="div" id="nested-list-subheader"  >
-
-                                <Typography variant='h4' p="25px" color="#2098D1" fontWeight="700">
-                                    BẢNG GIÁ
-                                </Typography>
-
-                                <List sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}>
+                                <List sx={{ width: '100%', maxWidth: 1200, bgcolor: 'background.paper' }}>
                                     {itemList.map((value) => (
                                         <ListItem
                                             key={value}
@@ -125,15 +126,6 @@ function Price() {
                         }
                     >
                     </List>
-
-                </Grid>
-                <Grid item xs={2} p="25px">
-                    <Autocomplete
-                        disablePortal
-                        options={itemList}
-                        sx={{ width: 400 }}
-                        renderInput={(params) => <TextField {...params} label="Chọn theo dịch vụ" />}
-                    />
                 </Grid>
             </Grid>
         </>

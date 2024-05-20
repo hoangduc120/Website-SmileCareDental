@@ -3,6 +3,9 @@ import React from "react";
 import { Outlet, Link } from "react-router-dom";
 import MailIcon from '@mui/icons-material/Mail';
 import PersonIcon from '@mui/icons-material/Person';
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import EmailIcon from "@mui/icons-material/Email";
+import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
 
 
 
@@ -26,8 +29,6 @@ function Header() {
                 </Grid>
             </Box>
             <Box component="section" sx={{ flexGrow: 10 }} padding="20px" bgcolor="#2098D1" >
-
-
                 <Grid item xs={8}>
                     <Stack
                         direction="row"
@@ -68,7 +69,7 @@ function Header() {
                                 <MailIcon color="action" style={{ color: "#FFF " }} />
                             </Badge>
 
-                            <Badge color="primary" style={{ color: "#FFF " }}>
+                            <Badge color="primary" style={{ color: "#FFF ", marginLeft: "40px" }}>
                                 <PersonIcon color="action" style={{ color: "#FFF " }} />
                             </Badge>
                         </Grid>
@@ -102,10 +103,27 @@ function Header() {
             >
                 <Grid container>
                     <Grid item xs={4}>
-                        Thông tin
+                        <Typography variant="h6" fontWeight="bold">
+                            Thông tin liên hệ
+                        </Typography>
+                        <Box display="flex" alignItems="center">
+                            <LocalPhoneIcon fontSize="small" sx={{ fontSize: 21 }} />
+                            <span style={{ marginLeft: 8 }}>1900 2345</span>
+                        </Box>
+                        <Box display="flex" alignItems="center">
+                            <EmailIcon fontSize="small" sx={{ fontSize: 21 }} />
+                            <span style={{ marginLeft: 8 }}>dentalclinic@gmail.com</span>
+                        </Box>
+                        <Box display="flex" alignItems="center">
+                            <FacebookTwoToneIcon fontSize="small" sx={{ fontSize: 21 }} />
+                            <span style={{ marginLeft: 8 }}>
+                                https://www.facebook.comshinichikun120
+                            </span>
+                        </Box>
                     </Grid>
+
                     <Grid item xs={4}>
-                        Địa chỉ
+                        <Typography fontWeight={"700"}> Địa Chỉ: </Typography>
                     </Grid>
                     <Grid item xs={4}>
                         Image map
