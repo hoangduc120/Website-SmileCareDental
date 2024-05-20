@@ -3,7 +3,7 @@ import React from "react";
 import { Outlet, Link } from "react-router-dom";
 import MailIcon from '@mui/icons-material/Mail';
 import PersonIcon from '@mui/icons-material/Person';
-import Banner from "./Banner";
+
 
 
 function Header() {
@@ -63,10 +63,11 @@ function Header() {
 
                         </form>
 
-                        <Grid item xs={2}  >
+                        <Grid item xs={1} container alignItems="center" spacing={10} >
                             <Badge badgeContent={4} color="primary" style={{ color: "#FFF " }} >
                                 <MailIcon color="action" style={{ color: "#FFF " }} />
                             </Badge>
+
                             <Badge color="primary" style={{ color: "#FFF " }}>
                                 <PersonIcon color="action" style={{ color: "#FFF " }} />
                             </Badge>
@@ -90,11 +91,27 @@ function Header() {
             </Box>
 
 
-
             <Outlet />
 
             <Toolbar />
 
+            <Box
+                sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
+                bgcolor="#CCCCCC"
+                padding="20px"
+            >
+                <Grid container>
+                    <Grid item xs={4}>
+                        Thông tin
+                    </Grid>
+                    <Grid item xs={4}>
+                        Địa chỉ
+                    </Grid>
+                    <Grid item xs={4}>
+                        Image map
+                    </Grid>
+                </Grid>
+            </Box>
         </>
     );
 }
