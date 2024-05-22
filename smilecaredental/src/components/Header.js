@@ -82,7 +82,7 @@ function Header() {
             <Box>
                 <img
                     src={
-                        "https://content.pancake.vn/1/s1000x500/8e/b2/f4/f4/91d7206d6bd21531b6f4ecee3e726615d7e17ac32c6755ad8004f49b.png"
+                        "images/banner.jpg"
                     }
                     alt=""
                     loading="lazy"

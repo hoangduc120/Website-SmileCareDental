@@ -108,9 +108,9 @@ function Price() {
                         subheader={
                             <ListSubheader component="div" id="nested-list-subheader"  >
                                 <List sx={{ width: '100%', maxWidth: 1200, bgcolor: 'background.paper' }}>
-                                    {itemList.map((value) => (
+                                    {itemList.map((value, index) => (
                                         <ListItem
-                                            key={value}
+                                            key={index}
                                             disableGutters
                                             secondaryAction={
                                                 <Typography variant='h7'  >
