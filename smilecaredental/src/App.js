@@ -30,7 +30,7 @@ function App() {
               <Route path="/Introduce" element={<Introduce />} />
               <Route path="/Service" element={<Service />} /> */}
             </Route>
-            <Route path="/" element={<ProfileUser />} />
+            <Route path="/" element={<ProfileUser />}/>
 
           </Routes>
         </BrowserRouter>
