@@ -29,7 +29,7 @@ function Home() {
               <Box
                 display="flex"
                 flexDirection="column"
-                alignItems="center"
+           
                 justifyContent="center"
               >
                 <CardMedia
