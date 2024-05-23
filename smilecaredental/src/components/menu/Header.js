@@ -6,6 +6,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import EmailIcon from "@mui/icons-material/Email";
+import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
 
 
 
@@ -171,23 +174,63 @@ function Header() {
             <Outlet />
 
             <Toolbar />
-
             <Box
-                sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
-                bgcolor="#CCCCCC"
-                padding="20px"
+              sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
+              bgcolor="#0269BD"
+              padding="20px"
+              color="#ffffff"
             >
-                <Grid container>
-                    <Grid item xs={4}>
-                        Thông tin
-                    </Grid>
-                    <Grid item xs={4}>
-                        Địa chỉ
-                    </Grid>
-                    <Grid item xs={4}>
-                        Image map
-                    </Grid>
+              <Grid container>
+                
+                <Grid item xs={4}>
+                  <Typography variant="h6" fontWeight="bold">
+                    Thông tin liên hệ
+                  </Typography>
+                  <Box display="flex" alignItems="center">
+                    <LocalPhoneIcon fontSize="small" sx={{ fontSize: 30 }} />
+                    <span style={{ marginLeft: 8 }}>1900 2345</span>
+                  </Box>
+                  <Box display="flex" alignItems="center">
+                    <EmailIcon fontSize="small" sx={{ fontSize: 30 }} />
+                    <span style={{ marginLeft: 8 }}>smilecaredental@gmail.com</span>
+                  </Box>
+                  <Box display="flex" alignItems="center">
+                    <FacebookTwoToneIcon fontSize="small" sx={{ fontSize: 30 }} />
+                    <span style={{ marginLeft: 8 }}>
+                      https://www.facebook.comshinichikun120
+                    </span>
+                  </Box>
                 </Grid>
+
+                <Grid item xs={4}>
+                  <Typography fontWeight={"bold"} variant="h6"  > Địa Chỉ: </Typography>
+                  <Typography >
+                  Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={4}>
+                    <Typography variant="h6" fontWeight="bold" style={{ textAlign: "center", paddingBottom:"10px" }}>
+                        Bản đồ
+                    </Typography>
+                    <div
+                        style={{ display:"flex", justifyContent:"center", marginRight:" 20px", width:"100%"}}
+                        dangerouslySetInnerHTML={{
+                            __html: `<<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.609941891112!2d106.8050120759703!3d10.841132830463758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752731176b07b1%3A0xb752b24b379bae5e!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgVFAuIEhDTQ!5e0!3m2!1svi!2s!4v1716430356514!5m2!1svi!2s" width="400" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>>`
+                        }}
+                    />
+                </Grid>
+              </Grid>
+            </Box>
+            <Box 
+              sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
+              bgcolor="#ffffff"
+              padding="20px"
+              color="#0269BD"
+            >
+              <Typography style={{textAlign: "center"}}>
+              CÔNG TY TNHH NHA KHOA SmileCareDental - Địa chỉ: Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh - Điện thoại: 1900 2345 - GPDKKD: 0304132304 do sở KH & ĐT TP.HCM cấp ngày: 06/12/2005
+              </Typography>
             </Box>
         </>
     );
