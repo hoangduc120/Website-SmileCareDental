@@ -57,7 +57,7 @@ function Home() {
           gutterBottom
           color={"#2098D1"}
         >
-          Đội ngũ y bác sĩ
+          Đội ngũ y bác sĩ nha khoa
         </Typography>
         {/* You can add additional content for "Đội ngũ y bác sĩ" here */}
       </Box>

@@ -1,6 +1,6 @@
-import { Button, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import React from "react";
-import LockIcon from "@mui/icons-material/Lock";
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { Link } from "react-router-dom";
 
 function ForgetPassword() {
@@ -23,7 +23,16 @@ function ForgetPassword() {
           bgcolor: "#fff",
         }}
       >
-        <LockIcon fontSize="large" display="block" />
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          padding="25px"
+          
+        >
+          <ChangeCircleIcon fontSize="large" style={{ color: "#2098D1" }} />
+        </Box>
+
         <Stack spacing={4}>
           <Typography variant="h4" color="#2098D1" textAlign={"center"}>
             Quên mật khẩu
