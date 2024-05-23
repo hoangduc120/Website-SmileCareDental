@@ -7,7 +7,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import services from "./Data"; // Adjust the import path as necessary
+import { Services } from "./data/dichvu/DataServices.js"; // Adjust the import path as necessary
 
 function Home() {
   return (
@@ -24,7 +24,7 @@ function Home() {
       </Typography>
       <Box sx={{ paddingX: "15px" }}>
         <Grid container spacing={2}>
-          {services.map((service, index) => (
+          {Services.map((service, index) => (
             <Grid item xs={4} key={index}>
               <Box
                 display="flex"
