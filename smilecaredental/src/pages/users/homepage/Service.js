@@ -26,6 +26,16 @@ function Service() {
                     </Stack>
                 </Box>
             </Box >
+            <Typography
+                variant="h4"
+                component="div"
+                align="center"
+                gutterBottom
+                color={"#2098D1"}
+                padding={"30px"}
+            >
+                CÁC DỊCH VỤ NHA KHOA
+            </Typography>
         </>
     )
 }

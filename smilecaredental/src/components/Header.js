@@ -106,7 +106,7 @@ function Header() {
                         <Box display="flex" alignItems="center">
                             <FacebookTwoToneIcon fontSize="small" sx={{ fontSize: 21 }} />
                             <span style={{ marginLeft: 8 }}>
-                                https://www.facebook.comshinichikun120
+                                https://www.facebook.com/shinichikun120
                             </span>
                         </Box>
                     </Grid>

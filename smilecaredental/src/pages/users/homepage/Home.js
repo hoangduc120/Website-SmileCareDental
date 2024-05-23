@@ -1,10 +1,22 @@
-import { Box, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Box, CardContent, CardMedia, Grid, Typography, Button, CardActionArea, CardActions } from '@mui/material'
 import React from 'react'
 import { Container, Stack } from 'react-bootstrap'
 import { Services } from '../../../components/datatest/service/Service'
 import { Link } from 'react-router-dom'
+import Card from '@mui/material/Card';
+import { Doctors } from '../../../components/datatest/doctor/Doctors'
 
 function Home() {
+    const listServices = [
+        { name: 'RĂNG SỨ THẤM MỸ' },
+        { name: 'TẨY TRẮNG' },
+        { name: 'NIỀNG RĂNG' },
+        { name: 'CẤY GHÉP IMPLANT' },
+        { name: 'TỔNG QUÁT' },
+        { name: 'NHỔ RĂNG THƯỜNG' },
+        { name: 'NHỔ RĂNG KHÔN' },
+        { name: 'TẪY TRẮNG RĂNG' },
+    ]
     return (
         <>
             <Box textAlign="center" height="20vh">
@@ -69,9 +81,65 @@ function Home() {
                     >
                         Đội ngũ y bác sĩ
                     </Typography>
-                    {/* You can add additional content for "Đội ngũ y bác sĩ" here */}
+
+                    <Container>
+                        <Grid container spacing={2}>
+                            {Doctors.map((doctor) => (
+                                <Grid item xs={12} sm={6} md={4} key={doctor.id}>
+                                    <Card sx={{ maxWidth: 450 }}>
+                                        <CardActionArea>
+                                            <CardMedia
+                                                component="img"
+                                                height="350"
+                                                image={doctor.img}
+                                                sx={{ objectFit: 'cover', objectPosition: 'top' }}
+                                            />
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" component="div">
+                                                    {doctor.name}
+                                                </Typography>
+                                                <Typography variant="body2" color="text.secondary">
+                                                    {doctor.detail}
+                                                </Typography>
+                                            </CardContent>
+                                        </CardActionArea>
+                                        <CardActions>
+                                            <Button size="small" color="primary">
+                                                Share
+                                            </Button>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Container>
                 </Box>
             </Container>
+            <Box sx={{ backgroundColor: 'blue', padding: 2 }}>
+                <Container>
+                    <Grid container spacing={2}>
+                        {listServices.map((listService, index) => (
+                            <Grid item xs={6} sm={3} key={index}>
+                                <Button
+                                    variant="contained"
+                                    fullWidth
+                                    sx={{
+                                        height: 60, backgroundColor: 'white', color: '#2261C0', fontWeight: "700", fontSize: "14px",
+                                        '&:hover': {
+                                            backgroundColor: 'lightgray',
+                                        }
+                                    }}
+                                    href={listService.link}
+                                    target="_blank"
+                                    rel="white"
+                                >
+                                    {listService.name}
+                                </Button>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Container>
+            </Box>
         </>
     )
 }
