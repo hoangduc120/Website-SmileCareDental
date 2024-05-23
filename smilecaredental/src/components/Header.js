@@ -6,7 +6,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import EmailIcon from "@mui/icons-material/Email";
 import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
-
+import Banner from "./Banner";
 
 
 function Header() {
@@ -29,47 +29,44 @@ function Header() {
                 </Grid>
             </Box>
             <Box component="section" sx={{ flexGrow: 10 }} padding="20px" bgcolor="#2098D1" >
-                <Grid item xs={8}>
+                <Grid item xs={4}>
                     <Stack
                         direction="row"
-                        spacing={20}
+                        spacing={10}
                         ml="50px"
                     >
                         <Link to="/Home" style={{ textDecoration: "none", color: "#FFFF" }}  >
-                            <Typography variant="h4" >
+                            <Typography variant="h6" >
                                 Trang Chủ
                             </Typography>
-
                         </Link>
                         <Link to="/Introduce" style={{ textDecoration: "none", color: "#FFFF" }}>
-                            <Typography variant="h4" >
+                            <Typography variant="h6" >
                                 Giới thiệu
                             </Typography>
                         </Link>
                         <Link to="/Service" style={{ textDecoration: "none", color: "#FFFF" }}>
-                            <Typography variant="h4" >
+                            <Typography variant="h6" >
                                 Dịch vụ
                             </Typography>
                         </Link>
                         <Link to="/Price" style={{ textDecoration: "none", color: "#FFFF" }}>
-                            <Typography variant="h4" >
+                            <Typography variant="h6" >
                                 Bảng giá
                             </Typography>
                         </Link>
-
                         <form >
                             <Stack padding={"0px"} >
                                 <TextField label="Tìm kiếm" variant="outlined" size="small" />
                             </Stack>
 
                         </form>
-
-                        <Grid item xs={1} container alignItems="center" spacing={10} >
+                        <Grid item xs={4} container alignItems="center" spacing={10} >
                             <Badge badgeContent={4} color="primary" style={{ color: "#FFF " }} >
                                 <MailIcon color="action" style={{ color: "#FFF " }} />
                             </Badge>
 
-                            <Badge color="primary" style={{ color: "#FFF ", marginLeft: "40px" }}>
+                            <Badge color="primary" style={{ color: "#FFF ", marginLeft: "60px" }}>
                                 <PersonIcon color="action" style={{ color: "#FFF " }} />
                             </Badge>
                         </Grid>
@@ -80,15 +77,7 @@ function Header() {
 
             </Box >
             <Box>
-                <img
-                    src={
-                        "images/banner.jpg"
-                    }
-                    alt=""
-                    loading="lazy"
-                    width="100%"
-                    height="auto"
-                />
+                <Banner />
             </Box>
 
 
@@ -99,9 +88,9 @@ function Header() {
             <Box
                 sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
                 bgcolor="#CCCCCC"
-                padding="20px"
+                padding="10px"
             >
-                <Grid container>
+                <Grid container marginLeft="50px">
                     <Grid item xs={4}>
                         <Typography variant="h6" fontWeight="bold">
                             Thông tin liên hệ
@@ -129,7 +118,7 @@ function Header() {
                         Image map
                     </Grid>
                 </Grid>
-            </Box>
+            </Box >
         </>
     );
 }
