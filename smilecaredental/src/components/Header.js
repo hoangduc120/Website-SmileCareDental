@@ -7,8 +7,6 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import EmailIcon from "@mui/icons-material/Email";
 import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
 import Banner from "./Banner";
-
-
 function Header() {
     return (
         <>
@@ -82,8 +80,9 @@ function Header() {
 
             <Box
                 sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
-                bgcolor="#CCCCCC"
+                bgcolor="#0269BD"
                 padding="10px"
+                color="#ffffff"
             >
                 <Grid container >
                     <Grid item xs={4} marginLeft="50px">
@@ -107,13 +106,28 @@ function Header() {
                     </Grid>
 
                     <Grid item xs={4}>
-                        <Typography fontWeight={"700"}> Địa Chỉ: </Typography>
+                        <Typography fontWeight={"bold"} variant="h6"  > Địa Chỉ: </Typography>
+                        <Typography >
+                            Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh
+                        </Typography>
                     </Grid>
                     <Grid item xs={3}>
-                        Image map
+                        <Typography variant="h6" fontWeight="bold" style={{ textAlign: "center", paddingBottom: "10px" }}>
+                            Bản đồ
+                        </Typography>
                     </Grid>
                 </Grid>
             </Box >
+            <Box
+                sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
+                bgcolor="#ffffff"
+                padding="20px"
+                color="#0269BD"
+            >
+                <Typography style={{ textAlign: "center" }}>
+                    CÔNG TY TNHH NHA KHOA SmileCareDental - Địa chỉ: Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh - Điện thoại: 1900 2345 - GPDKKD: 0304132304 do sở KH & ĐT TP.HCM cấp ngày: 06/12/2005
+                </Typography>
+            </Box>
         </>
     );
 }
