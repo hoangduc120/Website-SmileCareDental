@@ -28,58 +28,53 @@ function Header() {
                     </Grid>
                 </Grid>
             </Box>
-            <Box component="section" sx={{ flexGrow: 10 }} padding="20px" bgcolor="#2098D1" >
-                <Grid item xs={4}>
-                    <Stack
-                        direction="row"
-                        spacing={10}
-                        ml="50px"
-                    >
-                        <Link to="/Home" style={{ textDecoration: "none", color: "#FFFF" }}  >
-                            <Typography variant="h6" >
-                                Trang Chủ
-                            </Typography>
-                        </Link>
-                        <Link to="/Introduce" style={{ textDecoration: "none", color: "#FFFF" }}>
-                            <Typography variant="h6" >
-                                Giới thiệu
-                            </Typography>
-                        </Link>
-                        <Link to="/Service" style={{ textDecoration: "none", color: "#FFFF" }}>
-                            <Typography variant="h6" >
-                                Dịch vụ
-                            </Typography>
-                        </Link>
-                        <Link to="/Price" style={{ textDecoration: "none", color: "#FFFF" }}>
-                            <Typography variant="h6" >
-                                Bảng giá
-                            </Typography>
-                        </Link>
-                        <form >
-                            <Stack padding={"0px"} >
+            <Box component="section" sx={{ flexGrow: 1 }} padding="20px" bgcolor="#2098D1">
+                <Grid container justifyContent="center">
+                    <Grid item xs={12}>
+                        <Stack
+                            direction="row"
+                            justifyContent="space-around"
+                            alignItems="center"
+                            spacing={2}
+                        >
+                            <Link to="/Home" style={{ textDecoration: "none", color: "#FFFF" }}>
+                                <Typography variant="h6">
+                                    Trang Chủ
+                                </Typography>
+                            </Link>
+                            <Link to="/Introduce" style={{ textDecoration: "none", color: "#FFFF" }}>
+                                <Typography variant="h6">
+                                    Giới thiệu
+                                </Typography>
+                            </Link>
+                            <Link to="/Service" style={{ textDecoration: "none", color: "#FFFF" }}>
+                                <Typography variant="h6">
+                                    Dịch vụ
+                                </Typography>
+                            </Link>
+                            <Link to="/Price" style={{ textDecoration: "none", color: "#FFFF" }}>
+                                <Typography variant="h6">
+                                    Bảng giá
+                                </Typography>
+                            </Link>
+                            <form>
                                 <TextField label="Tìm kiếm" variant="outlined" size="small" />
+                            </form>
+                            <Stack direction="row" spacing={10} alignItems="center">
+                                <Badge badgeContent={4} color="primary">
+                                    <MailIcon style={{ color: "#FFF" }} />
+                                </Badge>
+                                <Badge color="primary">
+                                    <PersonIcon style={{ color: "#FFF" }} />
+                                </Badge>
                             </Stack>
-
-                        </form>
-                        <Grid item xs={4} container alignItems="center" spacing={10} >
-                            <Badge badgeContent={4} color="primary" style={{ color: "#FFF " }} >
-                                <MailIcon color="action" style={{ color: "#FFF " }} />
-                            </Badge>
-
-                            <Badge color="primary" style={{ color: "#FFF ", marginLeft: "60px" }}>
-                                <PersonIcon color="action" style={{ color: "#FFF " }} />
-                            </Badge>
-                        </Grid>
-                    </Stack>
-
-                </Grid >
-
-
-            </Box >
+                        </Stack>
+                    </Grid>
+                </Grid>
+            </Box>
             <Box>
                 <Banner />
             </Box>
-
 
             <Outlet />
 
@@ -90,8 +85,8 @@ function Header() {
                 bgcolor="#CCCCCC"
                 padding="10px"
             >
-                <Grid container marginLeft="50px">
-                    <Grid item xs={4}>
+                <Grid container >
+                    <Grid item xs={4} marginLeft="50px">
                         <Typography variant="h6" fontWeight="bold">
                             Thông tin liên hệ
                         </Typography>
@@ -114,7 +109,7 @@ function Header() {
                     <Grid item xs={4}>
                         <Typography fontWeight={"700"}> Địa Chỉ: </Typography>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
                         Image map
                     </Grid>
                 </Grid>

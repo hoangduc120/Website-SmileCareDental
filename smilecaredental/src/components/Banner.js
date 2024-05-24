@@ -1,7 +1,7 @@
 // CarouselComponent.jsx
 import React from 'react';
 import Slider from 'react-slick';
-import { Card, CardMedia, } from '@mui/material';
+import { Box, Card, CardMedia, } from '@mui/material';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -30,17 +30,20 @@ function Banner() {
     ];
 
     return (
-        <Slider {...settings}>
-            {items.map((item, index) => (
-                <Card key={index}>
-                    <CardMedia
-                        component="img"
-                        height="400"
-                        image={item.image}
-                    />
-                </Card>
-            ))}
-        </Slider>
+        <Box sx={{ overflow: 'hidden', width: '100%' }}>
+            <Slider {...settings}>
+                {items.map((item, index) => (
+                    <Card key={index}>
+                        <CardMedia
+                            component="img"
+                            height="300"
+                            image={item.image}
+                            sx={{ width: "100%" }}
+                        />
+                    </Card>
+                ))}
+            </Slider>
+        </Box>
     );
 };
 
