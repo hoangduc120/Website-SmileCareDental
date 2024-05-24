@@ -213,12 +213,12 @@ function Header() {
                     <Typography variant="h6" fontWeight="bold" style={{ textAlign: "center", paddingBottom:"10px" }}>
                         Bản đồ
                     </Typography>
-                    <div
+                    {/* <div
                         style={{ display:"flex", justifyContent:"center", marginRight:" 20px", width:"100%"}}
                         dangerouslySetInnerHTML={{
                             __html: `<<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.609941891112!2d106.8050120759703!3d10.841132830463758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752731176b07b1%3A0xb752b24b379bae5e!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgVFAuIEhDTQ!5e0!3m2!1svi!2s!4v1716430356514!5m2!1svi!2s" width="400" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>>`
                         }}
-                    />
+                    /> */}
                 </Grid>
               </Grid>
             </Box>
