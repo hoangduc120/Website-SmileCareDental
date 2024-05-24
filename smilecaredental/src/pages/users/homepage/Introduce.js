@@ -1,16 +1,15 @@
 import * as React from 'react';
-import { Box, CardContent, CardMedia, Grid, Typography, Stack } from '@mui/material'
-import { Container } from 'react-bootstrap'
+import { Box, CardContent, CardMedia, Grid, Typography, Stack, Button, Container } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { ListIntros } from '../../../components/datatest/technology/Technology.js'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import DisplayButton from '../../../components/DisplayButton.js';
 
 
 
 function Introduce() {
     return (
         <>
-
             <Box textAlign="center" height="20vh">
                 <Typography variant='h3' pt="25px" color="#64D3E3">Giới thiệu</Typography>
                 <Box display="flex" justifyContent="center" pt="15px">
@@ -78,6 +77,10 @@ function Introduce() {
                     </Grid>
                 </Box>
             </Container>
+            <hr />
+            <Box>
+                <DisplayButton />
+            </Box>
         </>
     )
 }

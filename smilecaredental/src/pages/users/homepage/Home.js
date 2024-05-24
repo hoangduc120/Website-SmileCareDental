@@ -1,10 +1,11 @@
-import { Box, CardContent, CardMedia, Grid, Typography, Button, CardActionArea, CardActions } from '@mui/material'
+import { Box, CardContent, CardMedia, Grid, Typography, Button, CardActionArea, CardActions, Stack, Container } from '@mui/material'
 import React from 'react'
-import { Container, Stack } from 'react-bootstrap'
 import { Services } from '../../../components/datatest/service/Service'
 import { Link } from 'react-router-dom'
 import Card from '@mui/material/Card';
 import { Doctors } from '../../../components/datatest/doctor/Doctors'
+import DisplayButton from '../../../components/DisplayButton';
+
 
 function Home() {
     const listServices = [
@@ -73,7 +74,7 @@ function Home() {
 
                 <Box sx={{ paddingX: "15px", marginTop: 4 }}>
                     <Typography
-                        variant="h5"
+                        variant="h4"
                         component="div"
                         align="center"
                         gutterBottom
@@ -139,6 +140,10 @@ function Home() {
                         ))}
                     </Grid>
                 </Container>
+            </Box>
+            <hr />
+            <Box>
+                <DisplayButton />
             </Box>
         </>
     )

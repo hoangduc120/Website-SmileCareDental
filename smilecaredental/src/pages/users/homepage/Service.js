@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { Box, CardContent, CardMedia, Grid, Typography, Stack } from '@mui/material'
-import { Container } from 'react-bootstrap'
+import { Box, Grid, Typography, Stack, List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { ListIntros } from '../../../components/datatest/technology/Technology.js'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import DisplayButton from '../../../components/DisplayButton.js';
+import { ListServices } from '../../../components/datatest/service/ListService.js';
+import CircleIcon from '@mui/icons-material/Circle'; // Thêm icon dấu chấm tròn
 
 function Service() {
+
     return (
         <>
             <Box textAlign="center" height="20vh">
@@ -33,9 +35,51 @@ function Service() {
                 gutterBottom
                 color={"#2098D1"}
                 padding={"30px"}
+                fontWeight={'700'}
             >
                 CÁC DỊCH VỤ NHA KHOA
             </Typography>
+
+
+            <Box sx={{ width: '100%' }}>
+                <Stack spacing={2}>
+                    {ListServices.map((value, index) => (
+                        <Box key={index} sx={{ padding: 2, border: '1px solid #ccc', borderRadius: '8px' }}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sx={{ textAlign: 'center' }}>
+                                    <Typography variant="h5" color={'#2098D1'} fontWeight={700}>{value.name}</Typography>
+                                </Grid>
+                                <Grid item xs={12} sx={{ textAlign: 'center' }}>
+                                    <Typography>{value.detail}</Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={4} sx={{ textAlign: 'center' }}>
+                                    <img src={value.img} alt="" style={{ maxWidth: '100%', height: 'auto' }} />
+                                </Grid>
+                                <Grid item xs={12} sm={8}>
+                                    <List>
+                                        <Typography variant='h5'>Lợi ích</Typography>
+                                        {value.benefit.map((benefit, idx) => (
+                                            <ListItem key={idx}>
+                                                <ListItemIcon>
+                                                    <CircleIcon fontSize="small" />
+                                                </ListItemIcon>
+                                                <ListItemText primary={benefit} />
+                                            </ListItem>
+                                        ))}
+                                    </List>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    ))}
+                </Stack>
+            </Box>
+
+
+
+            <hr />
+            <Box>
+                <DisplayButton />
+            </Box>
         </>
     )
 }

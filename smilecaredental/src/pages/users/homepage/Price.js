@@ -10,46 +10,14 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { Box, Grid, List, ListItem, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import DisplayButton from '../../../components/DisplayButton';
+import { itemList } from '../../../components/datatest/PriceList/PriceItem';
 function Price() {
     const [open, setOpen] = React.useState(true);
 
     const handleClick = () => {
         setOpen(!open);
     };
-    const itemList = [
-        { label: 'IMPLANT OTEX (BH 2 năm)', price: '3.200.000 (VNĐ)' },
-        { label: 'IMPLANT BIOTEM (BH 5 NĂM)', price: '8.000.000 (VNĐ)' },
-        { label: 'IMPLANT ACTIVE IS3 (BH 10 NĂM)', price: '16.000.000 (VNĐ)' },
-        { label: 'Mắc cài Kim Loại Chuẩn', price: '18.000.000(VNĐ)' },
-        { label: 'Mắc cài Sứ tự buộc', price: '30.000.000(VNĐ)' },
-        { label: 'Niềng răng trong suốt LITE PACKAGE', price: '42.000.000(VNĐ)' },
-        { label: 'Cạo vôi + đánh bóng mức độ 1', price: '300.000(VNĐ)' },
-        { label: 'Cạo vôi + đánh bóng mức độ 2 (vôi nhiều)', price: '400.000(VNĐ)' },
-        { label: 'Cạo vôi VIP KHÔNG ĐAU với Máy Rung Siêu Âm', price: '500.000(VNĐ)' },
-        { label: 'Răng tháo lắp', price: '200.000 - 950.000(VNĐ)' },
-        { label: 'Đệm hàm mềm', price: '500.000(VNĐ)' },
-        { label: 'Chữa tuỷ không đau - nhanh chóng bằng MTA-2023', price: '2.000.000 - 4.000.000(VNĐ)' },
-        { label: 'Răng khôn hàm trên (Tùy mức độ)', price: '1.000.000 - 2.000.000(VNĐ)' },
-        { label: 'Nhổ răng sữa chích tê', price: '50.000(VNĐ)' },
-        { label: 'Nhổ răng không đau', price: '100.000 - 500.000(VNĐ)' },
-        { label: 'Nướu mài xương ổ', price: '10.000.000(VNĐ)' },
-        { label: 'Cắt nạo chóp', price: '2.000.000(VNĐ)' }
-    ];
-    const titleList = [
-        { name: 'CẤY GHÉP IMPLANT (ĐÃ BAO GỒM ABUTMENT)' },
-        { name: 'NIẾNG RĂNG CHỈNH' },
-        { name: 'BỌC RĂNG SỨ THẨM MỸ ' },
-        { name: 'TẨY TRẮNG RĂNG ' },
-        { name: 'TRÁM RĂNG THẨM MỸ' },
-        { name: 'NHỔ RĂNG KHÔN ' },
-        { name: 'NỘI NHA CHỮA TỦY' },
-        { name: 'HÀM GIẢ THÁO LẮP ' },
-        { name: 'CẠO VÔI RĂNG  ' },
-        { name: 'CẮT NẠO CHÓP ' },
-        { name: 'NHỔ RĂNG THƯỜNG ' },
-        { name: 'ĐIỀU TRỊ CƯỜI HỞ LỢI  ' },
-        { name: 'PHẪU THUẬT NƯỚU' }
-    ]
 
     return (
         <>
@@ -102,32 +70,45 @@ function Price() {
                         />
                     </Box>
                     <List
-                        sx={{ width: '100%', maxWidth: 1200, bgcolor: 'background.paper', justifyContent: 'flex-end' }}
+                        sx={{ width: '100%', maxWidth: 1200, bgcolor: 'background.paper' }}
                         component="nav"
                         aria-labelledby="nested-list-subheader"
-                        subheader={
-                            <ListSubheader component="div" id="nested-list-subheader"  >
-                                <List sx={{ width: '100%', maxWidth: 1200, bgcolor: 'background.paper' }}>
-                                    {itemList.map((value, index) => (
-                                        <ListItem
-                                            key={index}
-                                            disableGutters
-                                            secondaryAction={
-                                                <Typography variant='h7'  >
-                                                    {`${value.price}`}
-                                                </Typography>
-                                            }
-                                        >
-                                            <ListItemText primary={` ${value.label}`} />
+                    >
+                        {itemList.map((value, index) => (
+                            <Box key={index}>
+                                <ListItem>
+                                    <Grid container spacing={2} bgcolor={'#2098D1'} padding={'10px'}>
+                                        <Grid item xs={8}>
+                                            <Typography variant="subtitle1" fontWeight="bold">{value.name}</Typography>
+                                        </Grid>
+                                        <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                                            <Typography variant="subtitle1" fontWeight="bold">{value.gia}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                </ListItem>
+                                <List>
+                                    {value.items.map((item, idx) => (
+                                        <ListItem key={idx}>
+                                            <Grid container spacing={2}>
+                                                <Grid item xs={8}>
+                                                    <ListItemText primary={item} />
+                                                </Grid>
+                                                <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                                                    <ListItemText primary={value.prices[idx]} />
+                                                </Grid>
+                                            </Grid>
                                         </ListItem>
                                     ))}
                                 </List>
-                            </ListSubheader>
-                        }
-                    >
+                            </Box>
+                        ))}
                     </List>
                 </Grid>
             </Grid>
+            <hr />
+            <Box>
+                <DisplayButton />
+            </Box>
         </>
 
     );
