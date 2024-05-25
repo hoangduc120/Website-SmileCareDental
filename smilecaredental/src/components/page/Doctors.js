@@ -30,8 +30,8 @@ function Doctors() {
       name: "Bùi Ngọc Vĩnh Lộc",
       image:
         "https://nhakhoakim.com/wp-content/uploads/2022/07/locsnhakhoakim.jpg",
-        info: [
-        ],
+      info: [
+      ],
     },
     {
       name: "Kiêm Thị Huyền",
@@ -43,29 +43,29 @@ function Doctors() {
       name: "Phan Văn Phẩu",
       image:
         "https://nhakhoakim.com/wp-content/uploads/2022/07/phaubsnhakhoakim.png",
-        info: [
-        ],
+      info: [
+      ],
     },
     {
       name: "Lê Thị Thùy Dung",
       image:
         "https://nhakhoakim.com/wp-content/uploads/2022/07/dungbsnhakhoakim.jpg",
-        info: [
-        ],
+      info: [
+      ],
     },
     {
       name: "Nguyễn Minh Thư",
       image:
         "https://nhakhoakim.com/wp-content/uploads/2019/07/Nguyen-Minh-Thu-15.jpg",
-        info: [
-        ],
+      info: [
+      ],
     },
     {
       name: "Nguyễn Thị Lan Anh",
       image:
         "https://nhakhoakim.com/wp-content/uploads/2022/07/Lannhbsnhakhoakim.jpg",
-        info: [
-        ],
+      info: [
+      ],
     },
   ];
 
@@ -98,7 +98,7 @@ function Doctors() {
         >
           {doctors.map((doctor, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
-              <Card sx={{ maxWidth: 345, heigh: 300, textAlign: "center", padding:8 }}>
+              <Card sx={{ maxWidth: 345, heigh: 300, textAlign: "center", padding: 8 }}>
                 <CardMedia
                   component="img"
                   sx={{
@@ -119,13 +119,13 @@ function Doctors() {
                     {doctor.info &&
                       (doctor.info.length > 3
                         ? doctor.info
-                            .slice(0, 3)
-                            .map((info, index) => (
-                              <div key={index}> • {info}</div>
-                            ))
-                        : doctor.info.map((info, index) => (
+                          .slice(0, 3)
+                          .map((info, index) => (
                             <div key={index}> • {info}</div>
-                          )))}
+                          ))
+                        : doctor.info.map((info, index) => (
+                          <div key={index}> • {info}</div>
+                        )))}
                   </Typography>
                 </CardContent>
                 <CardActions sx={{ justifyContent: "center" }}>
