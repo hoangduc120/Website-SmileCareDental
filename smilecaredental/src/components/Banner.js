@@ -14,18 +14,19 @@ function Banner() {
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 3000,
+        adaptiveHeight: true,
     };
 
     const items = [
         {
 
-            image: 'https://via.placeholder.com/400x300'
+            image: 'https://png.pngtree.com/thumb_back/fh260/back_our/20190621/ourmid/pngtree-dental-beauty-oral-health-background-image_195889.jpg'
         },
         {
-            image: 'https://img.pikbest.com/templates/20210914/bg/831b9da64af31853450a23c48d5e4a51_97382.png!f305cw',
+            image: 'https://tamanhhospital.vn/wp-content/uploads/2023/11/nho-rang-khon.jpg',
         },
         {
-            image: 'https://img.pikbest.com/origin/06/01/16/70cpIkbEsTvI6.jpg!w700wp',
+            image: 'https://iweb.tatthanh.com.vn/pic/3/blog/images/website-nha-khoa-dep-nhat-viet-nam-vietphap.jpg',
         },
     ];
 
@@ -36,9 +37,9 @@ function Banner() {
                     <Card key={index}>
                         <CardMedia
                             component="img"
-                            height="300"
+                            height="450"
                             image={item.image}
-                            sx={{ width: "100%" }}
+                            sx={{ width: "50%%" }}
                         />
                     </Card>
                 ))}

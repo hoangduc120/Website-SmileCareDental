@@ -52,21 +52,23 @@ function Service() {
                                 <Grid item xs={12} sx={{ textAlign: 'center' }}>
                                     <Typography>{value.detail}</Typography>
                                 </Grid>
-                                <Grid item xs={12} sm={4} sx={{ textAlign: 'center' }}>
+                                <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <img src={value.img} alt="" style={{ maxWidth: '100%', height: 'auto' }} />
                                 </Grid>
                                 <Grid item xs={12} sm={8}>
-                                    <List>
-                                        <Typography variant='h5'>Lợi ích</Typography>
-                                        {value.benefit.map((benefit, idx) => (
-                                            <ListItem key={idx}>
-                                                <ListItemIcon>
-                                                    <CircleIcon fontSize="small" />
-                                                </ListItemIcon>
-                                                <ListItemText primary={benefit} />
-                                            </ListItem>
-                                        ))}
-                                    </List>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                        <List >
+                                            <Typography variant='h5'>Lợi ích</Typography>
+                                            {value.benefit.map((benefit, idx) => (
+                                                <ListItem key={idx}>
+                                                    <ListItemIcon>
+                                                        <CircleIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={benefit} />
+                                                </ListItem>
+                                            ))}
+                                        </List>
+                                    </Box>
                                 </Grid>
                             </Grid>
                         </Box>

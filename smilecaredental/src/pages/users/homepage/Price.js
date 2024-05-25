@@ -1,5 +1,4 @@
 import * as React from 'react';
-import ListSubheader from '@mui/material/ListSubheader';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
@@ -17,6 +16,11 @@ function Price() {
 
     const handleClick = () => {
         setOpen(!open);
+    };
+    const [selectedService, setSelectedService] = React.useState(null);
+
+    const handleServiceChange = (event, value) => {
+        setSelectedService(value);
     };
 
     return (
@@ -65,9 +69,20 @@ function Price() {
                         <Autocomplete
                             disablePortal
                             options={itemList}
+                            getOptionLabel={(option) => option.name}
                             sx={{ width: 400, marginLeft: 'auto' }}
                             renderInput={(params) => <TextField {...params} label="Chọn theo dịch vụ" />}
+                            onChange={handleServiceChange}
                         />
+                        {selectedService && (
+                            <List>
+                                {selectedService.items.map((item, index) => (
+                                    <ListItem key={index}>
+                                        <ListItemText primary={item} secondary={selectedService.prices[index]} />
+                                    </ListItem>
+                                ))}
+                            </List>
+                        )}
                     </Box>
                     <List
                         sx={{ width: '100%', maxWidth: 1200, bgcolor: 'background.paper' }}
