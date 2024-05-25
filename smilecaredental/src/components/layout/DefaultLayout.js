@@ -26,16 +26,16 @@ function Header() {
           </Grid>
           <Grid item xs={8}>
             <Stack direction="row" spacing={10}>
-              <Link to="/home" style={{ textDecoration: "none", color: "#2098D1", fontSize:"20px"}}>
+              <Link to="/home" style={{ textDecoration: "none", color: "#2098D1", fontSize: "20px" }}>
                 Trang Chủ
               </Link>
-              <Link to="/about" style={{ textDecoration: "none", color: "#2098D1", fontSize:"20px" }}>
+              <Link to="/about" style={{ textDecoration: "none", color: "#2098D1", fontSize: "20px" }}>
                 Giới Thiệu
               </Link>
-              <Link to="/news" style={{ textDecoration: "none", color: "#2098D1", fontSize:"20px" }}>
+              <Link to="/news" style={{ textDecoration: "none", color: "#2098D1", fontSize: "20px" }}>
                 Tin Tức
               </Link>
-              <Link to="/contact" style={{ textDecoration: "none", color: "#2098D1", fontSize:"20px" }}>
+              <Link to="/contact" style={{ textDecoration: "none", color: "#2098D1", fontSize: "20px" }}>
                 Liên Hệ
               </Link>
             </Stack>
@@ -51,7 +51,7 @@ function Header() {
         padding="20px"
       >
         <Grid container>
-          
+
           <Grid item xs={4}>
             <Typography variant="h6" fontWeight="bold">
               Thông tin liên hệ

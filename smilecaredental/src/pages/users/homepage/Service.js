@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, Grid, Typography, Stack, List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import { Link } from 'react-router-dom'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import DisplayButton from '../../../components/DisplayButton.js';
+import DisplayButton from '../../../components/layout/DisplayButton';
 import { ListServices } from '../../../components/datatest/service/ListService.js';
 import CircleIcon from '@mui/icons-material/Circle'; // Thêm icon dấu chấm tròn
 
