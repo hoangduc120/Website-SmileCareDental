@@ -26,6 +26,7 @@ const Dashboard = () => {
     padding: 20,
     borderRadius: 8,
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    height: '100%', // Ensure the paper component takes full height
   };
 
   // Define custom chart colors
@@ -54,16 +55,16 @@ const Dashboard = () => {
 
   const patientVisitsChartConfig = {
     options: {
-      title: {
-        display: true,
-        text: 'Số lượng bệnh nhân khám theo ngày',
+      plugins: {
+        title: {
+          display: true,
+          text: 'Số lượng bệnh nhân khám theo ngày',
+        },
       },
       scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-          },
-        }],
+        y: {
+          beginAtZero: true,
+        },
       },
     },
   };
@@ -82,16 +83,16 @@ const Dashboard = () => {
 
   const revenueChartConfig = {
     options: {
-      title: {
-        display: true,
-        text: 'Doanh thu theo danh mục',
+      plugins: {
+        title: {
+          display: true,
+          text: 'Doanh thu theo danh mục',
+        },
       },
       scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-          },
-        }],
+        y: {
+          beginAtZero: true,
+        },
       },
     },
   };
@@ -110,27 +111,27 @@ const Dashboard = () => {
 
   const expensesChartConfig = {
     options: {
-      title: {
-        display: true,
-        text: 'Chi tiêu theo danh mục',
+      plugins: {
+        title: {
+          display: true,
+          text: 'Chi tiêu theo danh mục',
+        },
       },
       scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-          },
-        }],
+        y: {
+          beginAtZero: true,
+        },
       },
     },
   };
 
   return (
-    <Box p={3}>
+    <Box p={3} sx={{ marginLeft: '240px' }}>
       <Typography variant="h4" gutterBottom>
         Dashboard
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={9} md={6}>
+        <Grid item xs={12} md={6}>
           <Paper style={chartPaperStyles}>
             <Typography variant="h6" gutterBottom>
               Số lượng bệnh nhân khám
@@ -138,7 +139,7 @@ const Dashboard = () => {
             <Line data={patientVisitsChartOptions} options={patientVisitsChartConfig.options} />
           </Paper>
         </Grid>
-        <Grid item xs={9} md={6}>
+        <Grid item xs={12} md={6}>
           <Paper style={chartPaperStyles}>
             <Typography variant="h6" gutterBottom>
               Doanh thu theo danh mục
@@ -146,7 +147,7 @@ const Dashboard = () => {
             <Bar data={revenueChartOptions} options={revenueChartConfig.options} />
           </Paper>
         </Grid>
-        <Grid item xs={9} md={6}>
+        <Grid item xs={12} md={6}>
           <Paper style={chartPaperStyles}>
             <Typography variant="h6" gutterBottom>
               Chi tiêu theo danh mục
