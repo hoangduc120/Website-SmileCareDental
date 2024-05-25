@@ -1,5 +1,6 @@
 import { Button, Grid, Typography } from '@mui/material'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function DisplayButton() {
     return (
@@ -43,7 +44,10 @@ function DisplayButton() {
                         target="_blank"
                         rel="white"
                     >
-                        Đặt lịch ngay để nhận tư vấn
+
+                        <Link to="/booking" style={{ textDecoration: "none", color: 'white' }}>
+                            Đặt lịch ngay để nhận tư vấn
+                        </Link>
                     </Button>
 
                 </Grid>

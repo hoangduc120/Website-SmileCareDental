@@ -8,7 +8,7 @@ import {
   Avatar,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { Doctors } from "./datatest/Doctors";
+import { Doctors } from "../../../components/datatest/doctor/DoctorsBooking.js";
 
 function BookingPage() {
   const [time, setTime] = useState("");
