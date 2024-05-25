@@ -1,14 +1,19 @@
-/* The following line can be included in your src/index.js or App.js file */
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+// // App.js
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Doctors from "./components/page/Doctors";
+import BookingPage from "./components/page/Booking";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        {/* Route để hiển thị trang Doctors */}
+        <Route path="/" element={<Doctors />} />
+        {/* Route để hiển thị trang BookingPage */}
+        <Route path="/booking/:index" element={<BookingPage />} />
+      </Routes>
+    </Router>
   );
 }
 
