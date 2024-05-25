@@ -1,3 +1,6 @@
+
+// // App.js
+
 /* The following line can be included in your src/index.js or App.js file */
 import './App.css';
 import Home from './pages/users/homePage/Home.js'
@@ -40,6 +43,22 @@ function App() {
         <ScrollToTopButton />
       </header>
     </div>
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Doctors from "./components/page/Doctors";
+import BookingPage from "./components/page/Booking";
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Route để hiển thị trang Doctors */}
+        <Route path="/" element={<Doctors />} />
+        {/* Route để hiển thị trang BookingPage */}
+        <Route path="/booking/:index" element={<BookingPage />} />
+      </Routes>
+    </Router>
+
   );
 }
 
