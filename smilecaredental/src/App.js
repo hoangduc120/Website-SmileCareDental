@@ -7,6 +7,7 @@ import DoctorManagement from './components/DoctorManagement';
 import PatientManagement from './components/PatientManegement';
 import AppointmentManagement from './components/AppoinmentManagement';
 import FinancialManagement from './components/FinancialManagement';
+import Dashboard from './components/Dashboard';
 
 
 
@@ -17,6 +18,7 @@ function App() {
         <Sidebar />
         <div className="content-wrapper">
           <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/clinic" element={<ClinicManagement />} />
             <Route path="/doctor" element={<DoctorManagement />} />
             <Route path="/patient" element={<PatientManagement />} />

@@ -6,30 +6,19 @@ import { Container, Typography, Table, TableHead, TableRow, TableCell, TableBody
 
 const FinancialManagement = () => {
 
-  const [financialData] = useState([
-    {
-      id: 1,
-      type: 'Thu',
-      date: '2024-05-24',
-      amount: 1000000, // Example amount in Vietnamese Dong
-      description: 'Khám bệnh - Bệnh nhân Nguyễn Văn A',
-    },
-    {
-      id: 2,
-      type: 'Chi',
-      date: '2024-05-20',
-      amount: 500000, // Example amount in Vietnamese Dong
-      description: 'Mua thuốc -  Thuốc kháng sinh',
-    },
-    // Add more financial records as needed
-  ]);
-
+    const [financialData] = useState([
+        { id: 1, type: 'Thu', date: '2024-05-24', amount: 1000000 ,  description: 'Khám bệnh - Bệnh nhân Nguyễn Văn A',},
+        { id: 2, type: 'Chi', date: '2024-05-20', amount: 500000 , description: 'Mua thuốc -  Thuốc kháng sinh',},
+        { id: 3, type: 'Thu', date: '2024-05-24', amount: 1000000,  description: 'Khám bệnh - Bệnh nhân Nguyễn Văn B',},
+        { id: 4, type: 'Chi', date: '2024-05-20', amount: 600000 , description: 'Mua thuốc -  Thuốc kháng sinh',},
+        { id: 5, type: 'Thu', date: '2024-05-24', amount: 4000000 ,  description: 'Khám bệnh - Bệnh nhân Nguyễn Văn C',},
+        { id: 6, type: 'Chi', date: '2024-05-20', amount: 600000 , description: 'Mua thuốc -  Thuốc gây tê',},
+        { id: 7, type: 'Thu', date: '2024-05-24', amount: 7000000 ,  description: 'Làm răng - Bệnh nhân Nguyễn Văn D',},
+        { id: 8, type: 'Chi', date: '2024-05-20', amount: 700000, description: 'Mua thuốc -  Thuốc kháng sinh',},
+      ]);
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" >Quản lý tài chính</Typography>
-      <Button variant="contained" color="primary" >
-        Thêm khoản thu/chi mới
-      </Button>
       <Table>
         <TableHead>
           <TableRow>
@@ -54,14 +43,17 @@ const FinancialManagement = () => {
                 <Button variant="outlined" color="secondary" size="small">
                   Chỉnh sửa
                 </Button>
-                <Button variant="outlined" color="error" size="small">
+                {/* <Button variant="outlined" color="error" size="small">
                   Xóa
-                </Button>
+                </Button> */}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <Button variant="contained" color="primary" >
+        Thêm khoản thu/chi mới
+      </Button>
     </Container>
   );
 };

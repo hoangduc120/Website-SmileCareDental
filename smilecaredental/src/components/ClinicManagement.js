@@ -6,29 +6,18 @@ import { Container, Typography, Table, TableHead, TableRow, TableCell, TableBody
 const ClinicManagement = () => {
 
   const [clinics] = useState([
-    {
-      id: 1,
-      name: 'Phòng Tẩy trắng',
-      address: 'Phòng 404',
-      phone: '(028) 12345678',
-      email: 'phongkhamA@example.com',
-    },
-    {
-      id: 2,
-      name: 'Phòng Niềng răng ',
-      address: 'Phòng 602',
-      phone: '(029) 87654321',
-      email: 'phongkhamB@example.com',
-    },
-    // Add more clinics as needed
+    { id: 1, name: 'Phòng Tẩy trắng', address: 'Phòng 404', phone: '(028) 12345678', email: 'phongkhamA@example.com',},
+    { id: 2, name: 'Phòng Niềng răng', address: 'Phòng 605', phone: '(028) 12345678', email: 'phongkhamA@example.com',},
+    { id: 3, name: 'Phòng Tẩy trắng', address: 'Phòng 423', phone: '(028) 12345678', email: 'phongkhamA@example.com',},
+    { id: 4, name: 'Phòng Răng sứ', address: 'Phòng 502', phone: '(028) 12345678', email: 'phongkhamA@example.com',},
+    { id: 5, name: 'Phòng Tẩy trắng', address: 'Phòng 611', phone: '(028) 12345678', email: 'phongkhamA@example.com',},
+    { id: 6, name: 'Phòng Niềng răng', address: 'Phòng 302', phone: '(028) 12345678', email: 'phongkhamA@example.com',},
+    { id: 7, name: 'Phòng Tẩy trắng', address: 'Phòng 408', phone: '(028) 12345678', email: 'phongkhamA@example.com',},
   ]);
 
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" >Quản lý phòng khám</Typography>
-      <Button variant="contained" color="primary" >
-        Thêm phòng khám mới
-      </Button>
       <Table>
         <TableHead>
           <TableRow>
@@ -53,11 +42,17 @@ const ClinicManagement = () => {
                 <Button variant="outlined" color="secondary" size="small">
                   Chỉnh sửa
                 </Button>
+                <Button variant="outlined" color="error" size="small">
+                  Xóa
+                </Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <Button variant="contained" color="primary" >
+        Thêm phòng khám mới
+      </Button>
     </Container>
   );
 };

@@ -6,32 +6,20 @@ import { Container, Typography, Table, TableHead, TableRow, TableCell, TableBody
 
 const AppointmentManagement = () => {
  
-  const [appointments] = useState([
-    {
-      id: 1,
-      patientName: 'Đoàn Trường',
-      doctorName: 'Dr. Hoàng Đức',
-      date: '2024-05-27',
-      time: '10:00 - 11:00 AM',
-      status: 'Pending',
-    },
-    {
-      id: 2,
-      patientName: 'Văn Quốc',
-      doctorName: 'Dr. Hoàng Đức',
-      date: '2024-05-28',
-      time: '2:00 - 3:00 PM',
-      status: 'Confirmed',
-    },
-
-  ]);
-
+    const [appointments] = useState([
+        { id: 1, patientName: 'Đoàn Trường', doctorName: 'Bác sĩ Hoàng Đức', date: '2024-05-27',  time: '10:00 - 11:00 AM',  status: 'Pending',},
+        { id: 2,  patientName: 'Văn Quốc', doctorName: 'Bác sĩ Hoàng Đức',  date: '2024-05-28',  time: '2:00 - 3:00 PM',  status: 'Confirmed',},
+        { id: 3, patientName: 'Nguyễn Kiệt', doctorName: 'Bác sĩ Hoàng Đức', date: '2024-05-27',  time: '9:00 - 10:00 AM',  status: 'Pending',},
+        { id: 4,  patientName: 'Hoàng An', doctorName: 'Bác sĩ Hoàng Đức',  date: '2024-05-28',  time: '7:00 - 8:00 PM',  status: 'Confirmed',},
+        { id: 5, patientName: 'Công Duy', doctorName: 'Bác sĩ Hoàng Đức', date: '2024-05-27',  time: '10:00 - 11:00 AM',  status: 'Pending',},
+        { id: 6,  patientName: 'Văn Quốc', doctorName: 'Bác sĩ Hoàng Đức',  date: '2024-05-28',  time: '4:00 - 5:00 PM',  status: 'Confirmed',},
+        { id: 7, patientName: 'Đoàn Trường', doctorName: 'Bác sĩ Hoàng Đức', date: '2024-05-27',  time: '9:00 - 10:00 AM',  status: 'Pending',},
+        { id: 8,  patientName: 'Công Duy', doctorName: 'Bác sĩ Hoàng Đức',  date: '2024-05-28',  time: '6:00 - 7:00 PM',  status: 'Confirmed',},
+    
+      ]);
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" >Quản lý lịch hẹn</Typography>
-      <Button variant="contained" color="primary" >
-        Thêm lịch hẹn mới
-      </Button>
       <Table>
         <TableHead>
           <TableRow>
@@ -66,6 +54,9 @@ const AppointmentManagement = () => {
           ))}
         </TableBody>
       </Table>
+      <Button variant="contained" color="primary" >
+        Thêm lịch hẹn mới
+      </Button>
     </Container>
   );
 };
