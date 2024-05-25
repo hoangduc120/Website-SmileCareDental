@@ -8,13 +8,10 @@ import PatientManagement from './components/PatientManegement';
 import AppointmentManagement from './components/AppoinmentManagement';
 import FinancialManagement from './components/FinancialManagement';
 import Dashboard from './components/Dashboard';
-
-
-
 function App() {
   return (
-    <BrowserRouter>
       <div className="App">
+      <BrowserRouter>
         <Sidebar />
         <div className="content-wrapper">
           <Routes>
@@ -26,8 +23,8 @@ function App() {
             <Route path="/financial" element={<FinancialManagement />} />
           </Routes>
         </div>
-      </div>
     </BrowserRouter>
+      </div>
   );
 }
 
