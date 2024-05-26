@@ -29,7 +29,7 @@ function Header() {
               <Link to="/home" style={{ textDecoration: "none", color: "#2098D1", fontSize: "20px" }}>
                 Trang Chủ
               </Link>
-              <Link to="/about" style={{ textDecoration: "none", color: "#2098D1", fontSize: "20px" }}>
+              <Link to="/Introduce" style={{ textDecoration: "none", color: "#2098D1", fontSize: "20px" }}>
                 Giới Thiệu
               </Link>
               <Link to="/news" style={{ textDecoration: "none", color: "#2098D1", fontSize: "20px" }}>
