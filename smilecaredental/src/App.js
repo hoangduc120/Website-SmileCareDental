@@ -1,26 +1,33 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { Box } from '@mui/material';
 import Header from './components/menu/Header';
-import ProfileUser from './components/pages/user/ProfileUser';
+import Sidebar from './components/sidebar/Sidebar';
+import UserInfo from './components/pages/user/UserInfo';
+import ChangePassword from './components/pages/user/ChangePassword';
+import Footer from './components/menu/Footer';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Header />}>
-              {/* <Route path="/Home" element={<Home />} />
-              <Route path="/Introduce" element={<Introduce />} />
-              <Route path="/Service" element={<Service />} /> */}
-              <Route path="/" element={<ProfileUser />} />
-            </Route>
-            
-          </Routes>
-        </BrowserRouter>
-      </header>
-    </div>
+    <Router>
+      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <Header />
+        <Box sx={{ display: 'flex', flex: 1, overflow: 'auto' }}>
+          <Sidebar />
+          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Routes>
+              <Route path="/" element={<Navigate to="/userinfo" />} />
+              <Route path="/userinfo" element={<UserInfo />} />
+              <Route path="/changepassword" element={<ChangePassword />} />
+              {/* Add more routes as needed */}
+            </Routes>
+          </Box>
+        </Box>
+        <Footer />
+      </Box>
+    </Router>
   );
-}
+};
 
 export default App;
+
