@@ -17,55 +17,49 @@ function Doctors() {
       name: "Nguyễn Hữu Nam",
       image:
         "https://nhakhoakim.com/wp-content/uploads/2024/03/bs-nguyenhuunam.png",
-      info: [
-      ],
+      info: [],
     },
     {
       name: "Ngô Quốc Dương",
-      image: "https://nhakhoakim.com/wp-content/uploads/2022/07/Pictur2.png",
-      info: [
-      ],
+      image:
+        "https://nhakhoakim.com/wp-content/uploads/2022/07/Pictur2.png",
+      info: [],
     },
     {
       name: "Bùi Ngọc Vĩnh Lộc",
       image:
         "https://nhakhoakim.com/wp-content/uploads/2022/07/locsnhakhoakim.jpg",
-      info: [
-      ],
+      info: [],
     },
     {
       name: "Kiêm Thị Huyền",
-      image: "https://nhakhoakim.com/wp-content/uploads/2022/07/huyennskim.png",
-      info: [
-      ],
+      image:
+        "https://nhakhoakim.com/wp-content/uploads/2022/07/huyennskim.png",
+      info: [],
     },
     {
       name: "Phan Văn Phẩu",
       image:
         "https://nhakhoakim.com/wp-content/uploads/2022/07/phaubsnhakhoakim.png",
-      info: [
-      ],
+      info: [],
     },
     {
       name: "Lê Thị Thùy Dung",
       image:
         "https://nhakhoakim.com/wp-content/uploads/2022/07/dungbsnhakhoakim.jpg",
-      info: [
-      ],
+      info: [],
     },
     {
       name: "Nguyễn Minh Thư",
       image:
         "https://nhakhoakim.com/wp-content/uploads/2019/07/Nguyen-Minh-Thu-15.jpg",
-      info: [
-      ],
+      info: [],
     },
     {
       name: "Nguyễn Thị Lan Anh",
       image:
         "https://nhakhoakim.com/wp-content/uploads/2022/07/Lannhbsnhakhoakim.jpg",
-      info: [
-      ],
+      info: [],
     },
   ];
 
@@ -76,7 +70,9 @@ function Doctors() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          mb: 4, // Add some margin at the bottom for spacing
+          mb: 4,
+          backgroundColor: "",
+          padding: "20px 0",
         }}
       >
         <Typography
@@ -98,7 +94,15 @@ function Doctors() {
         >
           {doctors.map((doctor, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
-              <Card sx={{ maxWidth: 345, heigh: 300, textAlign: "center", padding: 8 }}>
+              <Card
+                sx={{
+                  maxWidth: 345,
+                  heigh: 300,
+                  textAlign: "center",
+                  padding: 8,
+                  backgroundColor: "#E0F7FA", // Set light blue background color for cards
+                }}
+              >
                 <CardMedia
                   component="img"
                   sx={{
@@ -113,19 +117,6 @@ function Doctors() {
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
                     {doctor.name}
-                  </Typography>
-
-                  <Typography sx={{ textAlign: "left" }}>
-                    {doctor.info &&
-                      (doctor.info.length > 3
-                        ? doctor.info
-                          .slice(0, 3)
-                          .map((info, index) => (
-                            <div key={index}> • {info}</div>
-                          ))
-                        : doctor.info.map((info, index) => (
-                          <div key={index}> • {info}</div>
-                        )))}
                   </Typography>
                 </CardContent>
                 <CardActions sx={{ justifyContent: "center" }}>
