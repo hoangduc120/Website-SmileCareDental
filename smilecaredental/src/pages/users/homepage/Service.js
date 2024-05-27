@@ -11,17 +11,17 @@ function Service() {
     return (
         <>
             <Box textAlign="center" height="20vh">
-                <Typography variant='h3' pt="25px" color="#64D3E3">Dịch Vụ</Typography>
+                <Typography variant='h3' pt="25px" color="#0477CA">Dịch Vụ</Typography>
                 <Box display="flex" justifyContent="center" pt="15px">
                     <Stack direction="row" alignItems="center" spacing={3} >
                         <Typography>
-                            <Link to="/Home" style={{ textDecoration: "none", color: "#64D3E3" }}>
+                            <Link to="/Home" style={{ textDecoration: "none", color: "#0477CA" }}>
                                 Trang chủ
                             </Link>
                         </Typography>
-                        <ArrowForwardIosIcon sx={{ color: "#64D3E3", fontSize: "16px" }} />
+                        <ArrowForwardIosIcon sx={{ color: "#0477CA", fontSize: "16px" }} />
                         <Typography>
-                            <Link to="/Price" style={{ textDecoration: "none", color: "#64D3E3" }}>
+                            <Link to="/Price" style={{ textDecoration: "none", color: "#0477CA" }}>
                                 Dịch vụ
                             </Link>
                         </Typography>
@@ -33,7 +33,7 @@ function Service() {
                 component="div"
                 align="center"
                 gutterBottom
-                color={"#2098D1"}
+                color={"#0477CA"}
                 padding={"30px"}
                 fontWeight={'700'}
             >
@@ -47,7 +47,7 @@ function Service() {
                         <Box key={index} sx={{ padding: 2, border: '1px solid #ccc', borderRadius: '8px' }}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                                    <Typography variant="h5" color={'#2098D1'} fontWeight={700}>{value.name}</Typography>
+                                    <Typography variant="h5" color={'#0477CA'} fontWeight={700}>{value.name}</Typography>
                                 </Grid>
                                 <Grid item xs={12} sx={{ textAlign: 'center' }}>
                                     <Typography>{value.detail}</Typography>

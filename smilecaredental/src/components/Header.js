@@ -1,4 +1,4 @@
-import { Badge, Box, Grid, Stack, TextField, Toolbar, Typography } from "@mui/material";
+import { Badge, Box, Button, Container, Grid, Stack, TextField, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { Outlet, Link } from "react-router-dom";
 import MailIcon from '@mui/icons-material/Mail';
@@ -10,23 +10,49 @@ import Banner from "./Banner";
 function Header() {
     return (
         <>
-            <Box sx={{ flexGrow: 1 }} padding="20px" bgcolor="#CCCCCC">
-                <Grid container spacing={2} alignItems="center">
-                    <Grid
-                        item
-                        xs={4}
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        <Typography variant="h4">SmileCare</Typography>
-                        <Typography variant="h4" sx={{ color: "#2098D1", }} >Dental</Typography>
+            <Box maxWidth='100%'>
+                <Box sx={{ flexGrow: 1 }} padding="20px" bgcolor="#CCCCCC">
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid
+                            item
+                            xs={3}
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <Typography variant="h4">SmileCare</Typography>
+                            <Typography variant="h4" sx={{ color: "#0477CA", }} >Dental</Typography>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={8}  // Sử dụng xs={4} để dành không gian cho nút bấm
+                            sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                            }}
+                        >
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: '#0477CA',
+                                    '&:hover': {
+                                        backgroundColor: '#000AFE',
+                                        color: 'white',
+                                    },
+                                }}
+                            >
+                                <Link to="/sign" style={{ textDecoration: "none", color: 'white' }}>
+                                    Đăng ký thương hiệu
+                                </Link>
+
+                            </Button>
+                        </Grid>
                     </Grid>
-                </Grid>
+                </Box>
             </Box>
-            <Box component="section" sx={{ flexGrow: 1 }} padding="20px" bgcolor="#2098D1">
+            <Box component="section" sx={{ flexGrow: 1 }} padding="20px" bgcolor="#0477CA">
                 <Grid container justifyContent="center">
                     <Grid item xs={12}>
                         <Stack
@@ -55,6 +81,11 @@ function Header() {
                                     Bảng giá
                                 </Typography>
                             </Link>
+                            <Link to="/Brand" style={{ textDecoration: "none", color: "#FFFF" }}>
+                                <Typography variant="h6">
+                                    Đối tác
+                                </Typography>
+                            </Link>
                             <form>
                                 <TextField label="Tìm kiếm" variant="outlined" size="small" />
                             </form>
@@ -80,7 +111,7 @@ function Header() {
 
             <Box
                 sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
-                bgcolor="#0269BD"
+                bgcolor="#0477CA"
                 padding="10px"
                 color="#ffffff"
             >
@@ -117,17 +148,12 @@ function Header() {
                         </Typography>
                     </Grid>
                 </Grid>
-            </Box >
-            <Box
-                sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
-                bgcolor="#ffffff"
-                padding="20px"
-                color="#0269BD"
-            >
-                <Typography style={{ textAlign: "center" }}>
+
+                <Typography style={{ textAlign: "center", marginTop: "15px" }}>
                     CÔNG TY TNHH NHA KHOA SmileCareDental - Địa chỉ: Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh - Điện thoại: 1900 2345 - GPDKKD: 0304132304 do sở KH & ĐT TP.HCM cấp ngày: 06/12/2005
                 </Typography>
-            </Box>
+
+            </Box >
         </>
     );
 }

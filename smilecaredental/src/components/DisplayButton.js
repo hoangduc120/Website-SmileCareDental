@@ -1,5 +1,6 @@
 import { Button, Grid, Typography } from '@mui/material'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function DisplayButton() {
     return (
@@ -32,7 +33,7 @@ function DisplayButton() {
                         variant="contained"
                         padding="20px"
                         sx={{
-                            height: 50, backgroundColor: '#1898F3', color: 'white', fontWeight: "700", fontSize: "14px",
+                            height: 50, backgroundColor: '#0477CA', color: 'white', fontWeight: "700", fontSize: "14px",
                             '&:hover': {
                                 backgroundColor: '#000AFE',
                                 color: 'white',
@@ -43,9 +44,10 @@ function DisplayButton() {
                         target="_blank"
                         rel="white"
                     >
-                        Đặt lịch ngay để nhận tư vấn
+                        <Link to="/booking" style={{ textDecoration: "none", color: 'white' }}>
+                            Đặt lịch ngay để nhận tư vấn
+                        </Link>
                     </Button>
-
                 </Grid>
                 <Grid item xs={6} md={4}>
 

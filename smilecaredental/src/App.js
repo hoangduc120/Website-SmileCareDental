@@ -8,6 +8,8 @@ import Price from './pages/users/homepage/Price.js';
 import Introduce from './pages/users/homepage/Introduce.js';
 import Service from './pages/users/homepage/Service.js';
 import ScrollToTopButton from './components/scrollToTopButton/ScrollToTopButton.js';
+import SignRegistration from './pages/users/homepage/SignRegistration.js';
+import Brand from './pages/users/homepage/Brand.js';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
               <Route path="/Home" element={<Home />} />
               <Route path="/Introduce" element={<Introduce />} />
               <Route path="/Service" element={<Service />} />
+              <Route path="/sign" element={<SignRegistration />} />
+              <Route path="/Brand" element={<Brand />} />
             </Route>
 
           </Routes>
