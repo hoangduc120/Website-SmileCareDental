@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { menuItems } from './MenuItems';
 
 const Sidebar = () => {
-  const [adminName] = useState('Hoàng Đức'); // Mock admin name
+  const [adminName] = useState('Hoàng Đức');
 
   return (
     <Drawer
@@ -18,7 +18,7 @@ const Sidebar = () => {
         },
       }}
     >
-      <div className="greeting" style={{ padding: '16px', textAlign: 'center', backgroundColor: '#1565C0', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)' }}>
+      <div style={{ padding: '16px', textAlign: 'center', backgroundColor: '#1565C0', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)' }}>
         <Typography variant="h6" sx={{ color: '#ffffff', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>
           Chào mừng admin {adminName}
         </Typography>

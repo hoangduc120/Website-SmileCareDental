@@ -1,158 +1,105 @@
-import React, { useState } from 'react';
-import { Typography, Box, Paper } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import React from 'react';
+import { Typography, Box, Paper, Grid } from '@mui/material';
 import { Line, Bar } from 'react-chartjs-2';
-import 'chart.js/auto'; // Ensuring that all necessary chart components are included
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend } from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend);
 
 const Dashboard = () => {
-  const [patientVisitsData] = useState([
-    { date: '2024-05-25', count: 20 },
-    { date: '2024-05-24', count: 35 },
-    { date: '2024-05-23', count: 18 },
-  ]);
-  const [revenueData] = useState([
-    { category: 'Khám lâm sàng', amount: 6000000 },
-    { category: 'Xét nghiệm', amount: 3000000 },
-    { category: 'Thuốc', amount: 3000000 },
-  ]);
-  const [expensesData] = useState([
-    { category: 'Lương nhân viên', amount: 4000000 },
-    { category: 'Thuốc men', amount: 2000000 },
-    { category: 'Đồ dùng y tế', amount: 1000000 },
-  ]);
-
-  // Define custom chart paper styles
-  const chartPaperStyles = {
-    padding: 20,
-    borderRadius: 8,
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    height: '100%', // Ensure the paper component takes full height
-  };
-
-  // Define custom chart colors
-  const chartColors = {
-    primary: '#4285f4',
-    secondary: '#db4437',
-    error: '#dc3545',
-  };
-
-  // Configure Line chart options for patient visits
-  const patientVisitsChartOptions = {
-    labels: patientVisitsData.map((visit) => visit.date),
+  const weeklyAccountData = {
+    labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'],
     datasets: [
       {
-        label: 'Số lượng bệnh nhân khám',
-        data: patientVisitsData.map((visit) => visit.count),
+        label: 'Tài khoản đăng ký',
+        data: [5, 10, 7, 14, 20, 30, 25], //làm giả data
         fill: false,
-        borderColor: chartColors.primary,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        pointHoverBackgroundColor: chartColors.primary,
-        pointHoverBorderColor: 'white',
+        borderColor: '#4285f4', // màu để hiển thị trên dashboards
+        backgroundColor: '#4285f4',
+        tension: 0.1, // độ cong của nét 
       },
     ],
   };
 
-  const patientVisitsChartConfig = {
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Số lượng bệnh nhân khám theo ngày',
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-    },
-  };
-
-  // Configure Bar chart options for revenue by category
-  const revenueChartOptions = {
-    labels: revenueData.map((item) => item.category),
+  const monthlyAccountData = {
+    labels: Array.from({ length: 30 }, (_, i) => i + 1),
     datasets: [
       {
-        label: 'Doanh thu theo danh mục',
-        data: revenueData.map((item) => item.amount),
-        backgroundColor: [chartColors.primary, chartColors.secondary, chartColors.error], // Example colors
+        label: 'Tài khoản đăng ký',
+        data: Array.from({ length: 30 }, () => Math.floor(Math.random() * 50)),  //  tạo mảng số random
+        fill: false,
+        borderColor: '#4285f4',
+        backgroundColor: '#4285f4',
+        tension: 0.1,
       },
     ],
   };
 
-  const revenueChartConfig = {
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Doanh thu theo danh mục',
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-    },
-  };
-
-  // Configure Bar chart options for expenses by category
-  const expensesChartOptions = {
-    labels: expensesData.map((item) => item.category),
+  const weeklyServiceData = {
+    labels: ['Service A', 'Service B', 'Service C', 'Service D'],
     datasets: [
       {
-        label: 'Chi tiêu theo danh mục',
-        data: expensesData.map((item) => item.amount),
-        backgroundColor: [chartColors.error, chartColors.secondary, chartColors.primary], // Example colors
+        label: 'Dịch vụ',
+        data: [50, 30, 40, 70],
+        backgroundColor: ['#4285f4', '#db4437', '#f4b400', '#0f9d58'],
       },
     ],
   };
 
-  const expensesChartConfig = {
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Chi tiêu theo danh mục',
-        },
+  const monthlyServiceData = {
+    labels: ['Service A', 'Service B', 'Service C', 'Service D'],
+    datasets: [
+      {
+        label: 'Dịch vụ',
+        data: [200, 150, 180, 220],
+        backgroundColor: ['#4285f4', '#db4437', '#f4b400', '#0f9d58'],
       },
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
+    ],
+  };
+
+  const commonChartOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,// này là của trục oy 
       },
     },
   };
 
   return (
-    <Box p={3} sx={{ marginLeft: '240px' }}>
+    <Box p={3}>
       <Typography variant="h4" gutterBottom>
         Dashboard
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <Paper style={chartPaperStyles}>
+          <Paper style={{ padding: 20 }}>
             <Typography variant="h6" gutterBottom>
-              Số lượng bệnh nhân khám
+              Tài khoản đăng ký trong tuần
             </Typography>
-            <Line data={patientVisitsChartOptions} options={patientVisitsChartConfig.options} />
+            <Line data={weeklyAccountData} options={commonChartOptions} /> 
           </Paper>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Paper style={chartPaperStyles}>
+          <Paper style={{ padding: 20 }}>
             <Typography variant="h6" gutterBottom>
-              Doanh thu theo danh mục
+              Tài khoản đăng ký trong tháng
             </Typography>
-            <Bar data={revenueChartOptions} options={revenueChartConfig.options} />
+            <Line data={monthlyAccountData} options={commonChartOptions} />
           </Paper>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Paper style={chartPaperStyles}>
+          <Paper style={{ padding: 20 }}>
             <Typography variant="h6" gutterBottom>
-              Chi tiêu theo danh mục
+              Dịch vụ sử dụng trong tuần
             </Typography>
-            <Bar data={expensesChartOptions} options={expensesChartConfig.options} />
+            <Bar data={weeklyServiceData} options={commonChartOptions} />
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Paper style={{ padding: 20 }}>
+            <Typography variant="h6" gutterBottom>
+              Dịch vụ sử dụng trong tháng
+            </Typography>
+            <Bar data={monthlyServiceData} options={commonChartOptions} />
           </Paper>
         </Grid>
       </Grid>
@@ -161,3 +108,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+// hết rồi nhìn gọn ngàng vs dễ hiểu hơn làm simple dashboard thôi 
