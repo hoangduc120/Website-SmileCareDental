@@ -1,6 +1,3 @@
-
-// // App.js
-
 /* The following line can be included in your src/index.js or App.js file */
 import React from "react";
 import Doctors from "./pages/users/booking/Doctors.js";
@@ -8,7 +5,6 @@ import BookingPage from "./pages/users/booking/Booking.js";
 import './App.css';
 import Home from './pages/users/homepage/Home.js'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-// import RouterCustom from './Router';
 import Header from './components/layout/Header.js';
 import Price from './pages/users/homepage/Price.js';
 import Introduce from './pages/users/homepage/Introduce.js';
