@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Grid, Card, CardContent, TextField, Button, Select, MenuItem, Box, Container } from '@mui/material';
 
-const UserInfo = () => {
+const DentisInfo = () => {
   const [userData, setUserData] = useState({
-    name: 'Hoàng Việt Đức',
+    name: 'Hoàng An',
     dob: '2003-03-03',
     gender: 'male',
     address: 'Số 123, Phố XYZ, Quận ABC',
@@ -93,7 +93,7 @@ const UserInfo = () => {
                     </Select>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant="body2">Địa chỉ:</Typography>
+                    <Typography variant="body2">Cơ sở:</Typography>
                     <TextField
                       id="address"
                       value={userData.address}
@@ -132,4 +132,4 @@ const UserInfo = () => {
   );
 };
 
-export default UserInfo;
+export default DentisInfo;

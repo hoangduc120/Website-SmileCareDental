@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Link, Grid, Box, Container } from '@mui/material';
 
-const ChangePassword = () => {
+const ChangePasswordDentis = () => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -107,4 +107,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default ChangePasswordDentis;

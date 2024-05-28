@@ -10,7 +10,7 @@ function Footer() {
         <>
             <Box
                 sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
-                bgcolor="#0269BD"
+                bgcolor="#0477CA"
                 padding="20px"
                 color="#ffffff"
             >
@@ -46,17 +46,10 @@ function Footer() {
                         </Typography>
                         
                     </Grid>
-                </Grid>
-            </Box>
-            <Box
-                sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
-                bgcolor="#ffffff"
-                padding="20px"
-                color="#0269BD"
-            >
-                <Typography style={{ textAlign: "center" }}>
+                    <Typography style={{ textAlign: "center" , marginTop:"15px"}}>
                     CÔNG TY TNHH NHA KHOA SmileCareDental - Địa chỉ: Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh - Điện thoại: 1900 2345 - GPDKKD: 0304132304 do sở KH & ĐT TP.HCM cấp ngày: 06/12/2005
-                </Typography>
+                    </Typography>
+                </Grid>
             </Box>
         </>
     );

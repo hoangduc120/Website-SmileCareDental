@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Grid, Card, CardContent, TextField, Button, Select, MenuItem, Box, Container } from '@mui/material';
+import { Typography, Grid, Card, CardContent, TextField, Button, Box, Container } from '@mui/material';
 
-const UserInfo = () => {
+const DentisAccount = () => {
   const [userData, setUserData] = useState({
-    name: 'Hoàng Việt Đức',
-    dob: '2003-03-03',
-    gender: 'male',
-    address: 'Số 123, Phố XYZ, Quận ABC',
+    username: 'hoangan',
+    phone: '+84 123456789',
+    email: 'hoangan@example.com',
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -46,18 +45,27 @@ const UserInfo = () => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography variant="h4" gutterBottom 
-            style={{ color:'#0477CA', display:'flex', justifyContent:'center', fontWeight:'400'}}>
-              Thông tin cá nhân</Typography>
+            style={{ color:'#0477CA', display:'flex', justifyContent:'center', fontWeight:'400'}}>Tài khoản của tôi</Typography>
           </Grid>
           <Grid item xs={12}>
             <Card>
               <CardContent>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
-                    <Typography variant="body2">Họ và tên:</Typography>
+                    <Typography variant="body2">Tên đăng nhập:</Typography>
                     <TextField
-                      id="name"
-                      value={userData.name}
+                      id="username"
+                      value={userData.username}
+                      variant="outlined"
+                      fullWidth
+                      disabled
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="body2">Số điện thoại:</Typography>
+                    <TextField
+                      id="phone"
+                      value={userData.phone}
                       variant="outlined"
                       fullWidth
                       onChange={handleChange}
@@ -66,41 +74,12 @@ const UserInfo = () => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant="body2">Ngày sinh:</Typography>
+                    <Typography variant="body2">Email:</Typography>
                     <TextField
-                      id="dob"
-                      value={userData.dob}
+                      id="email"
+                      value={userData.email}
                       variant="outlined"
                       fullWidth
-                      type="date"
-                      onChange={handleChange}
-                      disabled={!isEditing}
-                      InputLabelProps={{ shrink: true }}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body2">Giới tính:</Typography>
-                    <Select
-                      id="gender"
-                      value={userData.gender}
-                      onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
-                      fullWidth
-                      disabled={!isEditing}
-                    >
-                      <MenuItem value="male">Nam</MenuItem>
-                      <MenuItem value="female">Nữ</MenuItem>
-                      <MenuItem value="other">Khác</MenuItem>
-                    </Select>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body2">Địa chỉ:</Typography>
-                    <TextField
-                      id="address"
-                      value={userData.address}
-                      variant="outlined"
-                      fullWidth
-                      multiline
-                      rows={4}
                       onChange={handleChange}
                       disabled={!isEditing}
                       InputLabelProps={{ shrink: true }}
@@ -132,4 +111,4 @@ const UserInfo = () => {
   );
 };
 
-export default UserInfo;
+export default DentisAccount;
