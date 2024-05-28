@@ -1,10 +1,10 @@
 import { Box, CardContent, CardMedia, Grid, Typography, Button, CardActionArea, CardActions, Stack, Container } from '@mui/material'
 import React from 'react'
-import { Services } from '../../../components/datatest/service/Service'
+import { Services } from '../../../datatest/service/Service'
 import { Link } from 'react-router-dom'
 import Card from '@mui/material/Card';
-import { Doctors } from '../../../components/datatest/doctor/Doctors'
-import DisplayButton from '../../../components/DisplayButton';
+import { Doctors } from '../../../datatest/doctor/Doctors'
+import DisplayButton from '../../../DisplayButton';
 
 
 function Home() {
