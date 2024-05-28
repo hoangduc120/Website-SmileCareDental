@@ -15,6 +15,8 @@ import DefaultLayout from "./components/layout/DefaultLayout.js"
 import Register from "./pages/guest/Register.js";
 import ForgetPassword from "./pages/users/login/ForgetPassword.js";
 import ForgetPassword2 from "./pages/users/login/ForgetPassword2.js";
+import Clinics from "./pages/users/booking/Clinics.js";
+import Booking from "./pages/users/booking/Booking.js";
 function App() {
   return (
     <div className="App">
@@ -28,6 +30,9 @@ function App() {
               <Route path="/Service" element={<Service />} />
               <Route path="/booking" element={<Doctors />} />
               <Route path="/booking/:index" element={<BookingPage />} />
+              <Route path="/clinic" element={<Clinics />} />
+              <Route path="/clinic/:id" element={<Doctors />} />
+              <Route path="/book-appointment/:doctorId" element={<Booking />} /> {/* Thêm route cho trang đặt lịch */}
             </Route>
             <Route element={<DefaultLayout />}>
               <Route path="login" element={<Login />} />
