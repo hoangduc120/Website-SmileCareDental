@@ -1,8 +1,8 @@
 import React from 'react';
-import UserInfo from './components/pages/user/UserInfo';
-import ChangePassword from './components/pages/user/ChangePassword';
-import ViewAppointments from './components/pages/user/ViewAppointments';
-import MyAccount from './components/pages/user/MyAccount';
+import UserInfo from './pages/users/profile/UserInfo.js';
+import ChangePassword from './pages/users/profile/ChangePassword';
+import ViewAppointments from './pages/users/profile/ViewAppointments';
+import MyAccount from './pages/users/profile/MyAccount';
 import Doctors from "./pages/users/booking/Doctors.js";
 import Home from './pages/users/homepage/Home.js'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
-import Sidebar from '../pages/user/Sidebar';
+import Sidebar from '../../pages/users/profile/Sidebar';
 import Footer from '../layout/Footer';
 
 const MainLayout = () => {
