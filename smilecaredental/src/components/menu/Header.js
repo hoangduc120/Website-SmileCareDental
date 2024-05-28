@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import MailIcon from '@mui/icons-material/Mail';
 import PersonIcon from '@mui/icons-material/Person';
 import Logout from '@mui/icons-material/Logout';
+import { PersonAdd, Settings } from "@mui/icons-material";
 
 function Header() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -118,25 +119,31 @@ function Header() {
                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
-                        <Link to='/userinfo' style={{ textDecoration: "none" }}>
-                            <MenuItem onClick={handleClose}>
-                                <Avatar /> Bệnh nhân
-                            </MenuItem>
-                        </Link>
-                        <Link to='/userinfo' style={{ textDecoration: "none" }}>
-                            <MenuItem onClick={handleClose}>
-                                <Avatar /> Bác sĩ
-                            </MenuItem>
-                        </Link>
+                        <MenuItem onClick={handleClose}>
+                            <Avatar /><Link to='/userinfo' style={{ textDecoration: "none", color: 'black' }}>  Thông tin cá nhân</Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleClose}>
+                            <Avatar /><Link to='/myaccount' style={{ textDecoration: "none", color: 'black' }}>  Tài khoản của tôi</Link>
+                        </MenuItem>
                         <Divider />
-                        <Link to='#' style={{ textDecoration: "none" }}>
-                            <MenuItem onClick={handleClose}>
-                                <ListItemIcon>
-                                    <Logout fontSize="small" />
-                                </ListItemIcon>
-                                Đăng xuất
-                            </MenuItem>
-                        </Link>
+                        <MenuItem onClick={handleClose}>
+                            <ListItemIcon>
+                                <PersonAdd fontSize="small" />
+                            </ListItemIcon>
+                            Thêm tài khoan khác
+                        </MenuItem>
+                        <MenuItem onClick={handleClose}>
+                            <ListItemIcon>
+                                <Settings fontSize="small" />
+                            </ListItemIcon>
+                            Cài đặt
+                        </MenuItem>
+                        <MenuItem onClick={handleClose}>
+                            <ListItemIcon>
+                                <Logout fontSize="small" />
+                            </ListItemIcon>
+                            Đăng xuất
+                        </MenuItem>
                     </Menu>
                 </Grid>
             </Box>
