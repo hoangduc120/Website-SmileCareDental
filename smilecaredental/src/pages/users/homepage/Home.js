@@ -4,9 +4,8 @@ import { Services } from '../../../components/datatest/service/Service'
 import { Link } from 'react-router-dom'
 import Card from '@mui/material/Card';
 import { Doctors } from '../../../components/datatest/doctor/Doctors'
-import DisplayButton from '../../../components/DisplayButton';
+import DisplayButton from '../../../components/layout/DisplayButton';
 import { brands } from '../../../components/datatest/brands/Brands';
-
 
 function Home() {
     const listServices = [

@@ -1,6 +1,6 @@
 import { Badge, Box, Button, Container, Grid, Stack, TextField, Toolbar, Typography } from "@mui/material";
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import MailIcon from '@mui/icons-material/Mail';
 import PersonIcon from '@mui/icons-material/Person';
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
@@ -8,6 +8,10 @@ import EmailIcon from "@mui/icons-material/Email";
 import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
 import Banner from "./Banner";
 function Header() {
+    const navigate = useNavigate();
+    const handlePersonIconClick = () => {
+        navigate("/login");
+    };
     return (
         <>
             <Box maxWidth='100%'>
@@ -93,8 +97,15 @@ function Header() {
                                 <Badge badgeContent={4} color="primary">
                                     <MailIcon style={{ color: "#FFF" }} />
                                 </Badge>
-                                <Badge color="primary">
-                                    <PersonIcon style={{ color: "#FFF" }} />
+                                <Badge
+                                    color="primary"
+                                    style={{ color: "#FFF ", marginLeft: "40px" }}
+                                >
+                                    <PersonIcon
+                                        // click incons from login
+                                        color="action"
+                                        style={{ color: "#FFF ", cursor: 'pointer' }}
+                                        onClick={handlePersonIconClick} />
                                 </Badge>
                             </Stack>
                         </Stack>
