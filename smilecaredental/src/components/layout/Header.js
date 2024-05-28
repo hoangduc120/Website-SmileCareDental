@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Container, Grid, Stack, TextField, Toolbar, Typography } from "@mui/material";
+import { Avatar, Badge, Box, Button, Divider, Grid, ListItemIcon, Menu, MenuItem, Stack, TextField, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import MailIcon from '@mui/icons-material/Mail';
@@ -7,10 +7,15 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import EmailIcon from "@mui/icons-material/Email";
 import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
 import Banner from "./Banner";
+import { Logout, PersonAdd, Settings } from "@mui/icons-material";
 function Header() {
-    const navigate = useNavigate();
-    const handlePersonIconClick = () => {
-        navigate("/login");
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
     };
     return (
         <>
@@ -97,30 +102,97 @@ function Header() {
                                 <Badge badgeContent={4} color="primary">
                                     <MailIcon style={{ color: "#FFF" }} />
                                 </Badge>
-                                <Badge
-                                    color="primary"
-                                    style={{ color: "#FFF ", marginLeft: "40px" }}
-                                >
+                                <Badge color="primary" style={{ color: "#FFF ", marginLeft: "40px" }}>
                                     <PersonIcon
-                                        // click incons from login
+                                        onClick={handleClick}
+                                        size="small"
+                                        sx={{ ml: 2 }}
+                                        aria-controls={open ? 'account-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
                                         color="action"
-                                        style={{ color: "#FFF ", cursor: 'pointer' }}
-                                        onClick={handlePersonIconClick} />
+                                        style={{ color: "#FFF " }}
+                                    />
                                 </Badge>
                             </Stack>
                         </Stack>
+                        <Menu
+                            anchorEl={anchorEl}
+                            id="account-menu"
+                            open={open}
+                            onClose={handleClose}
+                            onClick={handleClose}
+                            PaperProps={{
+                                elevation: 0,
+                                sx: {
+                                    overflow: 'visible',
+                                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                    mt: 1.5,
+                                    '& .MuiAvatar-root': {
+                                        width: 32,
+                                        height: 32,
+                                        ml: -0.5,
+                                        mr: 1,
+                                    },
+                                    '&::before': {
+                                        content: '""',
+                                        display: 'block',
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 14,
+                                        width: 10,
+                                        height: 10,
+                                        bgcolor: 'background.paper',
+                                        transform: 'translateY(-50%) rotate(45deg)',
+                                        zIndex: 0,
+                                    },
+                                },
+                            }}
+                            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                        >
+                            <MenuItem onClick={handleClose}>
+                                <Avatar /><Link to='/userinfo' style={{ textDecoration: "none", color: 'black' }}>  Thông tin cá nhân</Link>
+                            </MenuItem>
+                            <MenuItem onClick={handleClose}>
+                                <Avatar /><Link to='/myaccount' style={{ textDecoration: "none", color: 'black' }}>  Tài khoản của tôi</Link>
+                            </MenuItem>
+                            <Divider />
+                            <MenuItem onClick={handleClose}>
+                                <ListItemIcon>
+                                    <PersonAdd fontSize="small" />
+                                </ListItemIcon>
+                                Thêm tài khoản khác
+                            </MenuItem>
+                            <MenuItem onClick={handleClose}>
+                                <ListItemIcon>
+                                    <Settings fontSize="small" />
+                                </ListItemIcon>
+                                Cài đặt
+                            </MenuItem>
+                            <MenuItem onClick={handleClose}>
+                                <ListItemIcon>
+                                    <Link to="/login" style={{ textDecoration: "none", color: 'black' }}>
+                                        <Logout fontSize="small" />
+                                        Đăng xuất
+                                    </Link>
+                                </ListItemIcon>
+
+                            </MenuItem>
+                        </Menu>
                     </Grid>
                 </Grid>
             </Box>
-            <Box>
+
+            {/* <Box>
                 <Banner />
-            </Box>
+            </Box> */}
 
-            <Outlet />
+            {/* <Outlet />
 
-            <Toolbar />
+            <Toolbar /> */}
 
-            <Box
+            {/* <Box
                 sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
                 bgcolor="#0477CA"
                 padding="10px"
@@ -164,7 +236,7 @@ function Header() {
                     CÔNG TY TNHH NHA KHOA SmileCareDental - Địa chỉ: Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh - Điện thoại: 1900 2345 - GPDKKD: 0304132304 do sở KH & ĐT TP.HCM cấp ngày: 06/12/2005
                 </Typography>
 
-            </Box >
+            </Box > */}
         </>
     );
 }
