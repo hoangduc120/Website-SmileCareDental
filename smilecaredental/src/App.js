@@ -10,6 +10,8 @@ import Price from './pages/users/homepage/Price.js';
 import Introduce from './pages/users/homepage/Introduce.js';
 import Service from './pages/users/homepage/Service.js';
 import ScrollToTopButton from './components/scrollToTopButton/ScrollToTopButton.js';
+import SignRegistration from './pages/users/homepage/SignRegistration.js';
+import Brand from './pages/users/homepage/Brand.js';
 import Login from "./pages/users/login/Login.js";
 import DefaultLayout from "./components/layout/DefaultLayout.js"
 import Register from "./pages/guest/Register.js";
@@ -17,6 +19,7 @@ import ForgetPassword from "./pages/users/login/ForgetPassword.js";
 import ForgetPassword2 from "./pages/users/login/ForgetPassword2.js";
 import Clinics from "./pages/users/booking/Clinics.js";
 import Booking from "./pages/users/booking/Booking.js";
+
 function App() {
   return (
     <div className="App">
@@ -28,6 +31,8 @@ function App() {
               <Route path="/Home" element={<Home />} />
               <Route path="/Introduce" element={<Introduce />} />
               <Route path="/Service" element={<Service />} />
+              <Route path="/sign" element={<SignRegistration />} />
+              <Route path="/Brand" element={<Brand />} />
               <Route path="/booking" element={<Doctors />} />
               <Route path="/booking/:index" element={<BookingPage />} />
               <Route path="/clinic" element={<Clinics />} />
@@ -41,15 +46,12 @@ function App() {
               <Route path="forgetpassword2" element={<ForgetPassword2 />} />
               {/*  Chuyển hướng mọi đường dẫn không xác định về nhà */}
               <Route path="*" element={<Navigate to="/" />} />
-            </Route>
-          </Routes>
-          <ScrollToTopButton />
-        </BrowserRouter>
-      </header>
-    </div>
-
-
-
+            </Route >
+          </Routes >
+    <ScrollToTopButton />
+        </BrowserRouter >
+      </header >
+    </div >
 
   );
 }
