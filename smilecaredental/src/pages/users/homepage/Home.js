@@ -116,7 +116,7 @@ function Home() {
                                                     '&:hover': { backgroundColor: '#000AFE' }
                                                 }}
                                                 component={Link}
-                                                to="/booking"
+                                                to="/clinic"
                                             >
                                                 Đặt lịch
                                             </Button>
