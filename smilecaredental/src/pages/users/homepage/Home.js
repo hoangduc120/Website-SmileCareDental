@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import Card from '@mui/material/Card';
 import { Doctors } from '../../../components/datatest/doctor/Doctors'
 import DisplayButton from '../../../components/layout/DisplayButton';
-
+import { brands } from '../../../components/datatest/brands/Brands';
 
 function Home() {
     const listServices = [
@@ -21,11 +21,11 @@ function Home() {
     return (
         <>
             <Box textAlign="center" height="20vh">
-                <Typography variant='h3' pt="25px" color="#64D3E3">Dịch vụ tốt nhất ở nha khoa</Typography>
+                <Typography variant='h3' pt="25px" color="#0477CA">Dịch vụ tốt nhất ở nha khoa</Typography>
                 <Box display="flex" justifyContent="center" pt="15px">
                     <Stack direction="row" spacing={3} >
                         <Typography>
-                            <Link to="/Home" style={{ textDecoration: "none", color: "#64D3E3" }}>
+                            <Link to="/Home" style={{ textDecoration: "none", color: "#0477CA" }}>
                                 Trang chủ
                             </Link>
                         </Typography>
@@ -38,7 +38,7 @@ function Home() {
                     component="div"
                     align="center"
                     gutterBottom
-                    color={"#2098D1"}
+                    color={"#0477CA"}
                     padding={"30px"}
                 >
                     Dịch vụ tốt nhất ở nha khoa
@@ -61,7 +61,7 @@ function Home() {
                                     />
                                     <CardContent>
                                         <Link to="/Service" style={{ textDecoration: 'none' }}>
-                                            <Typography variant="h6" component="div" color="#2098D1">
+                                            <Typography variant="h6" component="div" color="#0477CA">
                                                 {service.title}
                                             </Typography>
                                         </Link>
@@ -78,7 +78,7 @@ function Home() {
                         component="div"
                         align="center"
                         gutterBottom
-                        color={"#2098D1"}
+                        color={"#0477CA"}
                     >
                         Đội ngũ y bác sĩ
                     </Typography>
@@ -87,8 +87,8 @@ function Home() {
                         <Grid container spacing={2}>
                             {Doctors.map((doctor) => (
                                 <Grid item xs={12} sm={6} md={4} key={doctor.id}>
-                                    <Card sx={{ maxWidth: 450 }}>
-                                        <CardActionArea>
+                                    <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', maxWidth: 450 }}>
+                                        <CardActionArea sx={{ flex: '1 0 auto' }}>
                                             <CardMedia
                                                 component="img"
                                                 height="350"
@@ -104,9 +104,21 @@ function Home() {
                                                 </Typography>
                                             </CardContent>
                                         </CardActionArea>
-                                        <CardActions>
-                                            <Button size="small" color="primary">
-                                                Share
+                                        <CardActions sx={{ justifyContent: 'center' }}>
+                                            <Button
+                                                size="large"
+                                                color="primary"
+                                                sx={{
+                                                    width: '100%',
+                                                    textDecoration: 'none',
+                                                    color: 'white',
+                                                    backgroundColor: '#136AEC',
+                                                    '&:hover': { backgroundColor: '#000AFE' }
+                                                }}
+                                                component={Link}
+                                                to="/clinic"
+                                            >
+                                                Đặt lịch
                                             </Button>
                                         </CardActions>
                                     </Card>
@@ -116,7 +128,45 @@ function Home() {
                     </Container>
                 </Box>
             </Container>
-            <Box sx={{ backgroundColor: 'blue', padding: 2 }}>
+
+            <Container maxWidth="md">
+                <Box sx={{ my: 4 }}>
+                    <Typography variant="h4" component="h1" gutterBottom>
+                        Thương hiệu nổi bật
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                        Danh sách thương hiệu nổi bật xuất hiện trên Booking Smile. Đây là các thương hiệu đã được xác minh bởi Booking Smile.
+                    </Typography>
+                    <Grid container spacing={2}>
+                        {brands.map((brand, index) => (
+                            <Grid item xs={12} sm={6} md={4} key={index}>
+                                <Card sx={{ maxWidth: 345, margin: '20px' }}>
+                                    <CardMedia
+                                        component="img"
+                                        height="140"
+                                        image={brand.image}
+                                        alt={brand.name}
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            {brand.name}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Thời gian hoạt động:  {brand.time}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Cơ sở: {brand.location}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
+            </Container>
+
+
+            <Box sx={{ backgroundColor: '#0477CA', padding: 2 }}>
                 <Container>
                     <Grid container spacing={2}>
                         {listServices.map((listService, index) => (

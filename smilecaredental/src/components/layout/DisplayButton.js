@@ -33,7 +33,7 @@ function DisplayButton() {
                         variant="contained"
                         padding="20px"
                         sx={{
-                            height: 50, backgroundColor: '#1898F3', color: 'white', fontWeight: "700", fontSize: "14px",
+                            height: 50, backgroundColor: '#0477CA', color: 'white', fontWeight: "700", fontSize: "14px",
                             '&:hover': {
                                 backgroundColor: '#000AFE',
                                 color: 'white',
@@ -44,11 +44,11 @@ function DisplayButton() {
                         target="_blank"
                         rel="white"
                     >
-                        <Link to="/booking" style={{ textDecoration: "none", color: 'white' }}>
+                        <Link to="/clinic" style={{ textDecoration: "none", color: 'white' }}>
+
                             Đặt lịch ngay để nhận tư vấn
                         </Link>
                     </Button>
-
                 </Grid>
                 <Grid item xs={6} md={4}>
 

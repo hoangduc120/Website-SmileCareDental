@@ -36,12 +36,6 @@ function Register() {
                 />
 
                 <TextField
-                  label="Nhập tên của bạn"
-                  variant="outlined"
-                  size="small"
-                />
-
-                <TextField
                   label="Nhập email của bạn"
                   variant="outlined"
                   size="small"

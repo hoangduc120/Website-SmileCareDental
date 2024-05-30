@@ -29,7 +29,7 @@ function Header() {
               <Link to="/home" style={{ textDecoration: "none", color: "#2098D1", fontSize: "20px" }}>
                 Trang Chủ
               </Link>
-              <Link to="/about" style={{ textDecoration: "none", color: "#2098D1", fontSize: "20px" }}>
+              <Link to="/Introduce" style={{ textDecoration: "none", color: "#2098D1", fontSize: "20px" }}>
                 Giới Thiệu
               </Link>
               <Link to="/news" style={{ textDecoration: "none", color: "#2098D1", fontSize: "20px" }}>
@@ -45,45 +45,6 @@ function Header() {
       <Outlet />
 
       {/* <Toolbar/> */}
-      <Box
-        sx={{ left: 0, bottom: 0, right: 0, zIndex: "999" }}
-        bgcolor="#CCCCCC"
-        padding="20px"
-      >
-        <Grid container>
-
-          <Grid item xs={4}>
-            <Typography variant="h6" fontWeight="bold">
-              Thông tin liên hệ
-            </Typography>
-            <Box display="flex" alignItems="center">
-              <LocalPhoneIcon fontSize="small" sx={{ fontSize: 21 }} />
-              <span style={{ marginLeft: 8 }}>1900 2345</span>
-            </Box>
-            <Box display="flex" alignItems="center">
-              <EmailIcon fontSize="small" sx={{ fontSize: 21 }} />
-              <span style={{ marginLeft: 8 }}>dentalclinic@gmail.com</span>
-            </Box>
-            <Box display="flex" alignItems="center">
-              <FacebookTwoToneIcon fontSize="small" sx={{ fontSize: 21 }} />
-              <span style={{ marginLeft: 8 }}>
-                https://www.facebook.comshinichikun120
-              </span>
-            </Box>
-          </Grid>
-
-          <Grid item xs={4}>
-            <Typography fontWeight={"bold"} variant="h6"  > Địa Chỉ: </Typography>
-            <Typography>
-              Phòng 602,Nhà Văn Hóa Sinh Viên,Lưu Hữu Phước,Đông Hòa,Dĩ An,Bình Dương
-            </Typography>
-          </Grid>
-
-          <Grid item xs={4}>
-            Image map
-          </Grid>
-        </Grid>
-      </Box>
     </>
   );
 }
