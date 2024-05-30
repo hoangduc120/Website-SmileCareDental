@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { menuItems } from './MenuItems';
+import { Book, CalendarToday, Home, Logout, People } from '@mui/icons-material';
 
 const Sidebar = () => {
   const [adminName] = useState('Hoàng Đức');
+  const menuItems = [
+    { to: '/dashboard', icon: <Home />, text: 'Dash board' },
+    { to: '/clinic', icon: <Book />, text: 'Quản lý phòng khám' },
+    { to: '/doctor', icon: <People />, text: 'Quản lý bác sĩ' },
+    { to: '/patient', icon: <People />, text: 'Quản lý bệnh nhân' },
+    { to: '/appointment', icon: <CalendarToday />, text: 'Quản lý lịch hẹn' },
+    { to: '/', icon: <Logout />, text: 'Đăng xuất' }
+  ];
 
   return (
     <Drawer
