@@ -1,27 +1,24 @@
 import * as React from 'react';
 import { Box, CardContent, CardMedia, Grid, Typography, Stack, Container } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { ListIntros } from '../../../datatest/technology/Technology.js'
+import { ListIntros } from '../../../components/datatest/technology/Technology.js'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import DisplayButton from '../../../DisplayButton.js';
-
-
-
+import DisplayButton from '../../../components/layout/DisplayButton.js';
 function Introduce() {
     return (
         <>
             <Box textAlign="center" height="20vh">
-                <Typography variant='h3' pt="25px" color="#64D3E3">Giới thiệu</Typography>
+                <Typography variant='h3' pt="25px" color="#0477CA">Giới thiệu</Typography>
                 <Box display="flex" justifyContent="center" pt="15px">
                     <Stack direction="row" spacing={2}  >
                         <Typography>
-                            <Link to="/Home" style={{ textDecoration: "none", color: "#64D3E3" }}>
+                            <Link to="/Home" style={{ textDecoration: "none", color: "#0477CA" }}>
                                 Trang chủ
                             </Link>
                         </Typography>
-                        <ArrowForwardIosIcon sx={{ color: "#64D3E3", fontSize: "16px" }} />
+                        <ArrowForwardIosIcon sx={{ color: "#0477CA", fontSize: "16px" }} />
                         <Typography>
-                            <Link to="/Introduce" style={{ textDecoration: "none", color: "#64D3E3" }}>
+                            <Link to="/Introduce" style={{ textDecoration: "none", color: "#0477CA" }}>
                                 Giới thiệu
                             </Link>
                         </Typography>
@@ -39,13 +36,35 @@ function Introduce() {
                     height="auto"
                 />
             </Box>
+            <Container maxWidth="lg">
+
+                <Box sx={{ my: 5 }}>
+                    <Typography variant="h4" component="h1" gutterBottom color="#0477CA" fontWeight={700}>
+                        Giới thiệu về Booking Smile
+                    </Typography>
+                    <Typography variant="h5" component="h2" gutterBottom >
+                        Nền tảng Booking Smile được xây dựng và ra mắt với mong muốn cung cấp giải pháp kết nối trực tuyến các phòng khám,
+                        bác sĩ và doanh nghiệp kinh doanh các sản phẩm về nha khoa. Hay nói cách khác,
+                        Booking Smile là nền tảng kết nối Nha khoa 4.0 hiện đại và uy tín nhất hiện nay.
+                        Tại Booking Smile, người dùng có thể dễ dàng tham khảo các thông tin về phòng khám,
+                        bác sĩ và doanh nghiệp kinh doanh sản phẩm nha khoa uy tín hàng đầu thị trường.
+
+                    </Typography>
+                    <Typography variant="h5" component="h2" gutterBottom >
+                        Đồng thời có thể liên hệ trực tuyến, đặt lịch hẹn thăm khám, điều trị với các phòng khám,
+                        bác sĩ một cách nhanh chóng và tiện lợi. Chúng tôi tin rằng, sự ra đời của
+                        <Link href="https://bookingsmile.com" target="_blank" rel="noopener"> Booking Smile</Link>. sẽ mang đến bạn trải nghiệm đáng giá và tiện ích hơn,
+                        bắt kịp với sự phát triển của nền công nghiệp 4.0 hiện nay.
+                    </Typography>
+                </Box>
+            </Container>
             <Container>
                 <Typography
                     variant="h4"
                     component="div"
                     align="center"
                     gutterBottom
-                    color={"#2098D1"}
+                    color={"#0477CA"}
                     padding={"30px"}
                 >
                     Dịch vụ tốt nhất ở nha khoa
@@ -67,7 +86,7 @@ function Introduce() {
                                         height="200"
                                     />
                                     <CardContent>
-                                        <Typography variant="h6" component="div" color="#2098D1">
+                                        <Typography variant="h6" component="div" color="#0477CA">
                                             {ListIntro.name}
                                         </Typography>
                                     </CardContent>

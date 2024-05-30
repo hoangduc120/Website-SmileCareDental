@@ -9,8 +9,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { Box, Grid, List, ListItem, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import DisplayButton from '../../../DisplayButton';
-import { itemList } from '../../../datatest/PriceList/PriceItem';
+import DisplayButton from '../../../components/layout/DisplayButton';
+import { itemList } from '../../../components/datatest/PriceList/PriceItem';
 function Price() {
     const [open, setOpen] = React.useState(true);
 
@@ -26,17 +26,17 @@ function Price() {
     return (
         <>
             <Box textAlign="center" height="20vh">
-                <Typography variant='h3' pt="25px" color="#64D3E3">Bảng giá dịch vụ</Typography>
+                <Typography variant='h3' pt="25px" color="#0477CA">Bảng giá dịch vụ</Typography>
                 <Box display="flex" justifyContent="center" pt="15px">
                     <Stack direction="row" alignItems="center" spacing={3} >
                         <Typography>
-                            <Link to="/Home" style={{ textDecoration: "none", color: "#64D3E3" }}>
+                            <Link to="/Home" style={{ textDecoration: "none", color: "#0477CA" }}>
                                 Trang chủ
                             </Link>
                         </Typography>
-                        <ArrowForwardIosIcon sx={{ color: "#64D3E3", fontSize: "16px" }} />
+                        <ArrowForwardIosIcon sx={{ color: "#0477CA", fontSize: "16px" }} />
                         <Typography>
-                            <Link to="/Price" style={{ textDecoration: "none", color: "#64D3E3" }}>
+                            <Link to="/Price" style={{ textDecoration: "none", color: "#0477CA" }}>
                                 Bảng giá
                             </Link>
                         </Typography>
@@ -63,7 +63,7 @@ function Price() {
 
                 <Grid item xs={7} p="25px"  >
                     <Box display='flex'>
-                        <Typography variant='h4' color="#2098D1" fontWeight="700">
+                        <Typography variant='h4' color="#0477CA" fontWeight="700">
                             BẢNG GIÁ
                         </Typography>
                         <Autocomplete
@@ -92,7 +92,7 @@ function Price() {
                         {itemList.map((value, index) => (
                             <Box key={index}>
                                 <ListItem>
-                                    <Grid container spacing={2} bgcolor={'#2098D1'} padding={'10px'}>
+                                    <Grid container spacing={2} bgcolor={'#0477CA'} padding={'10px'}>
                                         <Grid item xs={8}>
                                             <Typography variant="subtitle1" fontWeight="bold">{value.name}</Typography>
                                         </Grid>
