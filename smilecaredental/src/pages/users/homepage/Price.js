@@ -125,7 +125,6 @@ function Price() {
                 <DisplayButton />
             </Box>
         </>
-
     );
 }
 export default Price
