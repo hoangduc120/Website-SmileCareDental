@@ -21,7 +21,7 @@ export const Services = [
     },
     {
         title: "Nhổ răng khôn",
-        image: "https://nhakhoaquoctevietsing.com.vn/wp-content/uploads/2019/08/nhung-truong-hop-chi-dinh-va-chong-chi-dinh-nho-rang-trong-nha-khoa.jpg",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxaVIL6OOIr-j2TQRLF8lxg1YMuZKQy9VjNXCScPaXRUMBN2mMivTq0wtV-5LK8-nSOE0&usqp=CAU",
         alt: "Nhổ răng khôn"
     },
     {

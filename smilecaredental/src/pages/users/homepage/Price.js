@@ -9,7 +9,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { Box, Grid, List, ListItem, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import DisplayButton from '../../../components/layout/DisplayButton';
+import DisplayButton from '../../../components/Layout/DisplayButton';
 import { itemList } from '../../../components/datatest/PriceList/PriceItem';
 function Price() {
     const [open, setOpen] = React.useState(true);

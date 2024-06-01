@@ -19,7 +19,7 @@ import ForgetPassword from "./pages/users/login/ForgetPassword.js";
 import ForgetPassword2 from "./pages/users/login/ForgetPassword2.js";
 import Clinics from "./pages/users/booking/Clinics.js";
 import Booking from "./pages/users/booking/Booking.js";
-import MainLayout from './components/layout/MainLayout.js';
+import MainLayout from './components/Layout/MainLayout.js';
 
 function App () {
   return (
@@ -32,7 +32,7 @@ function App () {
             <Route path="/introduce" element={<Introduce />} />
             <Route path="/service" element={<Service />} />
             <Route path="/sign" element={<SignRegistration />} />
-            <Route path="/brand" element={<Brand />} />
+            <Route path="/brand/:id" element={<Brand />} />
             <Route path="/clinic" element={<Clinics />} />
             <Route path="/clinic/:id" element={<Doctors />} />
             <Route path="/book-appointment/:doctorId" element={<Booking />} />
