@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { ListIntros } from '../../../components/datatest/technology/Technology.js'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DisplayButton from '../../../components/layout/DisplayButton.js';
-
 function Introduce() {
     return (
         <>

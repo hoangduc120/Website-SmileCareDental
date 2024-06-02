@@ -2,8 +2,18 @@ import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
-
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from 'yup'
 function ForgetPassword2() {
+  const initialValues = {
+    password: '',
+    confirmPassword: '',
+  }
+
+  const validationSchema = Yup.object().shape({
+    password: Yup.string().required("Không để trống!").min(4, "Mật khẩu từ 4 ký tụ trở lên"),
+    confirmPassword: Yup.string().oneOf([Yup.ref('password')], "Mật khẩu phải trùng").required("Không để trống!"),
+  })
   return (
     <Grid
       container
@@ -36,26 +46,25 @@ function ForgetPassword2() {
           <Typography variant="h4" color="#2098D1" textAlign={"center"}>
             Nhập lại mật khẩu
           </Typography>
-
-          <form>
-            <Stack spacing={4} padding={"50px"}>
-              <TextField
-                label="Tạo lại mật khẩu mới"
-                variant="outlined"
-                size="small"
-              />
-              <TextField
-                label="Nhập lại mật khẩu mới"
-                variant="outlined"
-                size="small"
-              />
-              <Button variant="contained">
-                <Link to="/Login" style={{ textDecoration: "none" }}>
-                  Xác Nhận
-                </Link>
-              </Button>
-            </Stack>
-          </form>
+          <Formik initialValues={initialValues} validationSchema={validationSchema}>
+            {(props) => (
+              <Form>
+                <Stack spacing={4} padding={"50px"}>
+                  <Field as={TextField} fullWidth name='password' type="password"
+                    label='Tạo mật khẩu mới' placeholder="Tạo mật khẩu mới"
+                    helperText={<ErrorMessage name="password" component="span" style={{ color: 'red' }} />} />
+                  <Field as={TextField} fullWidth name="confirmPassword" type="password"
+                    label='Nhập lại mật khẩu mới' placeholder="Nhập lại mật khẩu mới"
+                    helperText={<ErrorMessage name="confirmPassword" component="span" style={{ color: 'red' }} />} />
+                  <Link to="/forgetpassword2" style={{ textDecoration: "none" }}>
+                    <Button variant="contained" fullWidth>
+                      Xác Nhận
+                    </Button>
+                  </Link>
+                </Stack>
+              </Form>
+            )}
+          </Formik>
         </Stack>
       </Grid>
     </Grid>
