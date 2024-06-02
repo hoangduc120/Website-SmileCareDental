@@ -3,11 +3,11 @@ import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typ
 import { Link } from 'react-router-dom';
 import { Book, CalendarToday, Home, Logout, People } from '@mui/icons-material';
 
-const Sidebar = () => {
+const SidebarOwner = () => {
   const [adminName] = useState('Hoàng Đức');
   const menuItems = [
     { to: '/dashboard', icon: <Home />, text: 'Dash board' },
-    { to: '/clinic', icon: <Book />, text: 'Quản lý phòng khám' },
+    { to: '/clinicManagement', icon: <Book />, text: 'Quản lý phòng khám' },
     { to: '/doctor', icon: <People />, text: 'Quản lý bác sĩ' },
     { to: '/patient', icon: <People />, text: 'Quản lý bệnh nhân' },
     { to: '/appointment', icon: <CalendarToday />, text: 'Quản lý lịch khám' },
@@ -23,6 +23,7 @@ const Sidebar = () => {
           backgroundImage: 'linear-gradient(to bottom, #0D47A1, #1565C0)',
           color: '#ffffff',
           width: 240,
+          position: 'relative'
         },
       }}
     >
@@ -53,4 +54,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default SidebarOwner;
