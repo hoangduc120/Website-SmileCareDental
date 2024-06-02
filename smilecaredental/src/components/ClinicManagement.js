@@ -13,7 +13,9 @@ const ClinicManagement = () => {
   ]);
 
   const [open, setOpen] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
   const [editingClinic, setEditingClinic] = useState(null);
+  const [selectedClinic, setSelectedClinic] = useState(null);
   const [form, setForm] = useState({ name: '', slot: '', doctor: '' });
 
   const handleOpen = () => setOpen(true);
@@ -22,6 +24,8 @@ const ClinicManagement = () => {
     setForm({ name: '', slot: '', doctor: '' });
     setEditingClinic(null);
   };
+
+  const handleDetailClose = () => setOpenDetail(false);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -40,6 +44,11 @@ const ClinicManagement = () => {
     setEditingClinic(clinic);
     setForm(clinic);
     handleOpen();
+  };
+
+  const handleViewDetail = (clinic) => {
+    setSelectedClinic(clinic);
+    setOpenDetail(true);
   };
 
   return (
@@ -63,7 +72,7 @@ const ClinicManagement = () => {
               <TableCell>{clinic.slot}</TableCell>
               <TableCell>{clinic.doctor}</TableCell>
               <TableCell>
-                <Button variant="outlined" color="primary" size="small" sx={{ marginRight: '5px', borderRadius: '8px', textTransform: 'none' }}>
+                <Button variant="outlined" color="primary" size="small" sx={{ marginRight: '5px', borderRadius: '8px', textTransform: 'none' }} onClick={() => handleViewDetail(clinic)}>
                   Xem chi tiết
                 </Button>
                 <Button variant="outlined" color="secondary" size="small" sx={{ marginRight: '5px', borderRadius: '8px', textTransform: 'none' }} onClick={() => handleEdit(clinic)}>
@@ -133,6 +142,24 @@ const ClinicManagement = () => {
           </Button>
           <Button onClick={handleAddOrEdit} color="primary">
             {editingClinic ? 'Cập nhật' : 'Thêm'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={openDetail} onClose={handleDetailClose}>
+        <DialogTitle>Chi tiết phòng khám</DialogTitle>
+        <DialogContent>
+          {selectedClinic && (
+            <>
+              <Typography variant="h6">Tên: {selectedClinic.name}</Typography>
+              <Typography variant="body1">Giờ khám: {selectedClinic.slot}</Typography>
+              <Typography variant="body1">Bác sĩ: {selectedClinic.doctor}</Typography>
+            </>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDetailClose} color="primary">
+            Đóng
           </Button>
         </DialogActions>
       </Dialog>
