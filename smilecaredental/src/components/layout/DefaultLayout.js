@@ -1,9 +1,6 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
 import { Outlet, Link } from "react-router-dom";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import EmailIcon from "@mui/icons-material/Email";
-import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
 
 function Header() {
   return (

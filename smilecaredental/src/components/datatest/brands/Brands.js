@@ -1,4 +1,4 @@
-export const brands = [
+export const Brands = [
     {
         name: <strong>Phòng Khám Nha Khoa Hoàn Mỹ</strong>,
         time: ' 9:00 - 16:45',

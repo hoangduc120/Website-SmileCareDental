@@ -6,6 +6,8 @@ function DisplayButton() {
     return (
         <>
             <Grid container spacing={2}>
+                <Grid item xs={3} ></Grid>
+
                 <Grid item xs={6} >
                     <Typography
                         variant="h5"
@@ -22,7 +24,7 @@ function DisplayButton() {
                         component="div"
                         gutterBottom
                         align="center"
-                        marginLeft={'10rem'}
+                        
                     >
                         Với sự kết hợp giữa kinh nghiệm dày dặn của đội ngũ y bác sĩ của Nha khoa
                         SmileCareDental và công nghệ CAD/CAM hiện đại tại nha khoa cho phép chế tác
@@ -50,9 +52,7 @@ function DisplayButton() {
                         </Link>
                     </Button>
                 </Grid>
-                <Grid item xs={6} md={4}>
-
-                </Grid>
+                <Grid item xs={3} ></Grid>
             </Grid >
         </>
     )

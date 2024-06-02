@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   Box,
@@ -329,7 +330,7 @@ function Brand() {
               }}
             ></Box>
             <Button
-             
+
               variant="contained"
               color="primary"
               onClick={handleBookAppointment}
@@ -341,6 +342,7 @@ function Brand() {
       </Box>
     </Box>
   );
+
 }
 
 export default Brand;
