@@ -4,7 +4,7 @@ import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typ
 import { CalendarToday, Logout, AccountCircle, Lock } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Sidebar = () => {
+const SidebarProfile = () => {
   const navigate = useNavigate();
   const [userName] = useState('Hoàng Việt Đức'); // Mock admin name
   const [selectedItem, setSelectedItem] = useState('/userinfo'); // Default selected item
@@ -73,4 +73,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default SidebarProfile;

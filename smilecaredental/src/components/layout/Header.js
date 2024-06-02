@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import MailIcon from '@mui/icons-material/Mail';
 import PersonIcon from '@mui/icons-material/Person';
-import { Logout, PersonAdd, Settings } from "@mui/icons-material";
+import { Logout, Settings } from "@mui/icons-material";
 function Header() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -150,10 +150,7 @@ function Header() {
                             </MenuItem>
                             <Divider />
                             <MenuItem onClick={handleClose}>
-                                <ListItemIcon>
-                                    <PersonAdd fontSize="small" />
-                                </ListItemIcon>
-                                Thêm tài khoản khác
+                                <Avatar /><Link to='/dashboard' style={{ textDecoration: "none", color: 'black' }}>   Admin Owner</Link>
                             </MenuItem>
                             <MenuItem onClick={handleClose}>
                                 <ListItemIcon>

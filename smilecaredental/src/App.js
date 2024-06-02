@@ -1,4 +1,9 @@
-
+import './App.css';
+import ClinicManagement from './pages/users/admin/ClinicManagement.js';
+import DoctorManagement from './pages/users/admin/DoctorManagement.js';
+import PatientManagement from './pages/users/admin/PatientManegement.js';
+import AppointmentManagement from './pages/users/admin/AppoinmentManagement.js';
+import Dashboard from './pages/users/admin/Dashboard.js';
 import React from 'react';
 import UserInfo from './pages/users/profile/UserInfo.js';
 import ChangePassword from './pages/users/profile/ChangePassword';
@@ -7,7 +12,6 @@ import MyAccount from './pages/users/profile/MyAccount';
 import Doctors from "./pages/users/booking/Doctors.js";
 import Home from './pages/users/homepage/Home.js'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-
 import Introduce from './pages/users/homepage/Introduce.js';
 import Service from './pages/users/homepage/Service.js';
 import ScrollToTopButton from './components/scrollToTopButton/ScrollToTopButton.js';
@@ -21,7 +25,7 @@ import Clinics from "./pages/users/booking/Clinics.js";
 import Booking from "./pages/users/booking/Booking.js";
 import MainLayout from './components/layout/MainLayout.js';
 
-function App () {
+function App() {
   return (
     <div className="App">
       <BrowserRouter>
@@ -43,6 +47,11 @@ function App () {
             <Route path="/register" element={<Register />} />
             <Route path="/forgetpassword" element={<ForgetPassword />} />
             <Route path="/forgetpassword2" element={<ForgetPassword2 />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/clinicManagement" element={<ClinicManagement />} />
+            <Route path="/doctor" element={<DoctorManagement />} />
+            <Route path="/patient" element={<PatientManagement />} />
+            <Route path="/appointment" element={<AppointmentManagement />} />
             <Route path="/" element={<Navigate to="/home" />} />
           </Route>
 
@@ -51,6 +60,7 @@ function App () {
         </Routes>
 
         <ScrollToTopButton />
+
       </BrowserRouter>
     </div>
 
