@@ -20,6 +20,7 @@ function Home() {
     ]
     return (
         <>
+
             <Box textAlign="center" height="20vh">
                 <Typography variant='h3' pt="25px" color="#0477CA">Dịch vụ tốt nhất ở nha khoa</Typography>
                 <Box display="flex" justifyContent="center" pt="15px">
@@ -192,9 +193,47 @@ function Home() {
                 </Container>
             </Box>
             <hr />
-            <Box>
+            <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+
+            >
                 <DisplayButton />
             </Box>
+            {/* Quảng cáo bên trái */}
+            <Box
+                component="img"
+                src="https://nhakhoawilson.vn/wp-content/uploads/2024/04/BANNER-WEB-MB.jpg"
+                alt="Quảng cáo trái"
+                sx={{
+                    position: 'fixed',
+                    top: '50%',
+                    left: 0,
+                    transform: 'translateY(-50%)',
+                    zIndex: 1000,
+                    width: '350px',
+                    height: 'auto'
+                }}
+
+            />
+
+            {/* Quảng cáo bên phải */}
+            <Box
+                component="img"
+                src="https://nhakhoawilson.vn/wp-content/uploads/2024/03/Web-mobi.jpg"
+                alt="Quảng cáo phải"
+                sx={{
+                    position: 'fixed',
+                    top: '50%',
+                    right: 0,
+                    transform: 'translateY(-50%)',
+                    zIndex: 1000,
+                    width: '350px',
+                    height: 'auto'
+                }}
+
+            />
         </>
     )
 }

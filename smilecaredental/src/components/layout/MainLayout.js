@@ -4,6 +4,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from '../../pages/users/profile/Sidebar';
 import Footer from '../layout/Footer';
+import Banner from './Banner';
 
 const MainLayout = () => {
     const location = useLocation();
@@ -12,6 +13,7 @@ const MainLayout = () => {
     return (
         <div>
             <Header />
+            
             <Box sx={{ display: 'flex' }}>
                 {isUserProfileRoute && <Sidebar />}
                 <Box component="main" sx={{ flexGrow: 1, p: 3, marginLeft: isUserProfileRoute ? '240px' : '0' }}>

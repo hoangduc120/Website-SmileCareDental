@@ -6,7 +6,7 @@ import MyAccount from './pages/users/profile/MyAccount';
 import Doctors from "./pages/users/booking/Doctors.js";
 import Home from './pages/users/homepage/Home.js'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import Price from './pages/users/homepage/Price.js';
+
 import Introduce from './pages/users/homepage/Introduce.js';
 import Service from './pages/users/homepage/Service.js';
 import ScrollToTopButton from './components/scrollToTopButton/ScrollToTopButton.js';
@@ -25,7 +25,6 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
-            <Route path="/price" element={<Price />} />
             <Route path="/home" element={<Home />} />
             <Route path="/introduce" element={<Introduce />} />
             <Route path="/service" element={<Service />} />
