@@ -81,11 +81,6 @@ function Header() {
                                     Dịch vụ
                                 </Typography>
                             </Link>
-                            <Link to="/Price" style={{ textDecoration: "none", color: "#FFFF" }}>
-                                <Typography variant="h6">
-                                    Bảng giá
-                                </Typography>
-                            </Link>
                             <Link to="/Brand" style={{ textDecoration: "none", color: "#FFFF" }}>
                                 <Typography variant="h6">
                                     Đối tác
