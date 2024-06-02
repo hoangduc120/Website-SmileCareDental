@@ -10,7 +10,7 @@ const Sidebar = () => {
     { to: '/clinic', icon: <Book />, text: 'Quản lý phòng khám' },
     { to: '/doctor', icon: <People />, text: 'Quản lý bác sĩ' },
     { to: '/patient', icon: <People />, text: 'Quản lý bệnh nhân' },
-    { to: '/appointment', icon: <CalendarToday />, text: 'Quản lý lịch hẹn' },
+    { to: '/appointment', icon: <CalendarToday />, text: 'Quản lý lịch khám' },
     { to: '/', icon: <Logout />, text: 'Đăng xuất' }
   ];
 
