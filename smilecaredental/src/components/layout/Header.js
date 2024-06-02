@@ -38,21 +38,21 @@ function Header() {
                                 justifyContent: "flex-end",
                             }}
                         >
-                            <Button
-                                variant="contained"
-                                sx={{
-                                    backgroundColor: '#0477CA',
-                                    '&:hover': {
-                                        backgroundColor: '#000AFE',
-                                        color: 'white',
-                                    },
-                                }}
-                            >
-                                <Link to="/sign" style={{ textDecoration: "none", color: 'white' }}>
+                            <Link to="/sign" style={{ textDecoration: "none", color: 'white' }}>
+                                <Button
+                                    variant="contained"
+                                    sx={{
+                                        backgroundColor: '#0477CA',
+                                        '&:hover': {
+                                            backgroundColor: '#000AFE',
+                                            color: 'white',
+                                        },
+                                    }}
+                                >
                                     Đăng ký thương hiệu
-                                </Link>
 
-                            </Button>
+                                </Button>
+                            </Link>
                         </Grid>
                     </Grid>
                 </Box>

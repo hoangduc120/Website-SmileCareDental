@@ -24,33 +24,33 @@ function DisplayButton() {
                         component="div"
                         gutterBottom
                         align="center"
-                        
+
                     >
                         Với sự kết hợp giữa kinh nghiệm dày dặn của đội ngũ y bác sĩ của Nha khoa
                         SmileCareDental và công nghệ CAD/CAM hiện đại tại nha khoa cho phép chế tác
                         cũng như lắp răng sứ thẩm mỹ trong thời gian ngắn mà vẫn đảm bảo chất lượng
                         đạt tiêu chuẩn, tính thẫm mỹ cao cho khách hàng
                     </Typography>
-                    <Button
-                        variant="contained"
-                        padding="20px"
-                        sx={{
-                            height: 50, backgroundColor: '#0477CA', color: 'white', fontWeight: "700", fontSize: "14px",
-                            '&:hover': {
-                                backgroundColor: '#000AFE',
-                                color: 'white',
-                            },
-                            display: 'block', // Để nút bấm là một khối riêng
-                            margin: '0 auto', // Để căn giữa nút bấm
-                        }}
-                        target="_blank"
-                        rel="white"
-                    >
-                        <Link to="/clinic" style={{ textDecoration: "none", color: 'white' }}>
+                    <Link to="/clinic" style={{ textDecoration: "none", color: 'white' }}>
+                        <Button
+                            variant="contained"
+                            padding="20px"
+                            sx={{
+                                height: 50, backgroundColor: '#0477CA', color: 'white', fontWeight: "700", fontSize: "14px",
+                                '&:hover': {
+                                    backgroundColor: '#000AFE',
+                                    color: 'white',
+                                },
+                                display: 'block', // Để nút bấm là một khối riêng
+                                margin: '0 auto', // Để căn giữa nút bấm
+                            }}
+                            target="_blank"
+                            rel="white"
+                        >
 
                             Đặt lịch ngay để nhận tư vấn
-                        </Link>
-                    </Button>
+                        </Button>
+                    </Link>
                 </Grid>
                 <Grid item xs={3} ></Grid>
             </Grid >
