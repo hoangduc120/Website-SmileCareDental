@@ -10,6 +10,7 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import TextRating from "@mui/material/Rating";
 import brandsData from "../../../components/datatest/brands/BrandsData";
+
 const vietnameseDays = {
   Monday: "Thứ hai",
   Tuesday: "Thứ ba",
@@ -24,8 +25,8 @@ function Brand() {
   const { id } = useParams();
   const navigate = useNavigate();
   const validId = id && brandsData.some((brand) => brand.id === id);
-  const [showReviewInput, setShowReviewInput] = useState(false); // State để kiểm soát việc hiển thị phần ghi chú
-  const [reviewContent, setReviewContent] = useState(""); // State để lưu nội dung ghi chú
+  const [showReviewInput, setShowReviewInput] = useState(false);
+  const [reviewContent, setReviewContent] = useState("");
 
   if (!validId) {
     return <div>Không tìm thấy phòng khám!</div>;
@@ -48,59 +49,50 @@ function Brand() {
   };
 
   const handleWriteReview = () => {
-    // Khi nhấn vào nút "Viết Đánh Giá", cập nhật state để hiển thị phần ghi chú
     setShowReviewInput(true);
   };
 
   const handleChangeReviewContent = (event) => {
-    // Lưu nội dung ghi chú vào state
     setReviewContent(event.target.value);
   };
 
   const handleSubmitReview = () => {
-    // Xử lý logic gửi đánh giá ở đây
     console.log("Review submitted:", reviewContent);
-    // Reset state sau khi gửi đánh giá
     setReviewContent("");
     setShowReviewInput(false);
   };
 
   const handleBookAppointment = () => {
-    // Redirect to doctor page
     navigate(`/clinic/${id}`);
   };
-  // phần này dùng cuộn đến bảng giá
+
   const handleScrollToPriceList = () => {
     const priceListSection = document.getElementById("priceListSection");
     priceListSection.scrollIntoView({ behavior: "smooth" });
   };
-  // phần này dùng cuộn đến phần thông tin chi tiết
-  const handleScrollToIntroduction = () => {
-    const priceListSection = document.getElementById("introduction");
-    priceListSection.scrollIntoView({ behavior: "smooth" });
-  };
 
-  // phần này dùng cuộn đến đánh giá
+  const handleScrollToIntroduction = () => {
+    const introductionSection = document.getElementById("introduction");
+    introductionSection.scrollIntoView({ behavior: "smooth" });
+  };
 
   const handleScrollToReview = () => {
-    const priceListSection = document.getElementById("review");
-    priceListSection.scrollIntoView({ behavior: "smooth" });
+    const reviewSection = document.getElementById("review");
+    reviewSection.scrollIntoView({ behavior: "smooth" });
   };
+
   return (
-    <Box Container>
-      {/* Phần tiêu đề */}
+    <Box sx={{ mx: 5 }}>
       <Box
-        item
         sx={{
           width: "100%",
           height: "300px",
-          backgroundImage: `url(${bannerUrl})`, // Use bannerUrl for the background image
+          backgroundImage: `url(${bannerUrl})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       ></Box>
 
-      {/* Thông tin phòng khám */}
       <Box sx={{ marginTop: "-30px", alignItems: "center" }}>
         <Grid container spacing={2} alignItems="center">
           <Grid item>
@@ -152,10 +144,9 @@ function Brand() {
         </Box>
       </Box>
 
-      {/* Phần thông tin chi tiết */}
       <Box id="infoSection" sx={{ mt: 5, p: 3, bgcolor: "#f5f5f5" }}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={8}>
             <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
               Giờ làm việc
             </Typography>
@@ -228,11 +219,11 @@ function Brand() {
                 borderRadius: "5px",
               }}
             >
-              <Grid item xs={12} md={12}>
+              <Grid item xs={12}>
                 <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
                   Thông tin chi tiết
                 </Typography>
-                <Typography>{introduction}</Typography>
+                {introduction}
               </Grid>
             </Box>
 
@@ -248,7 +239,6 @@ function Brand() {
               <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
                 Bảng Giá Dịch Vụ Nha Khoa
               </Typography>
-              {/* Duyệt qua mảng priceList và hiển thị từng mục giá và dịch vụ */}
               {brand.priceList.map((item, index) => (
                 <div key={index}>
                   <Typography>
@@ -268,23 +258,19 @@ function Brand() {
                 borderRadius: "5px",
                 marginTop: "20px",
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
+                flexDirection: "column",
               }}
             >
               <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
                 Đánh Giá
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <TextRating
-                  sx={{ marginRight: "10px", alignSelf: "center" }}
-                ></TextRating>
+                <TextRating sx={{ marginRight: "10px", alignSelf: "center" }} />
                 <Button variant="contained" onClick={handleWriteReview}>
                   Viết Đánh Giá
                 </Button>
               </Box>
             </Box>
-            {/* Hiển thị phần ghi chú khi showReviewInput === true */}
             {showReviewInput && (
               <Box
                 sx={{
@@ -292,6 +278,8 @@ function Brand() {
                   padding: "10px",
                   borderRadius: "5px",
                   marginTop: "20px",
+                  display: "flex",
+                  flexDirection: "column", // Chuyển đổi sang column layout
                 }}
               >
                 <TextField
@@ -301,42 +289,43 @@ function Brand() {
                   rows={4}
                   fullWidth
                   value={reviewContent}
-                  onChange={handleChangeReviewContent} // Thêm onChange để lưu nội dung ghi chú vào state
+                  onChange={handleChangeReviewContent}
                 />
                 <Button
                   variant="contained"
                   sx={{ marginTop: "10px" }}
-                  onClick={handleSubmitReview} // Gắn sự kiện onClick cho nút gửi đánh giá
+                  onClick={handleSubmitReview}
                 >
                   Gửi Đánh Giá
                 </Button>
               </Box>
             )}
           </Grid>
-          <Box sx={{ ml: 3, width: "300px" }}>
-            <Box
-              sx={{
-                height: "300px",
-                width: "300px",
-                marginLeft: "65px",
-                padding: "70px",
-                borderRadius: "5px",
-                marginBottom: "20px",
-                backgroundImage: `url(${promotionalBannerUrl})`,
-                backgroundSize: "100% auto",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-              }}
-            ></Box>
-            <Button
-             
-              variant="contained"
-              color="primary"
-              onClick={handleBookAppointment}
-            >
-              Đặt lịch ngay
-            </Button>
-          </Box>
+          <Grid item xs={12} md={4}>
+            <Box sx={{ ml: 3 }}>
+              <Box
+                sx={{
+                  height: "72px",
+                  width: "190px",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  marginBottom: "20px",
+                  backgroundImage: `url(${promotionalBannerUrl})`,
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                }}
+              ></Box>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={handleBookAppointment}
+              >
+                Đặt lịch ngay
+              </Button>
+            </Box>
+          </Grid>
         </Grid>
       </Box>
     </Box>

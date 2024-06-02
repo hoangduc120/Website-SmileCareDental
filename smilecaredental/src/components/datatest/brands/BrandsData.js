@@ -25,24 +25,24 @@ const brandsData = [
         <p>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
-          <ul>
+          <li>
             Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
             được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
             công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
             đến phức tạp.{" "}
-          </ul>
-          <ul>
+          </li>
+          <li>
             Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
             công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
             cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
             răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
+          </li>
+          <li>
             Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
             khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
             Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
             thường xuyên.
-          </ul>
+          </li>
         </p>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
@@ -121,24 +121,24 @@ const brandsData = [
         <p>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
-          <ul>
+          <li>
             Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
             được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
             công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
             đến phức tạp.{" "}
-          </ul>
-          <ul>
+          </li>
+          <li>
             Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
             công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
             cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
             răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
+          </li>
+          <li>
             Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
             khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
             Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
             thường xuyên.
-          </ul>
+          </li>
         </p>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
@@ -216,24 +216,24 @@ const brandsData = [
         <p>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
-          <ul>
+          <li>
             Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
             được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
             công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
             đến phức tạp.{" "}
-          </ul>
-          <ul>
+          </li>
+          <li>
             Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
             công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
             cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
             răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
+          </li>
+          <li>
             Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
             khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
             Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
             thường xuyên.
-          </ul>
+          </li>
         </p>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
@@ -309,24 +309,24 @@ const brandsData = [
         <p>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
-          <ul>
+          <li>
             Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
             được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
             công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
             đến phức tạp.{" "}
-          </ul>
-          <ul>
+          </li>
+          <li>
             Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
             công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
             cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
             răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
+          </li>
+          <li>
             Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
             khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
             Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
             thường xuyên.
-          </ul>
+          </li>
         </p>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
@@ -404,24 +404,24 @@ const brandsData = [
         <p>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
-          <ul>
+          <li>
             Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
             được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
             công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
             đến phức tạp.{" "}
-          </ul>
-          <ul>
+          </li>
+          <li>
             Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
             công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
             cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
             răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
+          </li>
+          <li>
             Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
             khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
             Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
             thường xuyên.
-          </ul>
+          </li>
         </p>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
@@ -499,24 +499,24 @@ const brandsData = [
         <p>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
-          <ul>
+          <li>
             Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
             được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
             công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
             đến phức tạp.{" "}
-          </ul>
-          <ul>
+          </li>
+          <li>
             Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
             công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
             cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
             răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
+          </li>
+          <li>
             Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
             khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
             Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
             thường xuyên.
-          </ul>
+          </li>
         </p>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
@@ -594,24 +594,24 @@ const brandsData = [
         <p>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
-          <ul>
+          <li>
             Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
             được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
             công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
             đến phức tạp.{" "}
-          </ul>
-          <ul>
+          </li>
+          <li>
             Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
             công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
             cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
             răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
+          </li>
+          <li>
             Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
             khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
             Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
             thường xuyên.
-          </ul>
+          </li>
         </p>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
@@ -689,24 +689,24 @@ const brandsData = [
         <p>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
-          <ul>
+          <li>
             Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
             được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
             công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
             đến phức tạp.{" "}
-          </ul>
-          <ul>
+          </li>
+          <li>
             Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
             công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
             cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
             răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
+          </li>
+          <li>
             Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
             khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
             Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
             thường xuyên.
-          </ul>
+          </li>
         </p>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
@@ -783,24 +783,24 @@ const brandsData = [
         <p>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
-          <ul>
+          <li>
             Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
             được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
             công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
             đến phức tạp.{" "}
-          </ul>
-          <ul>
+          </li>
+          <li>
             Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
             công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
             cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
             răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
+          </li>
+          <li>
             Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
             khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
             Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
             thường xuyên.
-          </ul>
+          </li>
         </p>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"

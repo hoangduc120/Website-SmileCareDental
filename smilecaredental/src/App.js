@@ -44,6 +44,8 @@ function App () {
             <Route path="/register" element={<Register />} />
             <Route path="/forgetpassword" element={<ForgetPassword />} />
             <Route path="/forgetpassword2" element={<ForgetPassword2 />} />
+            
+            <Route path="/book-appointment/:doctorId" element={<Booking />} /> 
             <Route path="/" element={<Navigate to="/home" />} />
           </Route>
 

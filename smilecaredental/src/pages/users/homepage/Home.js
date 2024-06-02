@@ -138,6 +138,16 @@ function Home() {
                         Cơ sở: {brand.location}
                       </Typography>
                     </CardContent>
+                    <Box sx={{ textAlign: "center", marginTop: "20px" }}>
+                      <Button
+                      variant="outlined"
+                        component={Link}
+                        to={brand.doctorLink} // Sử dụng trường doctorLink từ đối tượng brand
+                        style={{ textDecoration: "none" }}
+                      >
+                       Đặt Lịch
+                      </Button>
+                    </Box>
                   </Card>
                 </Grid>
               ))}
