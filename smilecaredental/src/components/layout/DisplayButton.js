@@ -47,6 +47,7 @@ function DisplayButton() {
                         rel="white"
                     >
                         <Link to="/clinic" style={{ textDecoration: "none", color: 'white' }}>
+
                             Đặt lịch ngay để nhận tư vấn
                         </Link>
                     </Button>

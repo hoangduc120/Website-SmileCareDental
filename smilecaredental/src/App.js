@@ -1,3 +1,4 @@
+
 import React from 'react';
 import UserInfo from './pages/users/profile/UserInfo.js';
 import ChangePassword from './pages/users/profile/ChangePassword';
@@ -19,7 +20,8 @@ import ForgetPassword2 from "./pages/users/login/ForgetPassword2.js";
 import Clinics from "./pages/users/booking/Clinics.js";
 import Booking from "./pages/users/booking/Booking.js";
 import MainLayout from './components/layout/MainLayout.js';
-const App = () => {
+
+function App () {
   return (
     <div className="App">
       <BrowserRouter>
@@ -29,7 +31,7 @@ const App = () => {
             <Route path="/introduce" element={<Introduce />} />
             <Route path="/service" element={<Service />} />
             <Route path="/sign" element={<SignRegistration />} />
-            <Route path="/brand" element={<Brand />} />
+            <Route path="/brand/:id" element={<Brand />} />
             <Route path="/clinic" element={<Clinics />} />
             <Route path="/clinic/:id" element={<Doctors />} />
             <Route path="/book-appointment/:doctorId" element={<Booking />} />
@@ -47,6 +49,7 @@ const App = () => {
           {/* Redirect unknown routes to home */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+
         <ScrollToTopButton />
       </BrowserRouter>
     </div>
@@ -54,3 +57,4 @@ const App = () => {
 };
 
 export default App;
+
