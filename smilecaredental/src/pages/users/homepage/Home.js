@@ -7,8 +7,6 @@ import {
     Button,
     Stack,
     Container,
-    CardActionArea,
-    CardActions,
 } from "@mui/material";
 import React from "react";
 import { Services } from "../../../components/datatest/service/Service";
