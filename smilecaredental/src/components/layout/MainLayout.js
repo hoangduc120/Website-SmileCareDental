@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
 import SidebarProfile from '../../pages/users/profile/SidebarProfile';
-import SidebarOwner from '../../pages/users/admin/SidebarOwner'
+import SidebarOwner from '../../pages/users/clinicOwner/SidebarOwner'
 import Footer from '../layout/Footer';
 const MainLayout = () => {
     const location = useLocation();

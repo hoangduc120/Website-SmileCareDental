@@ -150,7 +150,10 @@ function Header() {
                             </MenuItem>
                             <Divider />
                             <MenuItem onClick={handleClose}>
-                                <Avatar /><Link to='/dashboard' style={{ textDecoration: "none", color: 'black' }}>   Admin Owner</Link>
+                                <Avatar /><Link to='/dashboard' style={{ textDecoration: "none", color: 'black' }}>   Clinic Owner</Link>
+                            </MenuItem>
+                            <MenuItem onClick={handleClose}>
+                                <Avatar /><Link to='/dashboardsystem' style={{ textDecoration: "none", color: 'black' }}>   Admin System</Link>
                             </MenuItem>
                             <MenuItem onClick={handleClose}>
                                 <ListItemIcon>

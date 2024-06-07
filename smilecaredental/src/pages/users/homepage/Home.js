@@ -215,8 +215,8 @@ function Home() {
             >
                 <DisplayButton />
             </Box>
-            {/* Quảng cáo bên trái */}
-            <Box
+           {/* Quảng cáo bên trái */}
+            {/* <Box
                 component="img"
                 src="https://nhakhoawilson.vn/wp-content/uploads/2024/04/BANNER-WEB-MB.jpg"
                 alt="Quảng cáo trái"
@@ -230,10 +230,10 @@ function Home() {
                     height: 'auto'
                 }}
 
-            />
+            /> */}
 
             {/* Quảng cáo bên phải */}
-            <Box
+            {/* <Box
                 component="img"
                 src="https://nhakhoawilson.vn/wp-content/uploads/2024/03/Web-mobi.jpg"
                 alt="Quảng cáo phải"
@@ -247,7 +247,7 @@ function Home() {
                     height: 'auto'
                 }}
 
-            />
+            /> */}
         </>
     )
 
