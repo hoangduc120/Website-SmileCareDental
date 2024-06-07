@@ -1,4 +1,3 @@
-// Doctors.js
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { Box, Card, CardContent, CardMedia, Grid, Typography, Button } from "@mui/material";
@@ -13,9 +12,15 @@ function Doctors() {
       <Typography variant="h4" sx={{ marginBottom: 2, textAlign: "center" }}>
         Danh sách bác sĩ tại {clinic.name}
       </Typography>
+      {/* <Typography variant="h6" sx={{ marginBottom: 2, textAlign: "center" }}>
+        Thông tin phòng khám
+      </Typography>
+      <Typography variant="body1" sx={{ marginBottom: 2, textAlign: "center" }}>
+        {clinic.info}
+      </Typography> */}
       <Grid container spacing={2}>
-        {clinic.doctors.map((doctor, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
+        {clinic.doctors.map((doctor) => (
+          <Grid item xs={12} sm={6} md={4} key={doctor.index}>
             <Card sx={{ textAlign: "center" }}>
               <CardMedia
                 component="img"
@@ -28,12 +33,11 @@ function Doctors() {
                 <Typography variant="body2" color="text.secondary">
                   {doctor.specialty}
                 </Typography>
-
                 <Button
                   variant="contained"
                   color="primary"
                   component={Link}
-                  to={`/book-appointment/${doctor.id}`} // Đường dẫn đến trang đặt lịch cho bác sĩ cụ thể
+                  to={`/book-appointment/${doctor.index}`}
                   sx={{ marginTop: 2 }}
                 >
                   Đặt lịch

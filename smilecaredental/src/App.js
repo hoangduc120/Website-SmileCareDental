@@ -7,7 +7,6 @@ import MyAccount from './pages/users/profile/MyAccount';
 import Doctors from "./pages/users/booking/Doctors.js";
 import Home from './pages/users/homepage/Home.js'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-
 import Introduce from './pages/users/homepage/Introduce.js';
 import Service from './pages/users/homepage/Service.js';
 import ScrollToTopButton from './components/scrollToTopButton/ScrollToTopButton.js';
@@ -19,7 +18,7 @@ import ForgetPassword from "./pages/users/login/ForgetPassword.js";
 import ForgetPassword2 from "./pages/users/login/ForgetPassword2.js";
 import Clinics from "./pages/users/booking/Clinics.js";
 import Booking from "./pages/users/booking/Booking.js";
-import MainLayout from './components/layout/MainLayout.js';
+import MainLayout from './components/Layout/MainLayout.js';
 
 function App () {
   return (
@@ -27,6 +26,7 @@ function App () {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
+           
             <Route path="/home" element={<Home />} />
             <Route path="/introduce" element={<Introduce />} />
             <Route path="/service" element={<Service />} />
@@ -43,6 +43,8 @@ function App () {
             <Route path="/register" element={<Register />} />
             <Route path="/forgetpassword" element={<ForgetPassword />} />
             <Route path="/forgetpassword2" element={<ForgetPassword2 />} />
+            
+            <Route path="/book-appointment/:doctorId" element={<Booking />} /> 
             <Route path="/" element={<Navigate to="/home" />} />
           </Route>
 

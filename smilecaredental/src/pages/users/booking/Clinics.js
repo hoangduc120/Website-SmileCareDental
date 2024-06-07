@@ -37,7 +37,7 @@ function Clinics() {
         </Typography>
       </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}> 
         <Grid
           container
           spacing={3}
