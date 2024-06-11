@@ -1,5 +1,25 @@
 import React, { useState } from 'react';
-import { Container, Typography, Table, TableHead, TableRow, TableCell, TableBody, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import {
+  Container, Typography, Table, TableHead, TableRow, TableCell, TableBody, Button,
+  TextField, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel,
+  Select, MenuItem, IconButton
+} from '@mui/material';
+import { Close, Delete, Edit, Visibility } from '@mui/icons-material';
+
+const slots = [
+  '8:00 - 8:45',
+  '8:45 - 9:30',
+  '9:30 - 10:15',
+  '10:15 - 11:00',
+  '11:00 - 11:45',
+  '11:45 - 12:30',
+  '12:30 - 13:15',
+  '13:15 - 14:00',
+  '14:00 - 14:45',
+  '14:45 - 15:30',
+  '15:30 - 16:15',
+  '16:15 - 17:00',
+];
 
 const ClinicManagement = () => {
   const [clinics, setClinics] = useState([
@@ -16,39 +36,55 @@ const ClinicManagement = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [editingClinic, setEditingClinic] = useState(null);
   const [selectedClinic, setSelectedClinic] = useState(null);
-  const [form, setForm] = useState({ name: '', slot: '', doctor: '' });
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [formData, setFormData] = useState({ name: '', slot: '', doctor: '' });
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    setForm({ name: '', slot: '', doctor: '' });
     setEditingClinic(null);
+    setFormData({ name: '', slot: '', doctor: '' });
   };
 
   const handleDetailClose = () => setOpenDetail(false);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
   const handleAddOrEdit = () => {
     if (editingClinic) {
-      setClinics(clinics.map(clinic => clinic.id === editingClinic.id ? { ...editingClinic, ...form } : clinic));
+      setClinics(clinics.map(clinic => clinic.id === editingClinic.id ? { ...editingClinic, ...formData } : clinic));
     } else {
-      setClinics([...clinics, { ...form, id: clinics.length + 1 }]);
+      setClinics([...clinics, { ...formData, id: clinics.length + 1 }]);
     }
     handleClose();
   };
 
-  const handleDelete = (id) => setClinics(clinics.filter(clinic => clinic.id !== id));
+  const handleDelete = (id) => {
+    setSelectedClinic(id);
+    setConfirmDialogOpen(true);
+  };
 
   const handleEdit = (clinic) => {
     setEditingClinic(clinic);
-    setForm(clinic);
+    setFormData(clinic);
     handleOpen();
   };
 
   const handleViewDetail = (clinic) => {
     setSelectedClinic(clinic);
     setOpenDetail(true);
+  };
+
+  const handleConfirmDelete = () => {
+    setClinics(clinics.filter(clinic => clinic.id !== selectedClinic));
+    setConfirmDialogOpen(false);
+  };
+
+  const handleCancelDelete = () => {
+    setConfirmDialogOpen(false);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
@@ -62,7 +98,7 @@ const ClinicManagement = () => {
             <TableCell>Tên</TableCell>
             <TableCell>Giờ khám</TableCell>
             <TableCell>Bác sĩ</TableCell>
-            <TableCell>Thao tác</TableCell>
+            <TableCell>Hành động</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -73,13 +109,13 @@ const ClinicManagement = () => {
               <TableCell>{clinic.doctor}</TableCell>
               <TableCell>
                 <Button variant="outlined" color="primary" size="small" sx={{ marginRight: '5px', borderRadius: '8px', textTransform: 'none' }} onClick={() => handleViewDetail(clinic)}>
-                  Xem chi tiết
+                  <Visibility />
                 </Button>
                 <Button variant="outlined" color="secondary" size="small" sx={{ marginRight: '5px', borderRadius: '8px', textTransform: 'none' }} onClick={() => handleEdit(clinic)}>
-                  Chỉnh sửa
+                  <Edit />
                 </Button>
                 <Button variant="outlined" color="error" size="small" sx={{ borderRadius: '8px', textTransform: 'none' }} onClick={() => handleDelete(clinic.id)}>
-                  Xóa
+                  <Delete />
                 </Button>
               </TableCell>
             </TableRow>
@@ -101,7 +137,7 @@ const ClinicManagement = () => {
             color: 'white',
           },
           display: 'block',
-          margin: '20px auto 0', // Center the button
+          margin: '20px auto 0',
         }}
         onClick={handleOpen}
       >
@@ -109,60 +145,83 @@ const ClinicManagement = () => {
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{editingClinic ? 'Chỉnh sửa phòng khám' : 'Thêm phòng khám mới'}</DialogTitle>
+        <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>{editingClinic ? 'Chỉnh sửa phòng khám' : 'Thêm phòng khám mới'}</DialogTitle>
         <DialogContent>
-          <TextField
-            margin="dense"
-            label="Tên"
-            name="name"
-            fullWidth
-            value={form.name}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            label="Giờ khám"
-            name="slot"
-            fullWidth
-            value={form.slot}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            label="Bác sĩ"
-            name="doctor"
-            fullWidth
-            value={form.doctor}
-            onChange={handleChange}
-          />
+          <form>
+            <TextField
+              margin="dense"
+              label="Tên"
+              name="name"
+              fullWidth
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+            <FormControl fullWidth sx={{ marginTop: '10px' }}>
+              <InputLabel id="slot-label">Giờ khám</InputLabel>
+              <Select
+                labelId="slot-label"
+                id="slot"
+                name="slot"
+                value={formData.slot}
+                onChange={handleInputChange}
+                label="Giờ khám"
+              >
+                {slots.map(slot => (
+                  <MenuItem key={slot} value={slot}>{slot}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              margin="dense"
+              label="Bác sĩ"
+              name="doctor"
+              fullWidth
+              value={formData.doctor}
+              onChange={handleInputChange}
+            />
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Hủy
+              </Button>
+              <Button onClick={handleAddOrEdit} color="primary">
+                {editingClinic ? 'Cập nhật' : 'Thêm'}
+              </Button>
+            </DialogActions>
+          </form>
         </DialogContent>
+      </Dialog>
+
+      <Dialog open={openDetail} onClose={handleDetailClose} fullWidth maxWidth="sm">
+        <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>
+          Chi tiết phòng khám
+          <IconButton aria-label="close" onClick={handleDetailClose} sx={{ position: 'absolute', right: 8, top: 8, color: '#ffffff' }}>
+            <Close />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          {selectedClinic && (
+            <div>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1 }}>Tên: {selectedClinic.name}</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 1 }}>Giờ khám: {selectedClinic.slot}</Typography>
+              <Typography variant="body1">Bác sĩ: {selectedClinic.doctor}</Typography>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={confirmDialogOpen} onClose={handleCancelDelete}>
+        <DialogTitle>Xác nhận</DialogTitle>
+        <DialogContent>Bạn có chắc chắn muốn xóa phòng khám này?</DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleCancelDelete} color="primary">
             Hủy
           </Button>
-          <Button onClick={handleAddOrEdit} color="primary">
-            {editingClinic ? 'Cập nhật' : 'Thêm'}
+          <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+            Xác nhận
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={openDetail} onClose={handleDetailClose}>
-        <DialogTitle>Chi tiết phòng khám</DialogTitle>
-        <DialogContent>
-          {selectedClinic && (
-            <>
-              <Typography variant="h6">Tên: {selectedClinic.name}</Typography>
-              <Typography variant="body1">Giờ khám: {selectedClinic.slot}</Typography>
-              <Typography variant="body1">Bác sĩ: {selectedClinic.doctor}</Typography>
-            </>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDetailClose} color="primary">
-            Đóng
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Container>
   );
 };

@@ -6,66 +6,64 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { CircleRounded, SquareRounded } from '@mui/icons-material';
+import {SquareRounded } from '@mui/icons-material';
 
 dayjs.extend(isSameOrBefore);
 
 const appointments = [
-  { slot: '08:00-08:45', doctor: 'Doctor A', patients: 3, treatment: 1 },
-  { slot: '08:45-09:30', doctor: 'Doctor A', patients: 1, treatment: 0 },
-  { slot: '09:30-10:15', doctor: 'Doctor A', patients: 0, treatment: 1 },
-  { slot: '10:15-11:00', doctor: 'Doctor A', patients: 3, treatment: 1 },
-  { slot: '11:00-11:45', doctor: 'Doctor A', patients: 1, treatment: 0 },
-  { slot: '11:45-12:30', doctor: 'Doctor A', patients: 0, treatment: 1 },
-  { slot: '12:30-13:15', doctor: 'Doctor A', patients: 2, treatment: 0 },
-  { slot: '13:15-14:00', doctor: 'Doctor A', patients: 1, treatment: 0 },
-  { slot: '14:00-14:45', doctor: 'Doctor A', patients: 0, treatment: 1 },
-  { slot: '14:45-15:30', doctor: 'Doctor A', patients: 3, treatment: 1 },
-  { slot: '15:30-16:15', doctor: 'Doctor A', patients: 1, treatment: 0 },
+  // Doctor A
+  { slot: '08:00-08:45', doctor: 'Doctor A', patients: [{ name: 'Patient 1', treatment: 0 }, { name: 'Patient 2', treatment: 0 }, { name: 'Patient 3', treatment: 0 }] },
+  { slot: '08:45-09:30', doctor: 'Doctor A', patients: [{ name: 'Patient 4', treatment: 0 }] },
+  { slot: '09:30-10:15', doctor: 'Doctor A', patients: [{ name: 'Patient 5', treatment: 1 }] },
+  { slot: '10:15-11:00', doctor: 'Doctor A', patients: [{ name: 'Patient 6', treatment: 0 }, { name: 'Patient 7', treatment: 0 }] },
+  { slot: '11:00-11:45', doctor: 'Doctor A', patients: [{ name: 'Patient 8', treatment: 0 }] },
+  { slot: '11:45-12:30', doctor: 'Doctor A', patients: [] },
+  { slot: '12:30-13:15', doctor: 'Doctor A', patients: [{ name: 'Patient 9', treatment: 0 }, { name: 'Patient 10', treatment: 0 }] },
+  { slot: '13:15-14:00', doctor: 'Doctor A', patients: [{ name: 'Patient 11', treatment: 0 }] },
+  { slot: '14:00-14:45', doctor: 'Doctor A', patients: [{ name: 'Patient 12', treatment: 1 }] },
+  { slot: '14:45-15:30', doctor: 'Doctor A', patients: [{ name: 'Patient 13', treatment: 0 }, { name: 'Patient 14', treatment: 0 }] },
+  { slot: '15:30-16:15', doctor: 'Doctor A', patients: [{ name: 'Patient 15', treatment: 0 }] },
 
   // Doctor B
+  { slot: '08:00-08:45', doctor: 'Doctor B', patients: [{ name: 'Patient 16', treatment: 0 }, { name: 'Patient 17', treatment: 0 }] },
+  { slot: '08:45-09:30', doctor: 'Doctor B', patients: [{ name: 'Patient 18', treatment: 0 }] },
+  { slot: '09:30-10:15', doctor: 'Doctor B', patients: [{ name: 'Patient 19', treatment: 1 }] },
+  { slot: '10:15-11:00', doctor: 'Doctor B', patients: [{ name: 'Patient 20', treatment: 0 }, { name: 'Patient 21', treatment: 0 }] },
+  { slot: '11:00-11:45', doctor: 'Doctor B', patients: [{ name: 'Patient 22', treatment: 0 }] },
+  { slot: '11:45-12:30', doctor: 'Doctor B', patients: [] },
+  { slot: '12:30-13:15', doctor: 'Doctor B', patients: [{ name: 'Patient 23', treatment: 0 }, { name: 'Patient 24', treatment: 0 }] },
+  { slot: '13:15-14:00', doctor: 'Doctor B', patients: [{ name: 'Patient 25', treatment: 0 }] },
+  { slot: '14:00-14:45', doctor: 'Doctor B', patients: [{ name: 'Patient 26', treatment: 1 }] },
+  { slot: '14:45-15:30', doctor: 'Doctor B', patients: [{ name: 'Patient 27', treatment: 0 }, { name: 'Patient 28', treatment: 0 }] },
+  { slot: '15:30-16:15', doctor: 'Doctor B', patients: [{ name: 'Patient 29', treatment: 0 }] },
 
-{ slot: '08:00-08:45', doctor: 'Doctor B', patients: 3, treatment: 1 },
-{ slot: '08:45-09:30', doctor: 'Doctor B', patients: 1, treatment: 0 },
-{ slot: '09:30-10:15', doctor: 'Doctor B', patients: 0, treatment: 1 },
-{ slot: '10:15-11:00', doctor: 'Doctor B', patients: 3, treatment: 1 },
-{ slot: '11:00-11:45', doctor: 'Doctor B', patients: 1, treatment: 0 },
-{ slot: '11:45-12:30', doctor: 'Doctor B', patients: 0, treatment: 1 },
-{ slot: '12:30-13:15', doctor: 'Doctor B', patients: 2, treatment: 0 },
-{ slot: '13:15-14:00', doctor: 'Doctor B', patients: 1, treatment: 0 },
-{ slot: '14:00-14:45', doctor: 'Doctor B', patients: 0, treatment: 1 },
-{ slot: '14:45-15:30', doctor: 'Doctor B', patients: 3, treatment: 1 },
-{ slot: '15:30-16:15', doctor: 'Doctor B', patients: 1, treatment: 0 },
+  // Doctor C
+  { slot: '08:00-08:45', doctor: 'Doctor C', patients: [{ name: 'Patient 30', treatment: 0 }, { name: 'Patient 31', treatment: 0 }] },
+  { slot: '08:45-09:30', doctor: 'Doctor C', patients: [{ name: 'Patient 32', treatment: 0 }] },
+  { slot: '09:30-10:15', doctor: 'Doctor C', patients: [{ name: 'Patient 33', treatment: 1 }] },
+  { slot: '10:15-11:00', doctor: 'Doctor C', patients: [{ name: 'Patient 34', treatment: 0 }, { name: 'Patient 35', treatment: 0 }] },
+  { slot: '11:00-11:45', doctor: 'Doctor C', patients: [{ name: 'Patient 36', treatment: 0 }] },
+  { slot: '11:45-12:30', doctor: 'Doctor C', patients: [] },
+  { slot: '12:30-13:15', doctor: 'Doctor C', patients: [{ name: 'Patient 37', treatment: 0 }, { name: 'Patient 38', treatment: 0 }] },
+  { slot: '13:15-14:00', doctor: 'Doctor C', patients: [{ name: 'Patient 39', treatment: 0 }] },
+  { slot: '14:00-14:45', doctor: 'Doctor C', patients: [{ name: 'Patient 40', treatment: 1 }] },
+  { slot: '14:45-15:30', doctor: 'Doctor C', patients: [{ name: 'Patient 41', treatment: 0 }, { name: 'Patient 42', treatment: 0 }] },
+  { slot: '15:30-16:15', doctor: 'Doctor C', patients: [{ name: 'Patient 43', treatment: 0 }] },
 
-//Doctor C
-
-{ slot: '08:00-08:45', doctor: 'Doctor C', patients: 3, treatment: 1 },
-{ slot: '08:45-09:30', doctor: 'Doctor C', patients: 1, treatment: 0 },
-{ slot: '09:30-10:15', doctor: 'Doctor C', patients: 0, treatment: 1 },
-{ slot: '10:15-11:00', doctor: 'Doctor C', patients: 3, treatment: 1 },
-{ slot: '11:00-11:45', doctor: 'Doctor C', patients: 1, treatment: 0 },
-{ slot: '11:45-12:30', doctor: 'Doctor C', patients: 0, treatment: 1 },
-{ slot: '12:30-13:15', doctor: 'Doctor C', patients: 2, treatment: 0 },
-{ slot: '13:15-14:00', doctor: 'Doctor C', patients: 1, treatment: 0 },
-{ slot: '14:00-14:45', doctor: 'Doctor C', patients: 0, treatment: 1 },
-{ slot: '14:45-15:30', doctor: 'Doctor C', patients: 3, treatment: 1 },
-{ slot: '15:30-16:15', doctor: 'Doctor C', patients: 1, treatment: 0 },
-
-//Doctor D
-
-{ slot: '08:00-08:45', doctor: 'Doctor D', patients: 3, treatment: 1 },
-{ slot: '08:45-09:30', doctor: 'Doctor D', patients: 1, treatment: 0 },
-{ slot: '09:30-10:15', doctor: 'Doctor D', patients: 0, treatment: 1 },
-{ slot: '10:15-11:00', doctor: 'Doctor D', patients: 3, treatment: 1 },
-{ slot: '11:00-11:45', doctor: 'Doctor D', patients: 1, treatment: 0 },
-{ slot: '11:45-12:30', doctor: 'Doctor D', patients: 0, treatment: 1 },
-{ slot: '12:30-13:15', doctor: 'Doctor D', patients: 2, treatment: 0 },
-{ slot: '13:15-14:00', doctor: 'Doctor D', patients: 1, treatment: 0 },
-{ slot: '14:00-14:45', doctor: 'Doctor D', patients: 0, treatment: 1 },
-{ slot: '14:45-15:30', doctor: 'Doctor D', patients: 3, treatment: 1 },
-{ slot: '15:30-16:15', doctor: 'Doctor D', patients: 1, treatment: 0 },
-
+  // Doctor D
+  { slot: '08:00-08:45', doctor: 'Doctor D', patients: [{ name: 'Patient 44', treatment: 0 }, { name: 'Patient 45', treatment: 0 }] },
+  { slot: '08:45-09:30', doctor: 'Doctor D', patients: [{ name: 'Patient 46', treatment: 0 }] },
+  { slot: '09:30-10:15', doctor: 'Doctor D', patients: [{ name: 'Patient 47', treatment: 1 }] },
+  { slot: '10:15-11:00', doctor: 'Doctor D', patients: [{ name: 'Patient 48', treatment: 0 }, { name: 'Patient 49', treatment: 0 }] },
+  { slot: '11:00-11:45', doctor: 'Doctor D', patients: [{ name: 'Patient 50', treatment: 0 }] },
+  { slot: '11:45-12:30', doctor: 'Doctor D', patients: [] },
+  { slot: '12:30-13:15', doctor: 'Doctor D', patients: [{ name: 'Patient 51', treatment: 0 }, { name: 'Patient 52', treatment: 0 }] },
+  { slot: '13:15-14:00', doctor: 'Doctor D', patients: [{ name: 'Patient 53', treatment: 0 }] },
+  { slot: '14:00-14:45', doctor: 'Doctor D', patients: [{ name: 'Patient 54', treatment: 1 }] },
+  { slot: '14:45-15:30', doctor: 'Doctor D', patients: [{ name: 'Patient 55', treatment: 0 }, { name: 'Patient 56', treatment: 0 }] },
+  { slot: '15:30-16:15', doctor: 'Doctor D', patients: [{ name: 'Patient 57', treatment: 0 }] },
 ];
+
 
 const generateTimeSlots = (start, end, interval) => {
   const slots = [];
@@ -87,8 +85,12 @@ const AppointmentManagement = () => {
 
   useEffect(() => {
     const timeSlots = generateTimeSlots('08:00', '17:00', 45);
+    const doctors = ['Doctor A', 'Doctor B', 'Doctor C', 'Doctor D'];
     const groupedAppointments = timeSlots.map((slot) => {
-      const slotAppointments = appointments.filter((appt) => appt.slot === slot);
+      const slotAppointments = doctors.map((doctor) => {
+        const appointment = appointments.find((appt) => appt.slot === slot && appt.doctor === doctor);
+        return appointment || { slot, doctor, patients: [] };
+      });
       return {
         slot,
         appointments: slotAppointments.reduce((acc, appointment) => {
@@ -115,22 +117,40 @@ const AppointmentManagement = () => {
 
     Object.keys(appointments || {}).forEach((doctor) => {
       appointments[doctor].forEach((appointment) => {
-        if (appointment.patients > 0) {
-          if (appointment.treatment) {
-            status[doctor].push(
-              <div key={`${doctor}-${appointment.slot}-treatment`} style={{ marginBottom: 2, borderRadius: 10, width: 20, height: 20, backgroundColor: 'blue' }} />
-            );
-          } else {
-            for (let i = 0; i < 3; i++) {
-              if (i < appointment.patients) {
-                status[doctor].push(<div key={`${doctor}-${appointment.slot}-${i}`} style={{ marginBottom: 2, width: 20, height: 20, backgroundColor: 'red' }} />);
-              } else {
-                status[doctor].push(
-                  <div key={`${doctor}-${appointment.slot}-${i}`} style={{ marginBottom: 2, width: 20, height: 20, backgroundColor: 'green' }} />
-                );
-              }
+        if (appointment.patients.some(patient => patient.treatment)) {
+          //Nếu có bệnh nhân cần điều trị (blue)
+          status[doctor].push(
+            <div key={`${doctor}-${appointment.slot}-treatment`} style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ width: 20, height: 20, backgroundColor: 'blue', marginRight: 5 }} />
+              <Typography>{appointment.patients.find(patient => patient.treatment).name}</Typography>
+            </div>
+          );
+        } else {
+          //Xử lý bệnh nhân khám (red) và các chỗ còn trống (green)
+          const patientElements = [];
+          const numPatients = appointment.patients.length;
+
+          for (let i = 0; i < 3; i++) {
+            if (i < numPatients) {
+              const patient = appointment.patients[i];
+              const backgroundColor = 'red';
+              patientElements.push(
+                <div key={`${doctor}-${appointment.slot}-${i}`} style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ width: 20, height: 20, backgroundColor, marginRight: 5 }} />
+                  <Typography>{patient.name}</Typography>
+                </div>
+              );
+            } else {
+              patientElements.push(
+                <div key={`${doctor}-${appointment.slot}-${i}`} style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ width: 20, height: 20, backgroundColor: 'green', marginRight: 5 }} />
+                  <Typography>Available</Typography>
+                </div>
+              );
             }
           }
+
+          status[doctor].push(...patientElements);
         }
       });
     });
@@ -141,9 +161,9 @@ const AppointmentManagement = () => {
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" sx={{ marginBottom: '20px', textAlign: 'center', color: '#0D47A1', fontWeight: 'bold' }}>
-        Quản lý phòng khám
+        Quản lý lịch khám
       </Typography>
-      <Grid item xs={12} container justifyContent="flex-end" style={{padding: 20 }}>
+      <Grid item xs={12} container justifyContent="flex-end" style={{ padding: 20 }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="Chọn ngày"
@@ -158,11 +178,11 @@ const AppointmentManagement = () => {
           <Table sx={{ minWidth: 650, '& th': { backgroundColor: '#0D47A1', color: '#ffffff' } }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell style={{textAlign:'center'}}>Slot</TableCell>
-                <TableCell style={{textAlign:'center'}}>Bác sĩ Dương Văn A</TableCell>
-                <TableCell style={{textAlign:'center'}}>Bác sĩ Dương Văn B</TableCell>
-                <TableCell style={{textAlign:'center'}}>Bác sĩ Dương Văn C</TableCell>
-                <TableCell style={{textAlign:'center'}}>Bác sĩ Dương Văn D</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>Slot</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>Bác sĩ Dương Văn A</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>Bác sĩ Dương Văn B</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>Bác sĩ Dương Văn C</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>Bác sĩ Dương Văn D</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -170,7 +190,7 @@ const AppointmentManagement = () => {
                 const status = renderPatientStatus(appointment.appointments);
                 return (
                   <TableRow key={appointment.slot} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell style={{textAlign:'center'}} component="th" scope="row">
+                    <TableCell style={{ textAlign: 'center' }} component="th" scope="row">
                       {appointment.slot}
                     </TableCell>
                     <TableCell>{status['Doctor A']}</TableCell>
@@ -186,7 +206,7 @@ const AppointmentManagement = () => {
       </Grid>
       <Grid container justifyContent="flex-end" style={{ marginTop: 20 }}>
         <Grid item style={{ display: 'flex', alignItems: 'center', marginRight: 20 }}>
-          <Icon style={{ color: 'blue' }}><CircleRounded /></Icon>
+          <Icon style={{ color: 'blue' }}><SquareRounded /></Icon>
           <Typography> Bác sĩ đang có lịch điều trị</Typography>
         </Grid>
         <Grid item style={{ display: 'flex', alignItems: 'center', marginRight: 20 }}>

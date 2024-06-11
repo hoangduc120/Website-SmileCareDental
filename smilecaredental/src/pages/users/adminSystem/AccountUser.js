@@ -4,20 +4,20 @@ import { Add, Edit, Delete } from '@mui/icons-material';
 
 const AccountUser = () => {
   const [users, setUsers] = useState([
-    { id: 1, name: 'Nguyễn Văn A', email: 'nguyenvana@gmail.com', phone: '0123456789' },
-    { id: 2, name: 'Trần Thị B', email: 'tranthib@gmail.com', phone: '0987654321' },
-    { id: 3, name: 'Nguyễn Văn A', email: 'nguyenvana@gmail.com', phone: '0123456789' },
-    { id: 4, name: 'Trần Thị B', email: 'tranthib@gmail.com', phone: '0987654321' },
-    { id: 5, name: 'Nguyễn Văn A', email: 'nguyenvana@gmail.com', phone: '0123456789' },
-    { id: 6, name: 'Trần Thị B', email: 'tranthib@gmail.com', phone: '0987654321' },
+    { id: 1, name: 'Nguyễn Văn A',gender:'Nam', dateOfBirth:'1990-09-10', email: 'nguyenvana@gmail.com', phone: '0123456789' },
+    { id: 2, name: 'Trần Thị B',gender:'Nam', dateOfBirth:'1990-09-10', email: 'tranthib@gmail.com', phone: '0987654321' },
+    { id: 3, name: 'Nguyễn Văn A',gender:'Nam', dateOfBirth:'1990-09-10', email: 'nguyenvana@gmail.com', phone: '0123456789' },
+    { id: 4, name: 'Trần Thị B',gender:'Nam', dateOfBirth:'1990-09-10', email: 'tranthib@gmail.com', phone: '0987654321' },
+    { id: 5, name: 'Nguyễn Văn A',gender:'Nam', dateOfBirth:'1990-09-10', email: 'nguyenvana@gmail.com', phone: '0123456789' },
+    { id: 6, name: 'Trần Thị B',gender:'Nam', dateOfBirth:'1990-09-10', email: 'tranthib@gmail.com', phone: '0987654321' },
   ]);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const [editData, setEditData] = useState({ id: null, name: '', email: '', phone: '' });
+  const [editData, setEditData] = useState({ id: null, name: '', gender: '', dateOfBirth: '', email: '', phone: '' });
   const [selectedDeleteId, setSelectedDeleteId] = useState(null);
 
   const handleAdd = () => {
-    setEditData({ id: null, name: '', email: '', phone: '' });
+    setEditData({ id: null, name: '', gender: '', dateOfBirth: '', email: '', phone: '' });
     setOpenEditDialog(true);
   };
 
@@ -59,10 +59,12 @@ const AccountUser = () => {
         Thêm tài khoản người dùng mới
       </Button>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650, '& th': { backgroundColor: '#1565C0', color: '#ffffff' } }}>
+        <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
               <TableCell>Tên người dùng</TableCell>
+              <TableCell>Giới tính</TableCell>
+              <TableCell>Ngày sinh</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Số điện thoại</TableCell>
               <TableCell>Hành động</TableCell>
@@ -72,6 +74,8 @@ const AccountUser = () => {
             {users.map((user) => (
               <TableRow key={user.id}>
                 <TableCell>{user.name}</TableCell>
+                <TableCell>{user.gender}</TableCell>
+                <TableCell>{user.dateOfBirth}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.phone}</TableCell>
                 <TableCell>
@@ -102,6 +106,24 @@ const AccountUser = () => {
             type="text"
             fullWidth
             value={editData.name}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="dense"
+            name="gender"
+            label="Giới tính"
+            type="text"
+            fullWidth
+            value={editData.gender}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="dense"
+            name="dateOfBirth"
+            label="Ngày sinh"
+            type="date"
+            fullWidth
+            value={editData.dateOfBirth}
             onChange={handleChange}
           />
           <TextField

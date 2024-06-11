@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
-import { Container, Typography, Table, TableHead, TableRow, TableCell, TableBody, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import {
+  Container, Typography, Table, TableHead, TableRow, TableCell, TableBody, Button, 
+  Dialog, DialogActions, DialogContent, DialogTitle, TextField, Select, MenuItem, 
+  FormControl, InputLabel, IconButton
+} from '@mui/material';
+import { Close, Delete, Edit, Visibility } from '@mui/icons-material';
 
 const PatientManagement = () => {
   const [patients, setPatients] = useState([
@@ -15,36 +20,45 @@ const PatientManagement = () => {
 
   const [open, setOpen] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
-  const [form, setForm] = useState({ fullName: '', gender: '', dateOfBirth: '', phone: '', email: '' });
+  const [openDelete, setOpenDelete] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: '',
+    gender: '',
+    dateOfBirth: '',
+    phone: '',
+    email: '',
+  });
 
   const handleOpen = () => {
-    setForm({ fullName: '', gender: '', dateOfBirth: '', phone: '', email: '' });
+    setFormData({ fullName: '', gender: '', dateOfBirth: '', phone: '', email: '' });
     setIsEdit(false);
     setOpen(true);
   };
+
   const handleClose = () => setOpen(false);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-  const handleAdd = () => {
-    if (isEdit) {
-      setPatients(patients.map(patient => (patient.id === selectedPatient.id ? { ...form, id: selectedPatient.id } : patient)));
+  const handleAddOrEdit = () => {
+    if (isEdit && selectedPatient) {
+      setPatients(patients.map(patient => (patient.id === selectedPatient.id ? { ...formData, id: selectedPatient.id } : patient)));
     } else {
-      setPatients([...patients, { ...form, id: patients.length + 1 }]);
+      setPatients([...patients, { ...formData, id: patients.length + 1 }]);
     }
     handleClose();
   };
 
   const handleEdit = (patient) => {
-    setForm(patient);
     setSelectedPatient(patient);
+    setFormData(patient);
     setIsEdit(true);
     setOpen(true);
   };
 
-  const handleDelete = (id) => setPatients(patients.filter(patient => patient.id !== id));
+  const handleDelete = (id) => {
+    setPatients(patients.filter(patient => patient.id !== id));
+    setOpenDelete(false);
+  };
 
   const handleViewDetail = (patient) => {
     setSelectedPatient(patient);
@@ -52,6 +66,24 @@ const PatientManagement = () => {
   };
 
   const handleDetailClose = () => setOpenDetail(false);
+
+  const handleDeleteOpen = (patient) => {
+    setSelectedPatient(patient);
+    setOpenDelete(true);
+  };
+
+  const handleDeleteClose = () => setOpenDelete(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  useEffect(() => {
+    if (isEdit && selectedPatient) {
+      setFormData(selectedPatient);
+    }
+  }, [selectedPatient, isEdit]);
 
   return (
     <Container maxWidth="lg">
@@ -66,7 +98,7 @@ const PatientManagement = () => {
             <TableCell>Ngày sinh</TableCell>
             <TableCell>Điện thoại</TableCell>
             <TableCell>Email</TableCell>
-            <TableCell>Thao tác</TableCell>
+            <TableCell>Hành động</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -79,13 +111,13 @@ const PatientManagement = () => {
               <TableCell>{patient.email}</TableCell>
               <TableCell>
                 <Button variant="outlined" color="primary" size="small" sx={{ marginRight: '5px', borderRadius: '8px', textTransform: 'none' }} onClick={() => handleViewDetail(patient)}>
-                  Xem chi tiết
+                  <Visibility />
                 </Button>
                 <Button variant="outlined" color="secondary" size="small" sx={{ marginRight: '5px', borderRadius: '8px', textTransform: 'none' }} onClick={() => handleEdit(patient)}>
-                  Chỉnh sửa
+                  <Edit />
                 </Button>
-                <Button variant="outlined" color="error" size="small" sx={{ borderRadius: '8px', textTransform: 'none' }} onClick={() => handleDelete(patient.id)}>
-                  Xóa
+                <Button variant="outlined" color="error" size="small" sx={{ borderRadius: '8px', textTransform: 'none' }} onClick={() => handleDeleteOpen(patient)}>
+                  <Delete />
                 </Button>
               </TableCell>
             </TableRow>
@@ -107,7 +139,7 @@ const PatientManagement = () => {
             color: 'white',
           },
           display: 'block',
-          margin: '20px auto 0', // Center the button
+          margin: '20px auto 0',
         }}
         onClick={handleOpen}
       >
@@ -115,75 +147,95 @@ const PatientManagement = () => {
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{isEdit ? 'Chỉnh sửa bệnh nhân' : 'Thêm bệnh nhân mới'}</DialogTitle>
+        <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>{isEdit ? 'Chỉnh sửa bệnh nhân' : 'Thêm bệnh nhân mới'}</DialogTitle>
         <DialogContent>
-          <TextField
-            margin="dense"
-            label="Họ và tên"
-            name="fullName"
-            fullWidth
-            value={form.fullName}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            label="Giới tính"
-            name="gender"
-            fullWidth
-            value={form.gender}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            label="Ngày sinh"
-            name="dateOfBirth"
-            fullWidth
-            value={form.dateOfBirth}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            label="Điện thoại"
-            name="phone"
-            fullWidth
-            value={form.phone}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            label="Email"
-            name="email"
-            fullWidth
-            value={form.email}
-            onChange={handleChange}
-          />
+          <form>
+            <TextField
+              margin="dense"
+              label="Họ và tên"
+              name="fullName"
+              fullWidth
+              value={formData.fullName}
+              onChange={handleInputChange}
+            />
+            <FormControl fullWidth margin="dense">
+              <InputLabel>Giới tính</InputLabel>
+              <Select
+                name="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+              >
+                <MenuItem value="Nam">Nam</MenuItem>
+                <MenuItem value="Nữ">Nữ</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              margin="dense"
+              label="Ngày sinh"
+              name="dateOfBirth"
+              fullWidth
+              value={formData.dateOfBirth}
+              onChange={handleInputChange}
+            />
+            <TextField
+              margin="dense"
+              label="Điện thoại"
+              name="phone"
+              fullWidth
+              value={formData.phone}
+              onChange={handleInputChange}
+            />
+            <TextField
+              margin="dense"
+              label="Email"
+              name="email"
+              fullWidth
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Hủy
+              </Button>
+              <Button onClick={handleAddOrEdit} color="primary">
+                {isEdit ? 'Chỉnh sửa' : 'Thêm'}
+              </Button>
+            </DialogActions>
+          </form>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Hủy
-          </Button>
-          <Button onClick={handleAdd} color="primary">
-            {isEdit ? 'Chỉnh sửa' : 'Thêm'}
-          </Button>
-        </DialogActions>
       </Dialog>
 
       <Dialog open={openDetail} onClose={handleDetailClose}>
-        <DialogTitle>Chi tiết bệnh nhân</DialogTitle>
+        <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>
+          Chi tiết bệnh nhân
+          <IconButton aria-label="close" onClick={handleDetailClose} sx={{ position: 'absolute', right: 8, top: 8, color: '#ffffff' }}>
+            <Close />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           {selectedPatient && (
             <>
-              <Typography variant="h6">Họ và tên: {selectedPatient.fullName}</Typography>
-              <Typography variant="body1">Giới tính: {selectedPatient.gender}</Typography>
-              <Typography variant="body1">Ngày sinh: {selectedPatient.dateOfBirth}</Typography>
-              <Typography variant="body1">Điện thoại: {selectedPatient.phone}</Typography>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1 }}>Họ và tên: {selectedPatient.fullName}</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 1 }}>Giới tính: {selectedPatient.gender}</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 1 }}>Ngày sinh: {selectedPatient.dateOfBirth}</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 1 }}>Điện thoại: {selectedPatient.phone}</Typography>
               <Typography variant="body1">Email: {selectedPatient.email}</Typography>
             </>
           )}
         </DialogContent>
+      </Dialog>
+
+      <Dialog open={openDelete} onClose={handleDeleteClose}>
+        <DialogTitle>Xác nhận xóa</DialogTitle>
+        <DialogContent>
+          <Typography>Bạn có chắc chắn muốn xóa bệnh nhân {selectedPatient && selectedPatient.fullName}?</Typography>
+        </DialogContent>
         <DialogActions>
-          <Button onClick={handleDetailClose} color="primary">
-            Đóng
+          <Button onClick={handleDeleteClose} color="primary">
+            Hủy
+          </Button>
+          <Button onClick={() => handleDelete(selectedPatient.id)} color="error">
+            Xóa
           </Button>
         </DialogActions>
       </Dialog>

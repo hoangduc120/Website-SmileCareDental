@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography } from '@mui/material';
+import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography, Stack, Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Book, CalendarToday, Home, Logout, People } from '@mui/icons-material';
 
 const SidebarOwner = () => {
-  const [adminName] = useState('Hoàng Đức');
+  const [adminName] = useState('SmileCare Center');
   const menuItems = [
     { to: '/dashboard', icon: <Home />, text: 'Dash board' },
     { to: '/clinicManagement', icon: <Book />, text: 'Quản lý phòng khám' },
@@ -28,10 +28,14 @@ const SidebarOwner = () => {
       }}
     >
       <div style={{ padding: '16px', textAlign: 'center', backgroundColor: '#1565C0', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)' }}>
+        <Stack direction="row" style={{justifyContent:'center'}}>
+              <Avatar alt="Remy Sharp" sx={{ width: 80, height: 80 }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx-WLohO5b-vvwezUCKexd-DF5VxCPoooWD8e2SyQYMcy5HCpOf6Del4A7rCO-cFM4J8s&usqp=CAU" />
+        </Stack>
         <Typography variant="h6" sx={{ color: '#ffffff', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>
-          Chào mừng admin {adminName}
+          Nha khoa {adminName}
         </Typography>
       </div>
+
       <List>
         {menuItems.map((item, index) => (
           <ListItem disablePadding key={index}>
