@@ -198,6 +198,20 @@ function Booking() {
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
               {(props) => (
                 <Form>
+
+                  <Grid item xs={12}>
+                    <Field as={TextField}
+                      id="date"
+                      label="Ngày khám"
+                      type="date"
+                      variant="outlined"
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      sx={{ mb: 2 }}
+                    />
+                  </Grid>
+
+                  <ErrorMessage name="date" component="div" style={{ color: "red" }} />
                   <Stack spacing={2}>
                     {/* tên */}
                     <Field as={TextField} fullWidth name="name" label="Tên của bạn" placeholder="Nhập tên của bạn" />
