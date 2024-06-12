@@ -37,7 +37,7 @@ function Clinics() {
         </Typography>
       </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "center" }}> 
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Grid
           container
           spacing={3}
@@ -105,7 +105,7 @@ function Clinics() {
                       gap: "10px",
                     }}
                   >
-                     <Button variant="outlined" style={{ margin: "0 5px" }}>
+                    <Button variant="outlined" style={{ margin: "0 5px" }}>
                       <Link to={`/brand/${clinic.id}`} style={{ textDecoration: "none", color: "inherit" }}>
                         Xem thông tin
                       </Link>
