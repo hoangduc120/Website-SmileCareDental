@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import {
   Container, Typography, Table, TableHead, TableRow, TableCell, TableBody, Button,
   TextField, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel,
-  Select, MenuItem, IconButton
+  Select, IconButton
 } from '@mui/material';
 import { Close, Delete, Edit, Visibility } from '@mui/icons-material';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 const slots = [
   '8:00 - 8:45',
@@ -87,6 +89,23 @@ const ClinicManagement = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const initialValues = {
+    name: "",
+    slot: "",
+    doctor: "",
+  }
+  const validationSchema = Yup.object().shape({
+    phone: Yup.string().required('Vui lòng nhập Tên'),
+    slot: Yup.string().required('Vui lòng chọn Giờ khám'),
+    doctor: Yup.string().required('Vui lòng nhập Bác sĩ'),
+  });
+  const onSubmit = (values, props) => {
+    
+    setTimeout(() => {
+      props.resetForm()
+      props.setSubmitting(false)
+    }, 2000)
+  }
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" sx={{ marginBottom: '20px', textAlign: 'center', color: '#0D47A1', fontWeight: 'bold' }}>
@@ -147,47 +166,44 @@ const ClinicManagement = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>{editingClinic ? 'Chỉnh sửa phòng khám' : 'Thêm phòng khám mới'}</DialogTitle>
         <DialogContent>
-          <form>
-            <TextField
-              margin="dense"
-              label="Tên"
-              name="name"
-              fullWidth
-              value={formData.name}
-              onChange={handleInputChange}
-            />
-            <FormControl fullWidth sx={{ marginTop: '10px' }}>
-              <InputLabel id="slot-label">Giờ khám</InputLabel>
-              <Select
-                labelId="slot-label"
-                id="slot"
-                name="slot"
-                value={formData.slot}
-                onChange={handleInputChange}
-                label="Giờ khám"
-              >
-                {slots.map(slot => (
-                  <MenuItem key={slot} value={slot}>{slot}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <TextField
-              margin="dense"
-              label="Bác sĩ"
-              name="doctor"
-              fullWidth
-              value={formData.doctor}
-              onChange={handleInputChange}
-            />
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Hủy
-              </Button>
-              <Button onClick={handleAddOrEdit} color="primary">
-                {editingClinic ? 'Cập nhật' : 'Thêm'}
-              </Button>
-            </DialogActions>
-          </form>
+          <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+            {(props) => (
+              <Form>
+                <Field as={TextField} fullWidth name="name" label="Tên của bạn" placeholder="Nhập tên của bạn" margin="dense"
+                  value={formData.name}
+                  onChange={handleInputChange} />
+                <ErrorMessage name="name" component="div" style={{ color: "red" }} />
+
+                <FormControl fullWidth sx={{ marginTop: '10px' }}>
+                  <InputLabel id="slot-label">Giờ khám</InputLabel>
+                  <Select name="slot" labelId="slot-label" id="slot" label="Giờ khám" native
+                    value={formData.slot}
+                    onChange={props.handleChange}
+                  >
+                    {slots.map(slot => (
+                      <option key={slot} value={slot}> {slot} </option>
+                    ))}
+                  </Select>
+                  <ErrorMessage name="slot" component="div" style={{ color: "red" }} />
+                </FormControl>
+
+                <Field as={TextField} fullWidth name="doctor" label="Bác sĩ" placeholder="Nhập tên của bác sĩ" margin="dense"
+                  value={formData.doctor}
+                  onChange={handleInputChange} />
+                <ErrorMessage name="doctor" component="div" style={{ color: "red" }} />
+
+                <DialogActions>
+                  <Button onClick={handleClose} color="primary">
+                    Hủy
+                  </Button>
+                  <Button onClick={handleAddOrEdit} color="primary">
+                    {editingClinic ? 'Cập nhật' : 'Thêm'}
+                  </Button>
+                </DialogActions>
+              </Form>
+            )}
+          </Formik>
+
         </DialogContent>
       </Dialog>
 
