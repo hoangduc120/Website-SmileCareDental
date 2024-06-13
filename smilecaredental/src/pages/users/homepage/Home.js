@@ -201,39 +201,8 @@ function Home() {
             >
                 <DisplayButton />
             </Box>
-            {/* Quảng cáo bên trái */}
-            <Box
-                component="img"
-                src="https://nhakhoawilson.vn/wp-content/uploads/2024/04/BANNER-WEB-MB.jpg"
-                alt="Quảng cáo trái"
-                sx={{
-                    position: 'fixed',
-                    top: '50%',
-                    left: 0,
-                    transform: 'translateY(-50%)',
-                    zIndex: 1000,
-                    width: '350px',
-                    height: 'auto'
-                }}
-
-            />
-
-            {/* Quảng cáo bên phải */}
-            <Box
-                component="img"
-                src="https://nhakhoawilson.vn/wp-content/uploads/2024/03/Web-mobi.jpg"
-                alt="Quảng cáo phải"
-                sx={{
-                    position: 'fixed',
-                    top: '50%',
-                    right: 0,
-                    transform: 'translateY(-50%)',
-                    zIndex: 1000,
-                    width: '350px',
-                    height: 'auto'
-                }}
-
-            />
+            
+            
         </>
     )
 }
