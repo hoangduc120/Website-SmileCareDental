@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import {
-  Container, Typography, Table, TableHead, TableRow, TableCell, TableBody, Button,
-  TextField, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel,
-  Select, IconButton
-} from '@mui/material';
+import {Container, Typography, Table, TableHead, TableRow, TableCell, TableBody, Button,TextField, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel,Select, IconButton,MenuItem} from '@mui/material';
 import { Close, Delete, Edit, Visibility } from '@mui/icons-material';
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
+import { useFormik } from 'formik';
 import * as Yup from "yup";
 
 const slots = [
@@ -39,73 +36,68 @@ const ClinicManagement = () => {
   const [editingClinic, setEditingClinic] = useState(null);
   const [selectedClinic, setSelectedClinic] = useState(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: '', slot: '', doctor: '' });
-
+  
   const handleOpen = () => setOpen(true);
+  
   const handleClose = () => {
     setOpen(false);
     setEditingClinic(null);
-    setFormData({ name: '', slot: '', doctor: '' });
   };
-
-  const handleDetailClose = () => setOpenDetail(false);
-
-  const handleAddOrEdit = () => {
+  
+  const handleAddOrEdit = (values) => {
     if (editingClinic) {
-      setClinics(clinics.map(clinic => clinic.id === editingClinic.id ? { ...editingClinic, ...formData } : clinic));
+      setClinics(clinics.map(clinic => clinic.id === editingClinic.id ? { ...editingClinic, ...values } : clinic));
     } else {
-      setClinics([...clinics, { ...formData, id: clinics.length + 1 }]);
+      setClinics([...clinics, { ...values, id: clinics.length + 1 }]);
     }
     handleClose();
   };
-
+  
   const handleDelete = (id) => {
     setSelectedClinic(id);
     setConfirmDialogOpen(true);
   };
-
+  
   const handleEdit = (clinic) => {
     setEditingClinic(clinic);
-    setFormData(clinic);
+    formik.setValues(clinic);// Cập nhật giá trị của formik khi chỉnh sửa
     handleOpen();
   };
-
+  
   const handleViewDetail = (clinic) => {
     setSelectedClinic(clinic);
     setOpenDetail(true);
   };
-
+  
   const handleConfirmDelete = () => {
     setClinics(clinics.filter(clinic => clinic.id !== selectedClinic));
     setConfirmDialogOpen(false);
   };
-
+  
   const handleCancelDelete = () => {
     setConfirmDialogOpen(false);
   };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const initialValues = {
-    name: "",
-    slot: "",
-    doctor: "",
-  }
-  const validationSchema = Yup.object().shape({
-    phone: Yup.string().required('Vui lòng nhập Tên'),
-    slot: Yup.string().required('Vui lòng chọn Giờ khám'),
-    doctor: Yup.string().required('Vui lòng nhập Bác sĩ'),
+  
+  const formik = useFormik({
+    initialValues : {
+      name: "",
+      slot: "",
+      doctor: "",
+    },
+    onSubmit: (values, props) => {
+      handleAddOrEdit(values);
+      setTimeout(() => {
+        props.resetForm();
+        props.setSubmitting(false);
+      }, 2000);
+    },
+    validationSchema : Yup.object().shape({
+      name: Yup.string().required('Vui lòng nhập Tên').min(5, 'Tên phòng khám phải có ít nhất 5 kí tự !'),
+      slot: Yup.string().required('Vui lòng chọn Giờ khám'),
+      doctor: Yup.string().required('Vui lòng nhập Bác sĩ').min(5, 'Tên bác sĩ phải có ít nhất 5 kí tự !'),
+    }),
   });
-  const onSubmit = (values, props) => {
-    
-    setTimeout(() => {
-      props.resetForm()
-      props.setSubmitting(false)
-    }, 2000)
-  }
+
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" sx={{ marginBottom: '20px', textAlign: 'center', color: '#0D47A1', fontWeight: 'bold' }}>
@@ -166,51 +158,67 @@ const ClinicManagement = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>{editingClinic ? 'Chỉnh sửa phòng khám' : 'Thêm phòng khám mới'}</DialogTitle>
         <DialogContent>
-          <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+          <Formik initialValues={formik.initialValues} onSubmit={formik.handleSubmit} validationSchema={formik.validationSchema}>
             {(props) => (
               <Form>
-                <Field as={TextField} fullWidth name="name" label="Tên của bạn" placeholder="Nhập tên của bạn" margin="dense"
-                  value={formData.name}
-                  onChange={handleInputChange} />
-                <ErrorMessage name="name" component="div" style={{ color: "red" }} />
+                <TextField fullWidth 
+                  name="name" 
+                  label="Tên phòng khám" 
+                  margin="dense"
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur} 
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
+                  /> 
 
-                <FormControl fullWidth sx={{ marginTop: '10px' }}>
-                  <InputLabel id="slot-label">Giờ khám</InputLabel>
-                  <Select name="slot" labelId="slot-label" id="slot" label="Giờ khám" native
-                    value={formData.slot}
-                    onChange={props.handleChange}
-                  >
-                    {slots.map(slot => (
-                      <option key={slot} value={slot}> {slot} </option>
-                    ))}
-                  </Select>
-                  <ErrorMessage name="slot" component="div" style={{ color: "red" }} />
-                </FormControl>
-
-                <Field as={TextField} fullWidth name="doctor" label="Bác sĩ" placeholder="Nhập tên của bác sĩ" margin="dense"
-                  value={formData.doctor}
-                  onChange={handleInputChange} />
-                <ErrorMessage name="doctor" component="div" style={{ color: "red" }} />
+                  <FormControl fullWidth sx={{ marginTop: '10px' }}>
+                    <InputLabel id="slot-label">Giờ khám</InputLabel>
+                    <Select
+                      name="slot"
+                      labelId="slot-label"
+                      id="slot"
+                      label="Giờ khám"
+                      value={formik.values.slot}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur} 
+                      error={formik.touched.slot && Boolean(formik.errors.slot)}
+                    >
+                      {slots.map(slot => (
+                        <MenuItem key={slot} value={slot}> {slot} </MenuItem>
+                      ))}
+                    </Select>
+                    {formik.touched.slot && formik.errors.slot && (<Typography variant="caption" color="red">{formik.errors.slot}</Typography>)}
+                  </FormControl>
+                <TextField fullWidth 
+                  name="doctor" 
+                  label="Bác sĩ" 
+                  margin="dense"
+                  value={formik.values.doctor}
+                  onChange={formik.handleChange} 
+                  onBlur={formik.handleBlur} 
+                  error={formik.touched.doctor && Boolean(formik.errors.doctor)}
+                  helperText={formik.touched.doctor && formik.errors.doctor}
+                  />
 
                 <DialogActions>
                   <Button onClick={handleClose} color="primary">
                     Hủy
                   </Button>
-                  <Button onClick={handleAddOrEdit} color="primary">
+                  <Button onClick={props.handleSubmit} color="primary">
                     {editingClinic ? 'Cập nhật' : 'Thêm'}
                   </Button>
                 </DialogActions>
               </Form>
             )}
           </Formik>
-
         </DialogContent>
       </Dialog>
 
-      <Dialog open={openDetail} onClose={handleDetailClose} fullWidth maxWidth="sm">
+      <Dialog open={openDetail} onClose={() => setOpenDetail(false)} fullWidth maxWidth="sm">
         <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>
           Chi tiết phòng khám
-          <IconButton aria-label="close" onClick={handleDetailClose} sx={{ position: 'absolute', right: 8, top: 8, color: '#ffffff' }}>
+          <IconButton aria-label="close" onClick={() => setOpenDetail(false)} sx={{ position: 'absolute', right: 8, top: 8, color: '#ffffff' }}>
             <Close />
           </IconButton>
         </DialogTitle>
@@ -237,7 +245,6 @@ const ClinicManagement = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
     </Container>
   );
 };

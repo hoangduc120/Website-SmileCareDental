@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
+import { Typography, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Tabs, Tab } from '@mui/material';
 import { Check, Clear, Delete } from '@mui/icons-material';
 
 const NewClinic = () => {
@@ -15,6 +15,7 @@ const NewClinic = () => {
   ]);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [selectedApplicationId, setSelectedApplicationId] = useState(null);
+  const [selectedTab, setSelectedTab] = useState(0);
 
   const handleApprove = (id) => {
     setApplications(applications.map(app => app.id === id ? { ...app, status: 'Đã chấp nhận' } : app));
@@ -38,12 +39,30 @@ const NewClinic = () => {
     setOpenConfirm(false);
   };
 
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
+
+  const filteredApplications = applications.filter(application => {
+    if (selectedTab === 0) return application.status === 'Chưa phê duyệt';
+    if (selectedTab === 1) return application.status === 'Đã chấp nhận';
+    if (selectedTab === 2) return application.status === 'Đã từ chối';
+    return true;
+  });
+
   return (
     <div style={{ padding: '16px' }}>
       <Typography variant="h4" gutterBottom sx={{ marginBottom: '20px', textAlign: 'center', color: '#0D47A1', fontWeight: 'bold' }}>
         Quản lý đơn đăng ký phòng khám mới
       </Typography>
-      <TableContainer component={Paper}>
+
+      <Tabs value={selectedTab} onChange={handleTabChange} centered>
+        <Tab label="Chưa phê duyệt" />
+        <Tab label="Đã chấp nhận" />
+        <Tab label="Đã từ chối" />
+      </Tabs>
+
+      <TableContainer component={Paper} sx={{ marginTop: '20px' }}>
         <Table sx={{ minWidth: 650, '& th': { backgroundColor: '#1565C0', color: '#ffffff' } }}>
           <TableHead>
             <TableRow>
@@ -56,7 +75,7 @@ const NewClinic = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {applications.map((application) => (
+            {filteredApplications.map((application) => (
               <TableRow key={application.id}>
                 <TableCell>{application.name}</TableCell>
                 <TableCell>{application.address}</TableCell>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
+import { Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Add, Edit, Delete } from '@mui/icons-material';
+import { useFormik, Formik, Form } from 'formik';
+import * as Yup from 'yup';
 
 const AccountUser = () => {
   const [users, setUsers] = useState([
@@ -13,16 +15,18 @@ const AccountUser = () => {
   ]);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const [editData, setEditData] = useState({ id: null, name: '', gender: '', dateOfBirth: '', email: '', phone: '' });
   const [selectedDeleteId, setSelectedDeleteId] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
 
   const handleAdd = () => {
-    setEditData({ id: null, name: '', gender: '', dateOfBirth: '', email: '', phone: '' });
+    setIsEdit(false);
+    formik.resetForm();
     setOpenEditDialog(true);
   };
 
   const handleEdit = (user) => {
-    setEditData(user);
+    setIsEdit(true);
+    formik.setValues(user);
     setOpenEditDialog(true);
   };
 
@@ -36,19 +40,39 @@ const AccountUser = () => {
     setOpenConfirmDialog(false);
   };
 
-  const handleSave = () => {
-    if (editData.id) {
-      setUsers(users.map(user => (user.id === editData.id ? editData : user)));
+  const handleAddOrEdit = (values) => {
+    if (values.id) {
+      setUsers(users.map(user => (user.id === values.id ? values : user)));
     } else {
-      setUsers([...users, { ...editData, id: users.length + 1 }]);
+      setUsers([...users, { ...values, id: users.length + 1 }]);
     }
     setOpenEditDialog(false);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditData({ ...editData, [name]: value });
-  };
+  const formik = useFormik({
+    initialValues: {
+      id: '',
+      name: '',
+      gender: '',
+      dateOfBirth: '',
+      phone: '',
+      email: '',
+    },
+    onSubmit: (values, props) => {
+      handleAddOrEdit(values);
+      setTimeout(() => {
+        props.resetForm();
+        props.setSubmitting(false);
+      }, 2000);
+    },
+    validationSchema: Yup.object().shape({
+      name: Yup.string().required('Vui lòng nhập Tên người dùng').min(5, 'Tên phải có ít nhất 5 ký tự'),
+      gender: Yup.string().required('Vui lòng chọn Giới tính'),
+      dateOfBirth: Yup.string().required('Vui lòng nhập Ngày sinh'),
+      phone: Yup.number().required('Vui lòng nhập Số điện thoại'),
+      email: Yup.string().required('Vui lòng nhập Email').email('Email không hợp lệ'),
+    }),
+  });
 
   return (
     <div style={{ padding: '16px' }}>
@@ -93,66 +117,84 @@ const AccountUser = () => {
       </TableContainer>
 
       <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-        <DialogTitle>{editData.id ? 'Chỉnh sửa tài khoản người dùng' : 'Thêm tài khoản người dùng mới'}</DialogTitle>
+        <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>{isEdit ? 'Chỉnh sửa tài khoản người dùng' : 'Thêm tài khoản người dùng mới'}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {editData.id ? 'Chỉnh sửa thông tin tài khoản người dùng.' : 'Nhập thông tin tài khoản người dùng mới.'}
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            name="name"
-            label="Tên người dùng"
-            type="text"
-            fullWidth
-            value={editData.name}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="gender"
-            label="Giới tính"
-            type="text"
-            fullWidth
-            value={editData.gender}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="dateOfBirth"
-            label="Ngày sinh"
-            type="date"
-            fullWidth
-            value={editData.dateOfBirth}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="email"
-            label="Email"
-            type="email"
-            fullWidth
-            value={editData.email}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="phone"
-            label="Số điện thoại"
-            type="text"
-            fullWidth
-            value={editData.phone}
-            onChange={handleChange}
-          />
+          <Formik initialValues={formik.initialValues} validationSchema={formik.validationSchema} onSubmit={formik.handleSubmit}>
+            {(props) => (
+              <Form>
+                <TextField
+                  margin="dense"
+                  label="Tên người dùng"
+                  name="name"
+                  fullWidth
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
+                />
+                <FormControl fullWidth margin="dense">
+                  <InputLabel>Giới tính</InputLabel>
+                  <Select
+                    name="gender"
+                    label="Giới tính"
+                    value={formik.values.gender}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.gender && Boolean(formik.errors.gender)}
+                  >
+                    <MenuItem value="">Chọn giới tính</MenuItem>
+                    <MenuItem value="Nam">Nam</MenuItem>
+                    <MenuItem value="Nữ">Nữ</MenuItem>
+                  </Select>
+                  {formik.touched.gender && formik.errors.gender && (<Typography variant="caption" color="red">{formik.errors.gender}</Typography>)}
+                </FormControl>
+                <TextField
+                  margin="dense"
+                  // label="Ngày sinh"
+                  name="dateOfBirth"
+                  type="date"
+                  fullWidth
+                  value={formik.values.dateOfBirth}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.dateOfBirth && Boolean(formik.errors.dateOfBirth)}
+                  helperText={formik.touched.dateOfBirth && formik.errors.dateOfBirth}
+                />
+                <TextField
+                  margin="dense"
+                  label="Số điện thoại"
+                  name="phone"
+                  fullWidth
+                  value={formik.values.phone}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.phone && Boolean(formik.errors.phone)}
+                  helperText={formik.touched.phone && formik.errors.phone}
+                />
+                <TextField
+                  margin="dense"
+                  label="Email"
+                  name="email"
+                  fullWidth
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                />
+                <DialogActions>
+                  <Button onClick={() => setOpenEditDialog(false)} color="secondary">
+                    Hủy
+                  </Button>
+                  <Button onClick={props.handleSubmit} color="primary">
+                    {isEdit ? 'Chỉnh sửa' : 'Thêm'}
+                  </Button>
+                </DialogActions>
+              </Form>
+            )}
+          </Formik>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenEditDialog(false)} color="secondary">
-            Hủy
-          </Button>
-          <Button onClick={handleSave} color="primary">
-            Lưu
-          </Button>
-        </DialogActions>
       </Dialog>
 
       <Dialog open={openConfirmDialog} onClose={() => setOpenConfirmDialog(false)}>

@@ -3,7 +3,9 @@ import {
   Container, Typography, Table, TableHead, TableRow, TableCell, TableBody, Button,
   Dialog, DialogActions, DialogContent, DialogTitle, TextField, IconButton
 } from '@mui/material';
-import { Close, Delete, Visibility } from '@mui/icons-material';
+import { Close, Delete, Visibility, Edit } from '@mui/icons-material';
+import { Formik, Form, useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const DoctorManagement = () => {
   const [doctors, setDoctors] = useState([
@@ -23,51 +25,43 @@ const DoctorManagement = () => {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [deletingDoctorId, setDeletingDoctorId] = useState(null);
-  const [formData, setFormData] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-  });
 
   const handleOpen = () => {
-    setFormData({ fullName: '', phone: '', email: '' });
     setOpen(true);
+    setEditingDoctor(null);
   };
 
   const handleClose = () => {
     setOpen(false);
     setEditingDoctor(null);
-    setFormData({ fullName: '', phone: '', email: '' });
   };
 
   const handleDetailClose = () => setOpenDetail(false);
 
-  const handleAddOrEdit = () => {
+  const handleAddOrEdit = (values) => {
     if (editingDoctor) {
-      setDoctors(doctors.map(doctor => doctor.id === editingDoctor.id ? { ...editingDoctor, ...formData } : doctor));
+      setDoctors(doctors.map(doctor => doctor.id === editingDoctor.id ? { ...editingDoctor, ...values } : doctor));
     } else {
-      setDoctors([...doctors, { ...formData, id: doctors.length + 1 }]);
+      setDoctors([...doctors, { ...values, id: doctors.length + 1 }]);
     }
     handleClose();
   };
 
-  const handleConfirmDeleteOpen = (id) => {
+  const handleEdit = (doctor) => {
+    setEditingDoctor(doctor);
+    formik.setValues(doctor);// Cập nhật giá trị của formik khi chỉnh sửa
+    setOpen(true);
+  };
+
+  const handleDelete = (id) => {
     setDeletingDoctorId(id);
     setConfirmDeleteOpen(true);
   };
 
-  const handleConfirmDeleteClose = () => {
-    setDeletingDoctorId(null);
-    setConfirmDeleteOpen(false);
-  };
-
-  const handleDelete = (id) => {
-    handleConfirmDeleteOpen(id);
-  };
-
   const handleConfirmDelete = () => {
     setDoctors(doctors.filter(doctor => doctor.id !== deletingDoctorId));
-    handleConfirmDeleteClose();
+    setConfirmDeleteOpen(false);
+    setDeletingDoctorId(null);
   };
 
   const handleViewDetail = (doctor) => {
@@ -75,10 +69,25 @@ const DoctorManagement = () => {
     setOpenDetail(true);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const formik = useFormik({
+    initialValues : {
+      fullName: "",
+      phone: "",
+      email: "",
+    },
+    onSubmit: (values, props) => {
+      handleAddOrEdit(values);
+      setTimeout(() => {
+        props.resetForm();
+        props.setSubmitting(false);
+      }, 2000);
+    },
+    validationSchema : Yup.object().shape({
+      fullName: Yup.string().required('Vui lòng nhập Tên').min(5, 'Tên phải có ít nhất 5 ký tự'),
+      phone: Yup.number().required('Vui lòng nhập Số điện thoại'),
+      email: Yup.string().required('Vui lòng nhập Email').email('Email không hợp lệ'),
+    }),
+  });
 
   return (
     <Container maxWidth="lg">
@@ -103,6 +112,9 @@ const DoctorManagement = () => {
               <TableCell>
                 <Button variant="outlined" color="primary" size="small" sx={{ marginRight: '5px', borderRadius: '8px', textTransform: 'none' }} onClick={() => handleViewDetail(doctor)}>
                   <Visibility />
+                </Button>
+                <Button variant="outlined" color="secondary" size="small" sx={{ marginRight: '5px', borderRadius: '8px', textTransform: 'none' }} onClick={() => handleEdit(doctor)}>
+                  <Edit />
                 </Button>
                 <Button variant="outlined" color="error" size="small" sx={{ borderRadius: '8px', textTransform: 'none' }} onClick={() => handleDelete(doctor.id)}>
                   <Delete />
@@ -137,40 +149,53 @@ const DoctorManagement = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>{editingDoctor ? 'Chỉnh sửa thông tin bác sĩ' : 'Thêm bác sĩ mới'}</DialogTitle>
         <DialogContent>
-          <form>
-            <TextField
-              margin="dense"
-              label="Họ và tên"
-              name="fullName"
-              fullWidth
-              value={formData.fullName}
-              onChange={handleInputChange}
-            />
-            <TextField
-              margin="dense"
-              label="Điện thoại"
-              name="phone"
-              fullWidth
-              value={formData.phone}
-              onChange={handleInputChange}
-            />
-            <TextField
-              margin="dense"
-              label="Email"
-              name="email"
-              fullWidth
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Hủy
-              </Button>
-              <Button onClick={handleAddOrEdit} color="primary">
-                {editingDoctor ? 'Cập nhật' : 'Thêm'}
-              </Button>
-            </DialogActions>
-          </form>
+          <Formik initialValues={formik.initialValues} validationSchema={formik.validationSchema} onSubmit={formik.handleSubmit}>
+            {(props) => (
+              <Form>
+                <TextField
+                  margin="dense"
+                  label="Họ và tên"
+                  name="fullName"
+                  fullWidth
+                  value={formik.values.fullName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur} 
+                  error={formik.touched.fullName && Boolean(formik.errors.fullName)}
+                  helperText={formik.touched.fullName && formik.errors.fullName}
+                />
+                <TextField
+                  margin="dense"
+                  label="Điện thoại"
+                  name="phone"
+                  fullWidth
+                  value={formik.values.phone}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur} 
+                  error={formik.touched.phone && Boolean(formik.errors.phone)}
+                  helperText={formik.touched.phone && formik.errors.phone}
+                />
+                <TextField
+                  margin="dense"
+                  label="Email"
+                  name="email"
+                  fullWidth
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur} 
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                /> 
+                <DialogActions>
+                  <Button onClick={handleClose} color="primary">
+                    Hủy
+                  </Button>
+                  <Button onClick={props.handleSubmit} color="primary">
+                    {editingDoctor ? 'Cập nhật' : 'Thêm'}
+                  </Button>
+                </DialogActions>
+              </Form>
+            )}
+          </Formik>
         </DialogContent>
       </Dialog>
 
@@ -183,23 +208,25 @@ const DoctorManagement = () => {
         </DialogTitle>
         <DialogContent>
           {selectedDoctor && (
-            <>
+            <div>
               <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1 }}>Họ và tên: {selectedDoctor.fullName}</Typography>
               <Typography variant="body1" sx={{ marginBottom: 1 }}>Điện thoại: {selectedDoctor.phone}</Typography>
               <Typography variant="body1">Email: {selectedDoctor.email}</Typography>
-            </>
+            </div>
           )}
         </DialogContent>
       </Dialog>
 
-      <Dialog open={confirmDeleteOpen} onClose={handleConfirmDeleteClose}>
+      <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
         <DialogTitle>Xác nhận</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1">Bạn có chắc chắn muốn xóa bác sĩ này?</Typography>
-        </DialogContent>
+        <DialogContent>Bạn có chắc chắn muốn xóa bác sĩ này?</DialogContent>
         <DialogActions>
-          <Button onClick={handleConfirmDeleteClose} color="primary">Hủy</Button>
-          <Button onClick={handleConfirmDelete} color="primary">Xác nhận</Button>
+          <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+            Hủy
+          </Button>
+          <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+            Xác nhận
+          </Button>
         </DialogActions>
       </Dialog>
     </Container>
