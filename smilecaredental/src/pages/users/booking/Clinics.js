@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import DisplayButton from "../../../components/layout/DisplayButton.js";
 import axios from "axios";
 
 function Clinics() {
@@ -85,7 +86,7 @@ function Clinics() {
                     border: "3px solid #2098D1",
                   }}
                   image={clinic.imageRoom}
-                  
+
                 />
                 <CardContent>
                   <Typography
@@ -137,6 +138,8 @@ function Clinics() {
           ))}
         </Grid>
       </Box>
+      <hr />
+      <DisplayButton />
     </>
   );
 }

@@ -2,12 +2,11 @@ import * as React from 'react';
 import { Box, Grid, Typography, Stack, List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import { Link } from 'react-router-dom'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import DisplayButton from "../../../components/layout/DefaultLayout.js";
+import DisplayButton from "../../../components/layout/DisplayButton.js";
 import { ListServices } from '../../../components/datatest/service/ListService.js';
 import CircleIcon from '@mui/icons-material/Circle'; // Thêm icon dấu chấm tròn
 
 function Service() {
-
     return (
         <>
             <Box textAlign="center" height="20vh">
@@ -75,9 +74,6 @@ function Service() {
                     ))}
                 </Stack>
             </Box>
-
-
-
             <hr />
             <Box>
                 <DisplayButton />
