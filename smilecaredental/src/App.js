@@ -1,4 +1,9 @@
-
+import './App.css';
+import ClinicManagement from './pages/users/clinicOwner/ClinicManagement.js';
+import DoctorManagement from './pages/users/clinicOwner/DoctorManagement.js';
+import PatientManagement from './pages/users/clinicOwner/PatientManegement.js';
+import AppointmentManagement from './pages/users/clinicOwner/AppoinmentManagement.js';
+import Dashboard from './pages/users/clinicOwner/Dashboard.js';
 import React from 'react';
 import UserInfo from './pages/users/profile/UserInfo.js';
 import ChangePassword from './pages/users/profile/ChangePassword';
@@ -19,8 +24,12 @@ import ForgetPassword2 from "./pages/users/login/ForgetPassword2.js";
 import Clinics from "./pages/users/booking/Clinics.js";
 import Booking from "./pages/users/booking/Booking.js";
 import MainLayout from './components/layout/MainLayout.js';
+import DentalFacility from './pages/users/adminSystem/DentalFacility.js';
+import AccountUser from './pages/users/adminSystem/AccountUser.js';
+import NewClinic from './pages/users/adminSystem/NewClinic.js';
+import DashboardSystem from './pages/users/adminSystem/DashboardSystem.js';
 
-function App () {
+function App() {
   return (
     <div className="App">
       <BrowserRouter>
@@ -45,6 +54,16 @@ function App () {
             <Route path="/forgetpassword2" element={<ForgetPassword2 />} />
             
             <Route path="/book-appointment/:doctorId" element={<Booking />} /> 
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/clinicManagement" element={<ClinicManagement />} />
+            <Route path="/doctor" element={<DoctorManagement />} />
+            <Route path="/patient" element={<PatientManagement />} />
+            <Route path="/appointment" element={<AppointmentManagement />} />
+            {/* ADMIN SYSTEM  */}
+            <Route path="/dentalfacility" element={<DentalFacility />} />
+            <Route path="/accountuser" element={<AccountUser />} />
+            <Route path="/newclinic" element={<NewClinic />} />
+            <Route path="/dashboardsystem" element={<DashboardSystem />} />
             <Route path="/" element={<Navigate to="/home" />} />
           </Route>
 
@@ -53,8 +72,10 @@ function App () {
         </Routes>
 
         <ScrollToTopButton />
+        {/* commit */}
       </BrowserRouter>
     </div>
+
   );
 };
 
