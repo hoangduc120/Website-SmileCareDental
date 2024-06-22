@@ -3,19 +3,9 @@ import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import {
-  Box,
-  Typography,
-  TextField,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Button,
-  Grid,
-  Avatar,
-  Select,
-  MenuItem,
+  Box, Typography, TextField, FormControl, FormLabel,
+  RadioGroup, FormControlLabel, Radio, Button,
+  Grid, Avatar, Select, MenuItem,
 } from "@mui/material";
 import { timeSlots } from "../../../components/datatest/doctor/TimeData";
 import { clinics } from "../../../components/datatest/doctor/ClinicsData";
@@ -150,11 +140,7 @@ function Booking() {
 
             <Box mt={2} p={2} bgcolor="#f9f9f9" borderRadius={2} boxShadow={1}>
               <Box ref={generalRef}>
-                <Typography
-                  sx={{ fontWeight: "bold" }}
-                  variant="h6"
-                  gutterBottom
-                >
+                <Typography sx={{ fontWeight: 'bold' }} variant="h6" gutterBottom >
                   Thông tin chung
                 </Typography>
                 {doctor.generalInfo &&
@@ -165,11 +151,7 @@ function Booking() {
                   ))}
               </Box>
               <Box ref={experienceRef} mt={4}>
-                <Typography
-                  sx={{ fontWeight: "bold" }}
-                  variant="h6"
-                  gutterBottom
-                >
+                <Typography sx={{ fontWeight: 'bold' }} variant="h6" gutterBottom>
                   Kinh nghiệm
                 </Typography>
                 {doctor.experience &&
@@ -180,11 +162,7 @@ function Booking() {
                   ))}
               </Box>
               <Box ref={trainingRef} mt={4}>
-                <Typography
-                  sx={{ fontWeight: "bold" }}
-                  variant="h6"
-                  gutterBottom
-                >
+                <Typography sx={{ fontWeight: 'bold' }} variant="h6" gutterBottom>
                   Đào tạo
                 </Typography>
                 {doctor.training &&
