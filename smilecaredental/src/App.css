@@ -1,9 +1,0 @@
-/* Styles.css */
-
-.left-ad, .right-ad {
-    position: fixed;
-    top: 20vh; /* Bắt đầu từ vị trí dưới banner */
-    width: 100px;
-    height: auto;
-    z-index: 1000;
-}

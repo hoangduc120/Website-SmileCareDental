@@ -11,10 +11,28 @@ import {
 import GoogleIcon from "@mui/icons-material/Google";
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
 function Login() {
+  const initialValues = {
+    email: '',
+    password: '',
+    remember: false
+  }
+  const onSubmit = (values, props) => {
+    console.log(values)
+    setTimeout(() => {
+      props.resetForm()
+      props.setSubmitting(false)
+    }, 2000)
+
+  }
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email('Hãy nhập định dạng emai').required("Không để trống"),
+    password: Yup.string().required("Không để trống")
+  })
   return (
-    <div>
+    <>
       <Grid container>
         <Grid
           item
@@ -23,53 +41,66 @@ function Login() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            padding: "20px"
           }}
         >
-          <Stack spacing={4}>
-            <Typography variant="h4" color="#2098D1">
+          <Stack spacing={5} sx={{ width: "100%", maxWidth: "600px" }}>
+            <Typography variant="h4" color="#2098D1" align="center">
               Chào mừng bạn
             </Typography>
-            <form>
-              <Stack spacing={4}>
-                <TextField
-                  label=" Nhập email "
-                  variant="outlined"
-                  size="small"
-                />
-                <Stack direction="row" alignItems="center" spacing={4}>
-                  <TextField label="Mật khẩu" variant="outlined" size="small" />
-                  <Typography>
-                    <Link
-                      to="/forgetpassword"
-                      style={{ textDecoration: "none" }}
-                    >
-                      Quên mật khẩu
-                    </Link>
-                  </Typography>
-                </Stack>
 
-                <FormControlLabel control={<Checkbox />} label="Ghi nhớ tôi" />
+            <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+              {(props) => (
+                <Form>
+                  <Stack spacing={4}>
+                    <Field as={TextField} label='Email' name="email"
+                      placeholder='Nhập email' fullWidth required
+                      helperText={<ErrorMessage name="email" component="span" style={{ color: 'red' }} />}
+                    />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '16px' }}>
+                      <Field as={TextField} label='Mật khẩu' name="password"
+                        placeholder='Nhập mật khẩu' type='password' fullWidth required
+                        style={{ flex: 1 }}
+                        helperText={<ErrorMessage name="password" component="span" style={{ color: 'red' }} />} />
+                      <Link
+                        to="/forgetpassword"
+                        style={{ textDecoration: "none" }}
+                      >
+                        <Button>
+                          Quên mật khẩu?
+                        </Button>
+                      </Link>
+                    </div>
+                    <Field as={FormControlLabel}
+                      name='remember'
+                      control={
+                        <Checkbox
+                          color="primary"
+                        />
+                      }
+                      label="Ghi nhớ tôi"
+                      style={{ marginTop: '16px' }}
+                    />
+                  </Stack>
+                </Form>
+              )}
+            </Formik>
+            <Stack direction="row" alignItems="center" spacing={4}>
+              <Button variant="contained">Đăng nhập</Button>
 
-                <Stack direction="row" alignItems="center" spacing={4}>
-                  <Button variant="contained">Đăng nhập</Button>
-
-                  <Button variant="outlined">
-                    <Link to="/register" style={{ textDecoration: "none" }}>
-                      Đăng ký
-                    </Link>
-                  </Button>
-                </Stack>
-                <Stack direction="row" alignItems="center" >
-                  <Button
-                    variant="outlined" 
-                    startIcon={<GoogleIcon />} 
-                    sx={{ color: "black",textTransform: "none", }}
-                  >
-                    Đăng nhập với google
-                  </Button>
-                </Stack>
-              </Stack>
-            </form>
+              <Link to="/register" style={{ textDecoration: "none" }}>
+                <Button variant="outlined">
+                  Đăng ký
+                </Button>
+              </Link>
+            </Stack>
+            <Button
+              variant="outlined"
+              startIcon={<GoogleIcon />}
+              sx={{ textTransform: "none", }}
+            >
+              Đăng nhập với google
+            </Button>
           </Stack>
         </Grid>
         <Grid item xs={6}>
@@ -86,7 +117,7 @@ function Login() {
           </Box>
         </Grid>
       </Grid>
-    </div>
+    </>
   );
 }
 
