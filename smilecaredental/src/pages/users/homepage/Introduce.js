@@ -3,7 +3,7 @@ import { Box, CardContent, CardMedia, Grid, Typography, Stack, Container, List, 
 import { Link } from 'react-router-dom'
 import { ListIntros } from '../../../components/datatest/technology/Technology.js'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import DisplayButton from "../../../components/layout/DisplayButton";
+import DisplayButton from "../../../components/Layout/DisplayButton.js";
 
 function Introduce() {
     return (

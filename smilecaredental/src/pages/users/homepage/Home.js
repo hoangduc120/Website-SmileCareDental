@@ -12,7 +12,7 @@ import {
   import { Services } from "../../../components/datatest/service/Service";
   import { Link } from "react-router-dom";
   import Card from "@mui/material/Card";
-  import DisplayButton from "../../../components/layout/DisplayButton";
+  import DisplayButton from "../../../components/Layout/DisplayButton";
   import brandsData from "../../../components/datatest/brands/BrandsData";
   import "slick-carousel/slick/slick.css";
   import "slick-carousel/slick/slick-theme.css";

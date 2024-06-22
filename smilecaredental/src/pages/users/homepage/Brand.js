@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -10,7 +9,8 @@ import {
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import TextRating from "@mui/material/Rating";
-import brandsData from "../../../components/datatest/brands/BrandsData";
+import axios from "axios";
+// import brandsData from "../../../components/datatest/brands/BrandsData";
 const vietnameseDays = {
   Monday: "Thứ hai",
   Tuesday: "Thứ ba",
@@ -24,15 +24,40 @@ const vietnameseDays = {
 function Brand() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const validId = id && brandsData.some((brand) => brand.id === id);
+  const [brand, setBrand] = useState(null);
   const [showReviewInput, setShowReviewInput] = useState(false); // State để kiểm soát việc hiển thị phần ghi chú
   const [reviewContent, setReviewContent] = useState(""); // State để lưu nội dung ghi chú
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!validId) {
+  useEffect(() => {
+    
+    const fetchData = () => {
+      axios.get(`https://667113c7e083e62ee439f20f.mockapi.io/BrandsData/${id}`)
+        .then(res => {
+          setBrand(res.data);
+          setLoading(false);
+        })
+        .catch(error => {
+          setError(error);
+          setLoading(false);
+        });
+    };
+    fetchData();
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!brand) {
     return <div>Không tìm thấy phòng khám!</div>;
   }
 
-  const brand = brandsData.find((brand) => brand.id === id);
   const {
     name,
     address,
@@ -70,11 +95,13 @@ function Brand() {
     // Redirect to doctor page
     navigate(`/clinic/${id}`);
   };
+
   // phần này dùng cuộn đến bảng giá
   const handleScrollToPriceList = () => {
     const priceListSection = document.getElementById("priceListSection");
     priceListSection.scrollIntoView({ behavior: "smooth" });
   };
+
   // phần này dùng cuộn đến phần thông tin chi tiết
   const handleScrollToIntroduction = () => {
     const priceListSection = document.getElementById("introduction");
@@ -82,20 +109,19 @@ function Brand() {
   };
 
   // phần này dùng cuộn đến đánh giá
-
   const handleScrollToReview = () => {
     const priceListSection = document.getElementById("review");
     priceListSection.scrollIntoView({ behavior: "smooth" });
   };
+
   return (
-    <Box Container>
+    <Box>
       {/* Phần tiêu đề */}
       <Box
-        item
         sx={{
           width: "100%",
-          height: "300px",
-          backgroundImage: `url(${bannerUrl})`, // Use bannerUrl for the background image
+          height: { xs: "200px", md: "300px" },
+          backgroundImage: `url(${bannerUrl})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -109,15 +135,15 @@ function Brand() {
               alt={name}
               src={imageUrl}
               sx={{
-                width: 150,
-                height: 150,
+                width: { xs: 100, md: 150 },
+                height: { xs: 100, md: 150 },
                 marginBottom: "10px",
                 border: "5px solid",
                 borderColor: "#9FD7F9",
               }}
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={12} md>
             <Typography variant="h5" sx={{ marginBottom: "10px" }}>
               {name}
             </Typography>
@@ -125,7 +151,7 @@ function Brand() {
           </Grid>
         </Grid>
 
-        <Box sx={{ marginTop: "20px" }}>
+        <Box sx={{ mt: 2, mb: 4, display: "flex", flexWrap: "wrap", gap: 2 }}>
           <Button
             variant="contained"
             sx={{ marginRight: "10px" }}
@@ -156,7 +182,7 @@ function Brand() {
       {/* Phần thông tin chi tiết */}
       <Box id="infoSection" sx={{ mt: 5, p: 3, bgcolor: "#f5f5f5" }}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={8}>
             <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
               Giờ làm việc
             </Typography>
@@ -183,6 +209,7 @@ function Brand() {
                 </Box>
               ))}
             </Box>
+
             <Box
               sx={{
                 backgroundColor: "#E0F7FA",
@@ -205,36 +232,40 @@ function Brand() {
               <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
                 Danh sách cơ sở
               </Typography>
-              <ul>
+              <Typography variant="body1" component="div">
                 {brand.branch &&
-                  brand.branch.map((city) => (
-                    <li key={city.city}>
-                      <Typography variant="body1">
+                  brand.branch.map((city, cityIndex) => (
+                    <div key={cityIndex}>
+                      <Typography variant="body1" component="div">
                         <strong>{city.city}</strong>
                       </Typography>
                       <ul>
-                        {city.addresses.map((address, index) => (
-                          <li key={index}>{address}</li>
+                        {city.addresses.map((address, addressIndex) => (
+                          <li key={addressIndex}>
+                            <Typography variant="body1" component="div">
+                              {address}
+                            </Typography>
+                          </li>
                         ))}
                       </ul>
-                    </li>
+                    </div>
                   ))}
-              </ul>
+              </Typography>
             </Box>
+
             <Box
               id="introduction"
               sx={{
-                border: "2px solid #9FD7F9",
-                padding: "10px",
-                borderRadius: "5px",
+                backgroundColor: "#E0F7FA",
+                padding: "12px",
+                borderRadius: "4px",
+                marginBottom: "20px",
               }}
             >
-              <Grid item xs={12} md={12}>
-                <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
-                  Thông tin chi tiết
-                </Typography>
-                <Typography>{introduction}</Typography>
-              </Grid>
+              <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+                Thông tin chi tiết
+              </Typography>
+              <Typography variant="body1">{introduction}</Typography>
             </Box>
 
             <Box
@@ -249,14 +280,13 @@ function Brand() {
               <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
                 Bảng Giá Dịch Vụ Nha Khoa
               </Typography>
-              {/* Duyệt qua mảng priceList và hiển thị từng mục giá và dịch vụ */}
               {brand.priceList.map((item, index) => (
                 <div key={index}>
                   <Typography>
                     <strong>{item.serviceName}:</strong>{" "}
                     <span style={{ marginRight: "10px" }}>{item.price}</span>
                   </Typography>
-                  {index !== brand.priceList.length - 1 && <br />}{" "}
+                  {index !== brand.priceList.length - 1 && <br />}
                 </div>
               ))}
             </Box>
@@ -276,10 +306,12 @@ function Brand() {
               <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
                 Đánh Giá
               </Typography>
+
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <TextRating
                   sx={{ marginRight: "10px", alignSelf: "center" }}
                 ></TextRating>
+
                 <Button variant="contained" onClick={handleWriteReview}>
                   Viết Đánh Giá
                 </Button>
@@ -302,25 +334,24 @@ function Brand() {
                   rows={4}
                   fullWidth
                   value={reviewContent}
-                  onChange={handleChangeReviewContent} // Thêm onChange để lưu nội dung ghi chú vào state
+                  onChange={handleChangeReviewContent}
                 />
                 <Button
                   variant="contained"
                   sx={{ marginTop: "10px" }}
-                  onClick={handleSubmitReview} // Gắn sự kiện onClick cho nút gửi đánh giá
+                  onClick={handleSubmitReview}
                 >
                   Gửi Đánh Giá
                 </Button>
               </Box>
             )}
           </Grid>
-          <Box sx={{ ml: 3, width: "300px" }}>
+
+          <Grid item xs={12} md={4}>
             <Box
               sx={{
-                height: "300px",
-                width: "300px",
-                marginLeft: "65px",
-                padding: "70px",
+                height: { xs: "200px", md: "300px" },
+                mb: 2,
                 borderRadius: "5px",
                 marginBottom: "20px",
                 backgroundImage: `url(${promotionalBannerUrl})`,
@@ -330,19 +361,17 @@ function Brand() {
               }}
             ></Box>
             <Button
-
               variant="contained"
               color="primary"
               onClick={handleBookAppointment}
             >
               Đặt lịch ngay
             </Button>
-          </Box>
+          </Grid>
         </Grid>
       </Box>
     </Box>
   );
-
 }
 
 export default Brand;

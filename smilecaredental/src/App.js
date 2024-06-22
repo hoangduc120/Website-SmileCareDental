@@ -18,7 +18,7 @@ import ForgetPassword from "./pages/users/login/ForgetPassword.js";
 import ForgetPassword2 from "./pages/users/login/ForgetPassword2.js";
 import Clinics from "./pages/users/booking/Clinics.js";
 import Booking from "./pages/users/booking/Booking.js";
-import MainLayout from './components/layout/MainLayout.js';
+import MainLayout from './components/Layout/MainLayout.js';
 
 function App () {
   return (

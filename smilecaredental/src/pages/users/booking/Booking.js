@@ -1,62 +1,90 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 import {
-  Avatar, Box, Button, FormControl, FormControlLabel,
-  FormLabel, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack,
-  TextField, Typography
+  Avatar,
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { timeSlots } from "../../../components/datatest/doctor/TimeData";
-import { clinics } from "../../../components/datatest/doctor/ClinicsData";
 
 function Booking() {
-
   const { doctorId } = useParams();
   const [doctor, setDoctor] = useState(null);
+  const [clinicsData, setClinicsData] = useState(null);
 
   const generalRef = useRef(null);
   const experienceRef = useRef(null);
   const trainingRef = useRef(null);
 
   useEffect(() => {
-    clinics.forEach((clinic) => {
-      const foundDoctor = clinic.doctors.find(
-        (doc) => doc.index === parseInt(doctorId)
-      );
-      if (foundDoctor) setDoctor(foundDoctor);
-    });
-  }, [doctorId]);
+    axios
+      .get("https://667113c7e083e62ee439f20f.mockapi.io/clinics")
+      .then((response) => {
+        setClinicsData(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching clinics:", error);
+      });
+  }, []);
 
-  const initialValues = {
-    appointmentType: "",
-    name: "",
-    gender: "",
-    phone: "",
-    date: "",
-    time: "",
-  }
-  // onSubmit sẽ còn chỉnh sửa
-  const onSubmit = (values, props) => {
-    setTimeout(() => {
-      props.resetForm()
-      props.setSubmitting(false)
-    }, 2000)
-  }
+  useEffect(() => {
+    if (clinicsData) {
+      const foundDoctor = clinicsData
+        .map((clinic) =>
+          clinic.doctors.find((doc) => doc.index === parseInt(doctorId))
+        )
+        .find((doctor) => doctor !== undefined);
 
-  const validationSchema = Yup.object().shape({
-    appointmentType: Yup.string().required("Vui lòng chọn loại cuộc hẹn"),
-    name: Yup.string().required("Vui lòng nhập tên của bạn"),
-    gender: Yup.string().oneOf(["male", "female"], "Required").required("Vui lòng không để trống"),
-    phone: Yup
-      .string()
-      .matches(/^[0-9]+$/, "Số điện thoại chỉ chứa các số")
-      .length(10, "Số điện thoại phải có ít nhất 10 chữ số")
-      .required("Vui lòng nhập số điện thoại"),
-    date: Yup.date().required("Vui lòng chọn ngày khám"),
-    time: Yup.string().required("Vui lòng chọn giờ khám"),
+      if (foundDoctor) {
+        setDoctor(foundDoctor);
+      }
+    }
+  }, [doctorId, clinicsData]);
+
+  const formik = useFormik({
+    initialValues: {
+      appointmentType: "",
+      name: "",
+      gender: "",
+      phone: "",
+      date: "",
+      time: "",
+    },
+    onSubmit: (values, props) => {
+      setTimeout(() => {
+        props.resetForm();
+        props.setSubmitting(false);
+      }, 2000);
+    },
+    validationSchema: Yup.object().shape({
+      appointmentType: Yup.string().required("Vui lòng chọn loại cuộc hẹn"),
+      name: Yup.string().required("Vui lòng nhập tên của bạn"),
+      gender: Yup.string()
+        .oneOf(["male", "female"], "Required")
+        .required("Vui lòng không để trống"),
+      phone: Yup.string()
+        .matches(/^[0-9]+$/, "Số điện thoại chỉ chứa các số")
+        .length(10, "Số điện thoại phải có ít nhất 10 chữ số")
+        .required("Vui lòng nhập số điện thoại"),
+      date: Yup.date().required("Vui lòng chọn ngày khám"),
+      time: Yup.string().required("Vui lòng chọn giờ khám"),
+    }),
   });
-
 
   const scrollToSection = (section) => {
     if (section === "general" && generalRef.current) {
@@ -195,12 +223,15 @@ function Booking() {
             <Typography variant="h5" gutterBottom textAlign="center">
               Đặt lịch hẹn
             </Typography>
-            <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+            <Formik
+              initialValues={formik.initialValues}
+              onSubmit={formik.handleSubmit}
+              validationSchema={formik.validationSchema}
+            >
               {(props) => (
                 <Form>
-
-                  <Grid item xs={12}>
-                    <Field as={TextField}
+                  <Stack spacing={2}>
+                    <TextField
                       id="date"
                       label="Ngày khám"
                       type="date"
@@ -208,77 +239,145 @@ function Booking() {
                       fullWidth
                       InputLabelProps={{ shrink: true }}
                       sx={{ mb: 2 }}
+                      value={formik.values.date}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.date && Boolean(formik.errors.date)}
+                      helperText={formik.touched.date && formik.errors.date}
                     />
-                  </Grid>
-
-                  <ErrorMessage name="date" component="div" style={{ color: "red" }} />
-                  <Stack spacing={2}>
-                    {/* tên */}
-                    <Field as={TextField} fullWidth name="name" label="Tên của bạn" placeholder="Nhập tên của bạn" />
-                    <ErrorMessage name="name" component="div" style={{ color: "red" }} />
-                    {/* select cuộc hẹn */}
+                    {/* Tên */}
+                    <TextField
+                      fullWidth
+                      name="name"
+                      label="Tên của bạn"
+                      placeholder="Nhập tên của bạn"
+                      value={formik.values.name}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.name && Boolean(formik.errors.name)}
+                      helperText={formik.touched.name && formik.errors.name}
+                    />
+                    {/* Select loại cuộc hẹn */}
                     <FormControl fullWidth>
-                      <InputLabel id="appointmentType-label">Loại cuộc hẹn</InputLabel>
-                      <Field
-                        as={Select}
+                      <InputLabel id="appointmentType-label">
+                        Loại cuộc hẹn
+                      </InputLabel>
+                      <Select
                         labelId="appointmentType-label"
                         id="appointmentType"
                         name="appointmentType"
                         label="Loại cuộc hẹn"
+                        value={formik.values.appointmentType}
+                        onBlur={formik.handleBlur}
+                        error={
+                          formik.touched.appointmentType &&
+                          Boolean(formik.errors.appointmentType)
+                        }
+                        onChange={formik.handleChange}
                       >
                         <MenuItem value="">Chọn loại cuộc hẹn</MenuItem>
                         <MenuItem value="Khám">Khám</MenuItem>
                         <MenuItem value="Điều trị">Điều trị</MenuItem>
-                      </Field>
-                      <ErrorMessage name="appointmentType" component="div" style={{ color: "red" }} />
+                      </Select>
+                      {formik.touched.appointmentType &&
+                        formik.errors.appointmentType && (
+                          <Typography variant="caption" color="error">
+                            {formik.errors.appointmentType}
+                          </Typography>
+                        )}
                     </FormControl>
-                    {/* giới tính */}
-                    <FormControl component="fieldset">
+                    {/* Giới tính */}
+                    <FormControl
+                      component="fieldset"
+                      error={
+                        formik.touched.gender && Boolean(formik.errors.gender)
+                      }
+                    >
                       <FormLabel component="legend">Giới Tính</FormLabel>
-                      <RadioGroup aria-label="gender" name="gender">
+                      <RadioGroup
+                        aria-label="gender"
+                        name="gender"
+                        value={formik.values.gender}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                      >
                         <Stack direction="row">
-                          <FormControlLabel value="male" control={<Radio />} label="Name" />
-                          <FormControlLabel value="female" control={<Radio />} label="Nữ" />
+                          <FormControlLabel
+                            value="male"
+                            control={<Radio />}
+                            label="Nam"
+                          />
+                          <FormControlLabel
+                            value="female"
+                            control={<Radio />}
+                            label="Nữ"
+                          />
                         </Stack>
                       </RadioGroup>
+                      {formik.touched.gender && formik.errors.gender && (
+                        <Typography variant="caption" color="error">
+                          {formik.errors.gender}
+                        </Typography>
+                      )}
                     </FormControl>
-                    <ErrorMessage name="gender" component="div" style={{ color: "red" }} />
 
-                    <Field as={TextField} fullWidth name="phone" label="Số điện thoại" placeholder="Nhập số điện thoại" />
-                    <ErrorMessage name="phone" component="div" style={{ color: "red" }} />
+                    <TextField
+                      fullWidth
+                      name="phone"
+                      label="Số điện thoại"
+                      placeholder="Nhập số điện thoại"
+                      value={formik.values.phone}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.phone && Boolean(formik.errors.phone)
+                      }
+                      helperText={formik.touched.phone && formik.errors.phone}
+                      onChange={formik.handleChange}
+                    />
 
-                    <FormControl component="fieldset">
+                    <FormControl
+                      component="fieldset"
+                      error={formik.touched.time && Boolean(formik.errors.time)}
+                    >
                       <FormLabel component="legend">Chọn giờ khám</FormLabel>
                       <Grid container spacing={1}>
                         {timeSlots.map((slot, index) => (
                           <Grid item xs={6} sm={4} md={3} key={index}>
                             <Button
-                              variant={props.values.time === slot ? 'contained' : 'outlined'}
+                              variant={
+                                formik.values.time === slot
+                                  ? "contained"
+                                  : "outlined"
+                              }
                               fullWidth
-                              onClick={() => {
-                                props.setFieldValue('time', slot);
-                              }}
+                              onClick={() => formik.setFieldValue("time", slot)}
                             >
                               {slot}
                             </Button>
                           </Grid>
                         ))}
                       </Grid>
-                      <ErrorMessage name="time" component="div" style={{ color: "red" }} />
+                      {formik.touched.time && formik.errors.time && (
+                        <Typography variant="caption" color="error">
+                          {formik.errors.time}
+                        </Typography>
+                      )}
                     </FormControl>
 
-
-                    <Button type='submit' variant='contained' disabled={props.isSubmitting}
-                      color='primary'>{props.isSubmitting ? "Loading" : "Đặt Lịch"}</Button>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      disabled={props.isSubmitting}
+                      color="primary"
+                    >
+                      {props.isSubmitting ? "Loading" : "Đặt Lịch"}
+                    </Button>
                   </Stack>
                 </Form>
               )}
             </Formik>
           </Box>
         </Grid>
-
       </Grid>
-    </Box >
+    </Box>
   );
 }
 

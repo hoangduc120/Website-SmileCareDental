@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from '../../pages/users/profile/Sidebar';
-import Footer from '../layout/Footer';
+import Footer from '../Layout/Footer';
 const MainLayout = () => {
     const location = useLocation();
     const isUserProfileRoute = ['/userinfo', '/myaccount', '/changepassword', '/viewappointments'].includes(location.pathname);

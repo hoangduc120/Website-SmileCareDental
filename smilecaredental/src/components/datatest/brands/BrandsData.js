@@ -1,3 +1,5 @@
+import { ListItem, Typography } from "@mui/material";
+
 const brandsData = [
   {
     id: "1",
@@ -16,34 +18,36 @@ const brandsData = [
     ],
     introduction: (
       <div>
-        <p>
+        <Typography paragraph>
           Nhắc đến thương hiệu nha khoa chất lượng, được khách hàng tin tưởng
           đánh giá cao hiện nay không thể không kể đến phòng khám Nha khoa
           Paris. Để cung cấp dịch vụ tốt nhất cho khách hàng, Paris chú trọng
           tuyển chọn các bác sĩ tài giỏi, hệ thống máy móc thiết bị tối tân.
-        </p>
-        <p>
+        </Typography>
+        <Typography paragraph>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
           <ul>
-            Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
-            được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
-            công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
-            đến phức tạp.{" "}
+            <ListItem>
+              Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
+              được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
+              công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn
+              giản đến phức tạp.{" "}
+            </ListItem>
+            <ListItem>
+              Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
+              công nghệ thông minh trong quá trình thăm khám, điều trị răng
+              miệng cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ
+              niềng răng 3D Speed, bọc răng sứ Nano 5S,…
+            </ListItem>
+            <ListItem>
+              Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
+              khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y
+              khoa. Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử
+              khuẩn thường xuyên.
+            </ListItem>
           </ul>
-          <ul>
-            Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
-            công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
-            cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
-            răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
-            Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
-            khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
-            Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
-            thường xuyên.
-          </ul>
-        </p>
+        </Typography>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
           alt="mô_tả_ảnh"
@@ -55,13 +59,13 @@ const brandsData = [
             margin: "auto" /* Căn giữa hình ảnh trong khung */,
           }}
         />
-        <p>
+        <Typography paragraph>
           Dịch vụ tại nha khoa Paris đạt tiêu chuẩn châu Âu, bởi vậy 100% khách
           hàng đến đây đều cảm thấy hài lòng vì được chăm sóc tận tình và có
           được hàm răng trắng sáng, đều đẹp, chắc khỏe. Tuy nhiên đây cũng là lý
           do các dịch vụ tại đây có giá thành cao hơn những đơn vị khác, vì vậy
           bạn nên cân nhắc khi có nhu cầu thăm khám, điều trị bệnh lý răng miệng
-        </p>
+        </Typography>
       </div>
     ),
     reviews: "Đánh giá của bệnh nhân về phòng khám Hoàn Mỹ...",
@@ -75,7 +79,6 @@ const brandsData = [
       Sunday: "9:00 - 16:45",
     },
 
-  
     customInfo:
       "Phòng khám Nha khoa Paris là hệ thống nha khoa hoạt động theo tiêu chuẩn Pháp đầu tiên ở Việt Nam, cung cấp dịch vụ chất lượng hàng đầu. Đơn vị này được thành lập từ năm 2014 cho đến hiện tại đã có nhiều chi nhánh trải dài khắp các tỉnh thành trên toàn quốc. Hiện tại, Nha khoa Paris đang ngày càng khẳng định mình, vượt qua nhiều trung tâm nha khoa lâu đời, nhận được sự đánh giá cao của giới chuyên gia và đông đảo khách hàng.",
     branch: [
@@ -99,7 +102,9 @@ const brandsData = [
     name: "Phòng Khám Nha Khoa Hoàn An",
     address: "123 Đường ABC, Quận XYZ, Thành phố ABC",
     imageUrl:
+    
       "https://scontent.fsgn8-3.fna.fbcdn.net/v/t1.15752-9/436552682_1088993908829285_1636590915144132120_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFwWj_k4-8egBH2GJFZq9GC2LYnMTdNo2fYticxN02jZ6TPi6FlUC0S4dgKnLBqkAEpvRKHnpJ0KOILiKtrSxR8&_nc_ohc=MGGSFuXKrf0Q7kNvgFMNZuQ&_nc_ht=scontent.fsgn8-3.fna&oh=03_Q7cD1QHsGmBm1If33o8N7N-ypZHG58YLkBLsuB7aYn-wGuNL_A&oe=66823139",
+
     bannerUrl:
       "https://i.pinimg.com/originals/90/8e/f8/908ef8540020aba6f10370a8d91e6213.jpg", // Add your specific banner URL here
     info: "Thông tin chi tiết về phòng khám Hoàn Mỹ...",
@@ -112,34 +117,36 @@ const brandsData = [
     ],
     introduction: (
       <div>
-        <p>
+        <Typography paragraph>
           Nhắc đến thương hiệu nha khoa chất lượng, được khách hàng tin tưởng
           đánh giá cao hiện nay không thể không kể đến phòng khám Nha khoa
           Paris. Để cung cấp dịch vụ tốt nhất cho khách hàng, Paris chú trọng
           tuyển chọn các bác sĩ tài giỏi, hệ thống máy móc thiết bị tối tân.
-        </p>
-        <p>
+        </Typography>
+        <Typography paragraph>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
           <ul>
-            Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
-            được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
-            công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
-            đến phức tạp.{" "}
+            <ListItem>
+              Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
+              được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
+              công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn
+              giản đến phức tạp.{" "}
+            </ListItem>
+            <ListItem>
+              Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
+              công nghệ thông minh trong quá trình thăm khám, điều trị răng
+              miệng cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ
+              niềng răng 3D Speed, bọc răng sứ Nano 5S,…
+            </ListItem>
+            <ListItem>
+              Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
+              khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y
+              khoa. Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử
+              khuẩn thường xuyên.
+            </ListItem>
           </ul>
-          <ul>
-            Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
-            công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
-            cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
-            răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
-            Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
-            khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
-            Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
-            thường xuyên.
-          </ul>
-        </p>
+        </Typography>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
           alt="mô_tả_ảnh"
@@ -151,13 +158,13 @@ const brandsData = [
             margin: "auto" /* Căn giữa hình ảnh trong khung */,
           }}
         />
-        <p>
+        <Typography paragraph>
           Dịch vụ tại nha khoa Paris đạt tiêu chuẩn châu Âu, bởi vậy 100% khách
           hàng đến đây đều cảm thấy hài lòng vì được chăm sóc tận tình và có
           được hàm răng trắng sáng, đều đẹp, chắc khỏe. Tuy nhiên đây cũng là lý
           do các dịch vụ tại đây có giá thành cao hơn những đơn vị khác, vì vậy
           bạn nên cân nhắc khi có nhu cầu thăm khám, điều trị bệnh lý răng miệng
-        </p>
+        </Typography>
       </div>
     ),
     reviews: "Đánh giá của bệnh nhân về phòng khám Hoàn Mỹ...",
@@ -167,8 +174,8 @@ const brandsData = [
       Wednesday: "9:00 - 16:45",
       Thursday: "9:00 - 16:45",
       Friday: "9:00 - 16:45",
-      Saturday:"9:00 - 16:45",
-      Sunday:"9:00 - 16:45",
+      Saturday: "9:00 - 16:45",
+      Sunday: "9:00 - 16:45",
     },
     customInfo:
       "Phòng khám Nha khoa Paris là hệ thống nha khoa hoạt động theo tiêu chuẩn Pháp đầu tiên ở Việt Nam, cung cấp dịch vụ chất lượng hàng đầu. Đơn vị này được thành lập từ năm 2014 cho đến hiện tại đã có nhiều chi nhánh trải dài khắp các tỉnh thành trên toàn quốc. Hiện tại, Nha khoa Paris đang ngày càng khẳng định mình, vượt qua nhiều trung tâm nha khoa lâu đời, nhận được sự đánh giá cao của giới chuyên gia và đông đảo khách hàng.",
@@ -188,9 +195,9 @@ const brandsData = [
       "https://i.pinimg.com/736x/fc/19/97/fc1997f4b12fd166aec387e95d63a32c.jpg",
   },
 
-   // phòng khám đa khoa Hoàn Đức
+  // phòng khám đa khoa Hoàn Đức
 
-   {
+  {
     id: "3",
     name: "Phòng Khám Nha Khoa Hoàn Đức",
     address: "123 Đường ABC, Quận XYZ, Thành phố ABC",
@@ -207,34 +214,36 @@ const brandsData = [
     ],
     introduction: (
       <div>
-        <p>
+        <Typography paragraph>
           Nhắc đến thương hiệu nha khoa chất lượng, được khách hàng tin tưởng
           đánh giá cao hiện nay không thể không kể đến phòng khám Nha khoa
           Paris. Để cung cấp dịch vụ tốt nhất cho khách hàng, Paris chú trọng
           tuyển chọn các bác sĩ tài giỏi, hệ thống máy móc thiết bị tối tân.
-        </p>
-        <p>
+        </Typography>
+        <Typography paragraph>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
           <ul>
-            Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
-            được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
-            công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
-            đến phức tạp.{" "}
+            <ListItem>
+              Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
+              được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
+              công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn
+              giản đến phức tạp.{" "}
+            </ListItem>
+            <ListItem>
+              Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
+              công nghệ thông minh trong quá trình thăm khám, điều trị răng
+              miệng cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ
+              niềng răng 3D Speed, bọc răng sứ Nano 5S,…
+            </ListItem>
+            <ListItem>
+              Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
+              khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y
+              khoa. Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử
+              khuẩn thường xuyên.
+            </ListItem>
           </ul>
-          <ul>
-            Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
-            công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
-            cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
-            răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
-            Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
-            khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
-            Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
-            thường xuyên.
-          </ul>
-        </p>
+        </Typography>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
           alt="mô_tả_ảnh"
@@ -246,13 +255,13 @@ const brandsData = [
             margin: "auto" /* Căn giữa hình ảnh trong khung */,
           }}
         />
-        <p>
+        <Typography paragraph>
           Dịch vụ tại nha khoa Paris đạt tiêu chuẩn châu Âu, bởi vậy 100% khách
           hàng đến đây đều cảm thấy hài lòng vì được chăm sóc tận tình và có
           được hàm răng trắng sáng, đều đẹp, chắc khỏe. Tuy nhiên đây cũng là lý
           do các dịch vụ tại đây có giá thành cao hơn những đơn vị khác, vì vậy
           bạn nên cân nhắc khi có nhu cầu thăm khám, điều trị bệnh lý răng miệng
-        </p>
+        </Typography>
       </div>
     ),
     reviews: "Đánh giá của bệnh nhân về phòng khám Hoàn Mỹ...",
@@ -262,8 +271,8 @@ const brandsData = [
       Wednesday: "9:00 - 16:45",
       Thursday: "9:00 - 16:45",
       Friday: "9:00 - 16:45",
-      Saturday:"9:00 - 16:45",
-      Sunday:"9:00 - 16:45",
+      Saturday: "9:00 - 16:45",
+      Sunday: "9:00 - 16:45",
     },
     customInfo:
       "Phòng khám Nha khoa Paris là hệ thống nha khoa hoạt động theo tiêu chuẩn Pháp đầu tiên ở Việt Nam, cung cấp dịch vụ chất lượng hàng đầu. Đơn vị này được thành lập từ năm 2014 cho đến hiện tại đã có nhiều chi nhánh trải dài khắp các tỉnh thành trên toàn quốc. Hiện tại, Nha khoa Paris đang ngày càng khẳng định mình, vượt qua nhiều trung tâm nha khoa lâu đời, nhận được sự đánh giá cao của giới chuyên gia và đông đảo khách hàng.",
@@ -300,34 +309,36 @@ const brandsData = [
     ],
     introduction: (
       <div>
-        <p>
+        <Typography paragraph>
           Nhắc đến thương hiệu nha khoa chất lượng, được khách hàng tin tưởng
           đánh giá cao hiện nay không thể không kể đến phòng khám Nha khoa
           Paris. Để cung cấp dịch vụ tốt nhất cho khách hàng, Paris chú trọng
           tuyển chọn các bác sĩ tài giỏi, hệ thống máy móc thiết bị tối tân.
-        </p>
-        <p>
+        </Typography>
+        <Typography paragraph>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
           <ul>
-            Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
-            được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
-            công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
-            đến phức tạp.{" "}
+            <ListItem>
+              Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
+              được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
+              công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn
+              giản đến phức tạp.{" "}
+            </ListItem>
+            <ListItem>
+              Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
+              công nghệ thông minh trong quá trình thăm khám, điều trị răng
+              miệng cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ
+              niềng răng 3D Speed, bọc răng sứ Nano 5S,…
+            </ListItem>
+            <ListItem>
+              Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
+              khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y
+              khoa. Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử
+              khuẩn thường xuyên.
+            </ListItem>
           </ul>
-          <ul>
-            Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
-            công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
-            cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
-            răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
-            Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
-            khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
-            Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
-            thường xuyên.
-          </ul>
-        </p>
+        </Typography>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
           alt="mô_tả_ảnh"
@@ -339,24 +350,24 @@ const brandsData = [
             margin: "auto" /* Căn giữa hình ảnh trong khung */,
           }}
         />
-        <p>
+        <Typography paragraph>
           Dịch vụ tại nha khoa Paris đạt tiêu chuẩn châu Âu, bởi vậy 100% khách
           hàng đến đây đều cảm thấy hài lòng vì được chăm sóc tận tình và có
           được hàm răng trắng sáng, đều đẹp, chắc khỏe. Tuy nhiên đây cũng là lý
           do các dịch vụ tại đây có giá thành cao hơn những đơn vị khác, vì vậy
           bạn nên cân nhắc khi có nhu cầu thăm khám, điều trị bệnh lý răng miệng
-        </p>
+        </Typography>
       </div>
     ),
     reviews: "Đánh giá của bệnh nhân về phòng khám Hoàn Mỹ...",
     workingHours: {
       Monday: "9:00 - 16:45",
-      Tuesday:"9:00 - 16:45",
+      Tuesday: "9:00 - 16:45",
       Wednesday: "9:00 - 16:45",
       Thursday: "9:00 - 16:45",
       Friday: "9:00 - 16:45",
       Saturday: "9:00 - 16:45",
-      Sunday:"9:00 - 16:45",
+      Sunday: "9:00 - 16:45",
     },
     customInfo:
       "Phòng khám Nha khoa Paris là hệ thống nha khoa hoạt động theo tiêu chuẩn Pháp đầu tiên ở Việt Nam, cung cấp dịch vụ chất lượng hàng đầu. Đơn vị này được thành lập từ năm 2014 cho đến hiện tại đã có nhiều chi nhánh trải dài khắp các tỉnh thành trên toàn quốc. Hiện tại, Nha khoa Paris đang ngày càng khẳng định mình, vượt qua nhiều trung tâm nha khoa lâu đời, nhận được sự đánh giá cao của giới chuyên gia và đông đảo khách hàng.",
@@ -395,34 +406,36 @@ const brandsData = [
     ],
     introduction: (
       <div>
-        <p>
+        <Typography paragraph>
           Nhắc đến thương hiệu nha khoa chất lượng, được khách hàng tin tưởng
           đánh giá cao hiện nay không thể không kể đến phòng khám Nha khoa
           Paris. Để cung cấp dịch vụ tốt nhất cho khách hàng, Paris chú trọng
           tuyển chọn các bác sĩ tài giỏi, hệ thống máy móc thiết bị tối tân.
-        </p>
-        <p>
+        </Typography>
+        <Typography paragraph>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
           <ul>
-            Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
-            được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
-            công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
-            đến phức tạp.{" "}
+            <ListItem>
+              Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
+              được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
+              công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn
+              giản đến phức tạp.{" "}
+            </ListItem>
+            <ListItem>
+              Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
+              công nghệ thông minh trong quá trình thăm khám, điều trị răng
+              miệng cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ
+              niềng răng 3D Speed, bọc răng sứ Nano 5S,…
+            </ListItem>
+            <ListItem>
+              Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
+              khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y
+              khoa. Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử
+              khuẩn thường xuyên.
+            </ListItem>
           </ul>
-          <ul>
-            Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
-            công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
-            cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
-            răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
-            Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
-            khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
-            Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
-            thường xuyên.
-          </ul>
-        </p>
+        </Typography>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
           alt="mô_tả_ảnh"
@@ -434,23 +447,23 @@ const brandsData = [
             margin: "auto" /* Căn giữa hình ảnh trong khung */,
           }}
         />
-        <p>
+        <Typography paragraph>
           Dịch vụ tại nha khoa Paris đạt tiêu chuẩn châu Âu, bởi vậy 100% khách
           hàng đến đây đều cảm thấy hài lòng vì được chăm sóc tận tình và có
           được hàm răng trắng sáng, đều đẹp, chắc khỏe. Tuy nhiên đây cũng là lý
           do các dịch vụ tại đây có giá thành cao hơn những đơn vị khác, vì vậy
           bạn nên cân nhắc khi có nhu cầu thăm khám, điều trị bệnh lý răng miệng
-        </p>
+        </Typography>
       </div>
     ),
     reviews: "Đánh giá của bệnh nhân về phòng khám Hoàn Mỹ...",
     workingHours: {
       Monday: "9:00 - 16:45",
       Tuesday: "9:00 - 16:45",
-      Wednesday:"9:00 - 16:45",
+      Wednesday: "9:00 - 16:45",
       Thursday: "9:00 - 16:45",
       Friday: "9:00 - 16:45",
-      Saturday:"9:00 - 16:45",
+      Saturday: "9:00 - 16:45",
       Sunday: "9:00 - 16:45",
     },
     customInfo:
@@ -490,34 +503,36 @@ const brandsData = [
     ],
     introduction: (
       <div>
-        <p>
+        <Typography paragraph>
           Nhắc đến thương hiệu nha khoa chất lượng, được khách hàng tin tưởng
           đánh giá cao hiện nay không thể không kể đến phòng khám Nha khoa
           Paris. Để cung cấp dịch vụ tốt nhất cho khách hàng, Paris chú trọng
           tuyển chọn các bác sĩ tài giỏi, hệ thống máy móc thiết bị tối tân.
-        </p>
-        <p>
+        </Typography>
+        <Typography paragraph>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
           <ul>
-            Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
-            được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
-            công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
-            đến phức tạp.{" "}
+            <ListItem>
+              Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
+              được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
+              công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn
+              giản đến phức tạp.{" "}
+            </ListItem>
+            <ListItem>
+              Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
+              công nghệ thông minh trong quá trình thăm khám, điều trị răng
+              miệng cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ
+              niềng răng 3D Speed, bọc răng sứ Nano 5S,…
+            </ListItem>
+            <ListItem>
+              Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
+              khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y
+              khoa. Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử
+              khuẩn thường xuyên.
+            </ListItem>
           </ul>
-          <ul>
-            Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
-            công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
-            cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
-            răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
-            Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
-            khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
-            Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
-            thường xuyên.
-          </ul>
-        </p>
+        </Typography>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
           alt="mô_tả_ảnh"
@@ -529,13 +544,13 @@ const brandsData = [
             margin: "auto" /* Căn giữa hình ảnh trong khung */,
           }}
         />
-        <p>
+        <Typography paragraph>
           Dịch vụ tại nha khoa Paris đạt tiêu chuẩn châu Âu, bởi vậy 100% khách
           hàng đến đây đều cảm thấy hài lòng vì được chăm sóc tận tình và có
           được hàm răng trắng sáng, đều đẹp, chắc khỏe. Tuy nhiên đây cũng là lý
           do các dịch vụ tại đây có giá thành cao hơn những đơn vị khác, vì vậy
           bạn nên cân nhắc khi có nhu cầu thăm khám, điều trị bệnh lý răng miệng
-        </p>
+        </Typography>
       </div>
     ),
     reviews: "Đánh giá của bệnh nhân về phòng khám Hoàn Mỹ...",
@@ -585,34 +600,36 @@ const brandsData = [
     ],
     introduction: (
       <div>
-        <p>
+        <Typography paragraph>
           Nhắc đến thương hiệu nha khoa chất lượng, được khách hàng tin tưởng
           đánh giá cao hiện nay không thể không kể đến phòng khám Nha khoa
           Paris. Để cung cấp dịch vụ tốt nhất cho khách hàng, Paris chú trọng
           tuyển chọn các bác sĩ tài giỏi, hệ thống máy móc thiết bị tối tân.
-        </p>
-        <p>
+        </Typography>
+        <Typography paragraph>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
           <ul>
-            Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
-            được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
-            công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
-            đến phức tạp.{" "}
+            <ListItem>
+              Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
+              được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
+              công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn
+              giản đến phức tạp.{" "}
+            </ListItem>
+            <ListItem>
+              Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
+              công nghệ thông minh trong quá trình thăm khám, điều trị răng
+              miệng cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ
+              niềng răng 3D Speed, bọc răng sứ Nano 5S,…
+            </ListItem>
+            <ListItem>
+              Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
+              khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y
+              khoa. Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử
+              khuẩn thường xuyên.
+            </ListItem>
           </ul>
-          <ul>
-            Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
-            công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
-            cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
-            răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
-            Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
-            khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
-            Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
-            thường xuyên.
-          </ul>
-        </p>
+        </Typography>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
           alt="mô_tả_ảnh"
@@ -624,13 +641,13 @@ const brandsData = [
             margin: "auto" /* Căn giữa hình ảnh trong khung */,
           }}
         />
-        <p>
+        <Typography paragraph>
           Dịch vụ tại nha khoa Paris đạt tiêu chuẩn châu Âu, bởi vậy 100% khách
           hàng đến đây đều cảm thấy hài lòng vì được chăm sóc tận tình và có
           được hàm răng trắng sáng, đều đẹp, chắc khỏe. Tuy nhiên đây cũng là lý
           do các dịch vụ tại đây có giá thành cao hơn những đơn vị khác, vì vậy
           bạn nên cân nhắc khi có nhu cầu thăm khám, điều trị bệnh lý răng miệng
-        </p>
+        </Typography>
       </div>
     ),
     reviews: "Đánh giá của bệnh nhân về phòng khám Hoàn Mỹ...",
@@ -680,34 +697,36 @@ const brandsData = [
     ],
     introduction: (
       <div>
-        <p>
+        <Typography paragraph>
           Nhắc đến thương hiệu nha khoa chất lượng, được khách hàng tin tưởng
           đánh giá cao hiện nay không thể không kể đến phòng khám Nha khoa
           Paris. Để cung cấp dịch vụ tốt nhất cho khách hàng, Paris chú trọng
           tuyển chọn các bác sĩ tài giỏi, hệ thống máy móc thiết bị tối tân.
-        </p>
-        <p>
+        </Typography>
+        <Typography paragraph>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
           <ul>
-            Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
-            được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
-            công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
-            đến phức tạp.{" "}
+            <ListItem>
+              Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
+              được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
+              công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn
+              giản đến phức tạp.{" "}
+            </ListItem>
+            <ListItem>
+              Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
+              công nghệ thông minh trong quá trình thăm khám, điều trị răng
+              miệng cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ
+              niềng răng 3D Speed, bọc răng sứ Nano 5S,…
+            </ListItem>
+            <ListItem>
+              Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
+              khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y
+              khoa. Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử
+              khuẩn thường xuyên.
+            </ListItem>
           </ul>
-          <ul>
-            Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
-            công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
-            cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
-            răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
-            Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
-            khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
-            Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
-            thường xuyên.
-          </ul>
-        </p>
+        </Typography>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
           alt="mô_tả_ảnh"
@@ -719,13 +738,13 @@ const brandsData = [
             margin: "auto" /* Căn giữa hình ảnh trong khung */,
           }}
         />
-        <p>
+        <Typography paragraph>
           Dịch vụ tại nha khoa Paris đạt tiêu chuẩn châu Âu, bởi vậy 100% khách
           hàng đến đây đều cảm thấy hài lòng vì được chăm sóc tận tình và có
           được hàm răng trắng sáng, đều đẹp, chắc khỏe. Tuy nhiên đây cũng là lý
           do các dịch vụ tại đây có giá thành cao hơn những đơn vị khác, vì vậy
           bạn nên cân nhắc khi có nhu cầu thăm khám, điều trị bệnh lý răng miệng
-        </p>
+        </Typography>
       </div>
     ),
     reviews: "Đánh giá của bệnh nhân về phòng khám Hoàn Mỹ...",
@@ -774,34 +793,36 @@ const brandsData = [
     ],
     introduction: (
       <div>
-        <p>
+        <Typography paragraph>
           Nhắc đến thương hiệu nha khoa chất lượng, được khách hàng tin tưởng
           đánh giá cao hiện nay không thể không kể đến phòng khám Nha khoa
           Paris. Để cung cấp dịch vụ tốt nhất cho khách hàng, Paris chú trọng
           tuyển chọn các bác sĩ tài giỏi, hệ thống máy móc thiết bị tối tân.
-        </p>
-        <p>
+        </Typography>
+        <Typography paragraph>
           Phòng khám Nha khoa Paris có nhiều lợi thế cạnh tranh so với các đơn
           vị khác, có thể kể đến như::
           <ul>
-            Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
-            được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
-            công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn giản
-            đến phức tạp.{" "}
+            <ListItem>
+              Quy tụ đội ngũ y bác sĩ, chuyên gia giỏi hơn 20 năm kinh nghiệm,
+              được đào tạo bài bản, nhiệt tình với bệnh nhân, có trách nhiệm với
+              công việc, đã từng xử lý thành công hàng ngàn trường hợp từ đơn
+              giản đến phức tạp.{" "}
+            </ListItem>
+            <ListItem>
+              Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
+              công nghệ thông minh trong quá trình thăm khám, điều trị răng
+              miệng cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ
+              niềng răng 3D Speed, bọc răng sứ Nano 5S,…
+            </ListItem>
+            <ListItem>
+              Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
+              khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y
+              khoa. Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử
+              khuẩn thường xuyên.
+            </ListItem>
           </ul>
-          <ul>
-            Nha khoa Paris đầu tư hệ thống cơ sở vật chất hiện đại, ứng dụng
-            công nghệ thông minh trong quá trình thăm khám, điều trị răng miệng
-            cho khách hàng: Công nghệ trồng răng Implant 4S, công nghệ niềng
-            răng 3D Speed, bọc răng sứ Nano 5S,…
-          </ul>
-          <ul>
-            Quy trình khám, điều trị bệnh, phục hình răng, thẩm mỹ răng cho
-            khách hàng diễn ra nhanh chóng nhưng vẫn đảm bảo đúng chuẩn Y khoa.
-            Đặc biệt các dụng cụ, thiết bị, phóng nha được vô trùng, khử khuẩn
-            thường xuyên.
-          </ul>
-        </p>
+        </Typography>
         <img
           src="https://videntalkid.com/wp-content/uploads/2022/05/phong-kham-nha-khoa-da-lat.jpg"
           alt="mô_tả_ảnh"
@@ -813,13 +834,13 @@ const brandsData = [
             margin: "auto" /* Căn giữa hình ảnh trong khung */,
           }}
         />
-        <p>
+        <Typography paragraph>
           Dịch vụ tại nha khoa Paris đạt tiêu chuẩn châu Âu, bởi vậy 100% khách
           hàng đến đây đều cảm thấy hài lòng vì được chăm sóc tận tình và có
           được hàm răng trắng sáng, đều đẹp, chắc khỏe. Tuy nhiên đây cũng là lý
           do các dịch vụ tại đây có giá thành cao hơn những đơn vị khác, vì vậy
           bạn nên cân nhắc khi có nhu cầu thăm khám, điều trị bệnh lý răng miệng
-        </p>
+        </Typography>
       </div>
     ),
     reviews: "Đánh giá của bệnh nhân về phòng khám Hoàn Mỹ...",
