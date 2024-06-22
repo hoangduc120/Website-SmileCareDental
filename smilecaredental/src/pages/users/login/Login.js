@@ -7,44 +7,51 @@ import {
   Stack,
   TextField,
   Typography,
+  Link as MuiLink,
+  Paper
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
 function Login() {
   const initialValues = {
-    email: '',
+    username: '',
     password: '',
     remember: false
-  }
-  const onSubmit = (values, props) => {
-    console.log(values)
-    setTimeout(() => {
-      props.resetForm()
-      props.setSubmitting(false)
-    }, 2000)
+  };
 
-  }
+  const onSubmit = (values, props) => {
+    console.log(values);
+    setTimeout(() => {
+      props.resetForm();
+      props.setSubmitting(false);
+    }, 2000);
+  };
+
   const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Hãy nhập định dạng emai').required("Không để trống"),
+    username: Yup.string().required("Không để trống"),
     password: Yup.string().required("Không để trống")
-  })
+  });
+
   return (
-    <>
-      <Grid container>
-        <Grid
-          item
-          xs={6}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "20px"
-          }}
-        >
-          <Stack spacing={5} sx={{ width: "100%", maxWidth: "600px" }}>
+    <Grid container component="main" >
+      <Grid
+        item
+        xs={12}
+        md={8}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: 'linear-gradient(135deg, #eceff1 30%, #e3f2fd 90%)',
+          padding: "20px"
+        }}
+      >
+        <Paper elevation={6} sx={{ padding: "50px", borderRadius: "12px", background: 'white', maxWidth: '600px', width: '100%' }}>
+          <Stack spacing={4}>
             <Typography variant="h4" color="#2098D1" align="center">
               Chào mừng bạn
             </Typography>
@@ -52,43 +59,44 @@ function Login() {
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
               {(props) => (
                 <Form>
-                  <Stack spacing={4}>
-                    <Field as={TextField} label='Email' name="email"
-                      placeholder='Nhập email' fullWidth required
-                      helperText={<ErrorMessage name="email" component="span" style={{ color: 'red' }} />}
+                  <Stack spacing={3}>
+                    <Field as={TextField} label='Tên tài khoản' name="username"
+                      placeholder='Nhập tên tài khoản' fullWidth required
+                      helperText={<ErrorMessage name="username" component="span" style={{ color: 'red' }} />}
                     />
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '16px' }}>
-                      <Field as={TextField} label='Mật khẩu' name="password"
-                        placeholder='Nhập mật khẩu' type='password' fullWidth required
-                        style={{ flex: 1 }}
-                        helperText={<ErrorMessage name="password" component="span" style={{ color: 'red' }} />} />
-                      <Link
-                        to="/forgetpassword"
-                        style={{ textDecoration: "none" }}
-                      >
-                        <Button>
+                    <Field as={TextField} label='Mật khẩu' name="password"
+                      placeholder='Nhập mật khẩu' type='password' fullWidth required
+                      helperText={<ErrorMessage name="password" component="span" style={{ color: 'red' }} />}
+                    />
+                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                      <Field as={FormControlLabel}
+                        name='remember'
+                        control={
+                          <Checkbox
+                            color="primary"
+                          />
+                        }
+                        label="Ghi nhớ tôi"
+                      />
+                      <Link to="/forgetpassword" underline="none">
+                        <Typography variant="body2" color="primary">
                           Quên mật khẩu?
-                        </Button>
+                        </Typography>
                       </Link>
-                    </div>
-                    <Field as={FormControlLabel}
-                      name='remember'
-                      control={
-                        <Checkbox
-                          color="primary"
-                        />
-                      }
-                      label="Ghi nhớ tôi"
-                      style={{ marginTop: '16px' }}
-                    />
+                    </Stack>
+                    <Button type="submit" variant="contained" fullWidth disabled={props.isSubmitting}>
+                      Đăng nhập
+                    </Button>
                   </Stack>
                 </Form>
               )}
             </Formik>
-            <Stack direction="row" alignItems="center" spacing={4}>
-              <Button variant="contained">Đăng nhập</Button>
 
-              <Link to="/register" style={{ textDecoration: "none" }}>
+            <Stack direction="row" alignItems="center" justifyContent="center" spacing={2}>
+              <Typography variant="body2">
+                Bạn chưa có tài khoản?
+              </Typography>
+              <Link to="/register" underline="none">
                 <Button variant="outlined">
                   Đăng ký
                 </Button>
@@ -97,27 +105,23 @@ function Login() {
             <Button
               variant="outlined"
               startIcon={<GoogleIcon />}
-              sx={{ textTransform: "none", }}
+              sx={{ textTransform: "none", mt: 2 }}
             >
-              Đăng nhập với google
+              Đăng nhập với Google
             </Button>
           </Stack>
-        </Grid>
-        <Grid item xs={6}>
-          <Box>
-            <img
-              src={
-                "https://www.inglewoodfamilydental.ca/wp-content/uploads/2023/10/choosing-the-right-dentist-for-your-dental-crown-procedure-scaled.jpg"
-              }
-              alt=" image_login "
-              loading="lazy"
-              width="100%"
-              height="auto"
-            />
-          </Box>
-        </Grid>
+        </Paper>
       </Grid>
-    </>
+      <Grid item xs={12} md={4}>
+        <Box sx={{ height: "100%", display: "flex", alignItems: "center", background: "#e3f2fd" }}>
+          <img
+            src="https://www.inglewoodfamilydental.ca/wp-content/uploads/2023/10/choosing-the-right-dentist-for-your-dental-crown-procedure-scaled.jpg"
+            alt="Login"
+            style={{ width: "100%", height: "auto", objectFit: "cover" }}
+          />
+        </Box>
+      </Grid>
+    </Grid>
   );
 }
 

@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 function Register() {
   const initialValues = {
-    name: '',
+    username: '',
     email: '',
     phonenumber: '',
     password: '',
@@ -20,7 +20,7 @@ function Register() {
     }, 2000)
   }
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Tên không để trống!'),
+    username: Yup.string().required('Tên không để trống!'),
     email: Yup.string().email('Hãy nhập định dạng emai!').required("Không để trống!"),
     phoneNumber: Yup.number().typeError("Hãy nhập số điện thoại").required('Không để trống!'),
     password: Yup.string().required("Không để trống!").min(4, "Mật khẩu từ 4 ký tụ trở lên"),
@@ -54,8 +54,8 @@ function Register() {
               {(props) => (
                 <Form>
                   <Stack spacing={4} padding={'50px'}>
-                    <Field as={TextField} fullWidth name="name" label='Nhập tên của bạn'
-                      placeholder="Hoàng Đức" helperText={<ErrorMessage name="name" component="span" style={{ color: 'red' }} />} />
+                    <Field as={TextField} fullWidth name="username" label='Nhập tên tài khoản'
+                      placeholder="hoangduc" helperText={<ErrorMessage name="username" component="span" style={{ color: 'red' }} />} />
                     <Field as={TextField} fullWidth name="email" label='Nhập email của bạn'
                       placeholder="hoangduc@example.com" helperText={<ErrorMessage name="email" component="span" style={{ color: 'red' }} />} />
                     <Field as={TextField} fullWidth name="phoneNumber" label='Nhập sđt của bạn'
