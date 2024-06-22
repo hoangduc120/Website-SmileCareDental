@@ -42,7 +42,6 @@ function Booking() {
       });
   }, []);
 
-<<<<<<< HEAD
   useEffect(() => {
     if (clinicsData) {
       const foundDoctor = clinicsData
@@ -85,35 +84,6 @@ function Booking() {
       date: Yup.date().required("Vui lòng chọn ngày khám"),
       time: Yup.string().required("Vui lòng chọn giờ khám"),
     }),
-=======
-  const formik = useFormik({
-    initialValues : {
-    appointmentType: "",
-    name: "",
-    gender: "",
-    phone: "",
-    date: "",
-    time: "",
-  },
-    onSubmit : (values, props) => {
-      setTimeout(() => {
-        props.resetForm()
-        props.setSubmitting(false)
-      }, 2000)
-    },
-    validationSchema : Yup.object().shape({
-    appointmentType: Yup.string().required("Vui lòng chọn loại cuộc hẹn"),
-    name: Yup.string().required("Vui lòng nhập tên của bạn"),
-    gender: Yup.string().oneOf(["male", "female"], "Required").required("Vui lòng không để trống"),
-    phone: Yup
-      .string()
-      .matches(/^[0-9]+$/, "Số điện thoại chỉ chứa các số")
-      .length(10, "Số điện thoại phải có ít nhất 10 chữ số")
-      .required("Vui lòng nhập số điện thoại"),
-    date: Yup.date().required("Vui lòng chọn ngày khám"),
-    time: Yup.string().required("Vui lòng chọn giờ khám"),
-  }),
->>>>>>> 02548869cbb0d3ec32a61dfbc3aa2f754e0f6b1d
   });
 
   const scrollToSection = (section) => {
@@ -253,7 +223,6 @@ function Booking() {
             <Typography variant="h5" gutterBottom textAlign="center">
               Đặt lịch hẹn
             </Typography>
-<<<<<<< HEAD
             <Formik
               initialValues={formik.initialValues}
               onSubmit={formik.handleSubmit}
@@ -261,12 +230,6 @@ function Booking() {
             >
               {(props) => (
                 <Form>
-=======
-            <Formik initialValues={formik.initialValues} onSubmit={formik.handleSubmit} validationSchema={formik.validationSchema}>
-              {(props) => (
-                <Form>
-
->>>>>>> 02548869cbb0d3ec32a61dfbc3aa2f754e0f6b1d
                   <Stack spacing={2}>
                     <TextField
                       id="date"
@@ -281,7 +244,6 @@ function Booking() {
                       error={formik.touched.date && Boolean(formik.errors.date)}
                       helperText={formik.touched.date && formik.errors.date}
                     />
-<<<<<<< HEAD
                     {/* Tên */}
                     <TextField
                       fullWidth
@@ -298,22 +260,6 @@ function Booking() {
                       <InputLabel id="appointmentType-label">
                         Loại cuộc hẹn
                       </InputLabel>
-=======
-                    {/* tên */}
-                    <TextField 
-                    fullWidth 
-                    name="name" 
-                    label="Tên của bạn" 
-                    placeholder="Nhập tên của bạn" 
-                    value={formik.values.name}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.name && Boolean(formik.errors.name)}
-                    helperText={formik.touched.name && formik.errors.name}
-                    />
-                    {/* select cuộc hẹn */}
-                    <FormControl fullWidth>
-                      <InputLabel id="appointmentType-label">Loại cuộc hẹn</InputLabel>
->>>>>>> 02548869cbb0d3ec32a61dfbc3aa2f754e0f6b1d
                       <Select
                         labelId="appointmentType-label"
                         id="appointmentType"
@@ -321,21 +267,16 @@ function Booking() {
                         label="Loại cuộc hẹn"
                         value={formik.values.appointmentType}
                         onBlur={formik.handleBlur}
-<<<<<<< HEAD
                         error={
                           formik.touched.appointmentType &&
                           Boolean(formik.errors.appointmentType)
                         }
                         onChange={formik.handleChange}
-=======
-                        error={formik.touched.appointmentType && Boolean(formik.errors.appointmentType)}
->>>>>>> 02548869cbb0d3ec32a61dfbc3aa2f754e0f6b1d
                       >
                         <MenuItem value="">Chọn loại cuộc hẹn</MenuItem>
                         <MenuItem value="Khám">Khám</MenuItem>
                         <MenuItem value="Điều trị">Điều trị</MenuItem>
                       </Select>
-<<<<<<< HEAD
                       {formik.touched.appointmentType &&
                         formik.errors.appointmentType && (
                           <Typography variant="caption" color="error">
@@ -350,19 +291,12 @@ function Booking() {
                         formik.touched.gender && Boolean(formik.errors.gender)
                       }
                     >
-=======
-                      {formik.touched.appointmentType && formik.errors.appointmentType && (<Typography variant="caption" color="red">{formik.errors.appointmentType}</Typography>)}
-                    </FormControl>
-                    {/* giới tính */}
-                    <FormControl component="fieldset" error={formik.touched.gender && Boolean(formik.errors.gender)}>
->>>>>>> 02548869cbb0d3ec32a61dfbc3aa2f754e0f6b1d
                       <FormLabel component="legend">Giới Tính</FormLabel>
                       <RadioGroup
                         aria-label="gender"
                         name="gender"
                         value={formik.values.gender}
                         onBlur={formik.handleBlur}
-<<<<<<< HEAD
                         onChange={formik.handleChange}
                       >
                         <Stack direction="row">
@@ -403,36 +337,11 @@ function Booking() {
                       component="fieldset"
                       error={formik.touched.time && Boolean(formik.errors.time)}
                     >
-=======
-                      >
-                        <Stack direction="row">
-                          <FormControlLabel value="male" control={<Radio />} label="Nam" />
-                          <FormControlLabel value="female" control={<Radio />} label="Nữ" />
-                        </Stack>
-                      </RadioGroup>
-                      {formik.touched.gender && formik.errors.gender && (<Typography variant="caption" color="red">{formik.errors.gender}</Typography>)}
-                    </FormControl>
-
-
-                    <TextField 
-                    fullWidth 
-                    name="phone" 
-                    label="Số điện thoại" 
-                    placeholder="Nhập số điện thoại" 
-                    value={formik.values.phone}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.phone && Boolean(formik.errors.phone)}
-                    helperText={formik.touched.phone && formik.errors.phone}
-                    />
-
-                    <FormControl component="fieldset" error={formik.touched.time && Boolean(formik.errors.time)}>
->>>>>>> 02548869cbb0d3ec32a61dfbc3aa2f754e0f6b1d
                       <FormLabel component="legend">Chọn giờ khám</FormLabel>
                       <Grid container spacing={1}>
                         {timeSlots.map((slot, index) => (
                           <Grid item xs={6} sm={4} md={3} key={index}>
                             <Button
-<<<<<<< HEAD
                               variant={
                                 formik.values.time === slot
                                   ? "contained"
@@ -440,18 +349,12 @@ function Booking() {
                               }
                               fullWidth
                               onClick={() => formik.setFieldValue("time", slot)}
-=======
-                              variant={formik.values.time === slot ? 'contained' : 'outlined'}
-                              fullWidth
-                              onClick={() => formik.setFieldValue('time', slot)}
->>>>>>> 02548869cbb0d3ec32a61dfbc3aa2f754e0f6b1d
                             >
                               {slot}
                             </Button>
                           </Grid>
                         ))}
                       </Grid>
-<<<<<<< HEAD
                       {formik.touched.time && formik.errors.time && (
                         <Typography variant="caption" color="error">
                           {formik.errors.time}
@@ -467,15 +370,6 @@ function Booking() {
                     >
                       {props.isSubmitting ? "Loading" : "Đặt Lịch"}
                     </Button>
-=======
-                      {formik.touched.slot && formik.errors.slot && (<Typography variant="caption" color="red">{formik.errors.slot}</Typography>)}
-                    </FormControl>
-
-
-
-                    <Button type='submit' variant='contained' disabled={props.isSubmitting}
-                      color='primary'>{props.isSubmitting ? "Loading" : "Đặt Lịch"}</Button>
->>>>>>> 02548869cbb0d3ec32a61dfbc3aa2f754e0f6b1d
                   </Stack>
                 </Form>
               )}
