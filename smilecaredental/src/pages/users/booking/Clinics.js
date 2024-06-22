@@ -8,11 +8,24 @@ import {
   Card,
   Button,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { clinics } from "../../../components/datatest/doctor/ClinicsData";
+import axios from "axios";
 
 function Clinics() {
+  const [clinics, setClinics] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://667113c7e083e62ee439f20f.mockapi.io/clinics")
+      .then((response) => {
+        setClinics(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching clinics:", error);
+      });
+  }, []);
+
   return (
     <>
       <Box
@@ -22,7 +35,7 @@ function Clinics() {
           alignItems: "center",
           mb: 4,
           backgroundColor: "#f4f6f8",
-          padding: "20px 0",
+          padding: { xs: "10px 0", sm: "20px 0" },
         }}
       >
         <Typography
@@ -31,6 +44,7 @@ function Clinics() {
           sx={{
             color: "#2098D1",
             fontWeight: "bold",
+            fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.75rem" },
           }}
         >
           Danh sách các phòng khám đa khoa
@@ -42,13 +56,13 @@ function Clinics() {
           container
           spacing={3}
           justifyContent="center"
-          sx={{ padding: "0 20px" }}
+          sx={{ padding: { xs: "0 10px", sm: "0 20px" } }}
         >
           {clinics.map((clinic, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Card
                 sx={{
-                  maxWidth: 345,
+                  maxWidth: { xs: "100%", sm: 345 },
                   minHeight: 400,
                   textAlign: "center",
                   padding: 2,
@@ -58,6 +72,7 @@ function Clinics() {
                   flexDirection: "column",
                   justifyContent: "space-between",
                   borderRadius: "10px",
+                  margin: "0 auto",
                 }}
               >
                 <CardMedia
@@ -69,48 +84,53 @@ function Clinics() {
                     margin: "0 auto ",
                     border: "3px solid #2098D1",
                   }}
-                  image={clinic.image}
-                  title={clinic.name}
+                  image={clinic.imageRoom}
+                  
                 />
                 <CardContent>
                   <Typography
                     variant="h6"
                     component="div"
-                    sx={{ color: "#333", fontWeight: "bold" }}
+                    sx={{
+                      color: "#333",
+                      fontWeight: "bold",
+                      fontSize: { xs: "1rem", sm: "1.25rem" },
+                    }}
                   >
-                    {clinic.name}
+                    {clinic.nameRoom}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {clinic.info}
                   </Typography>
                 </CardContent>
-                <CardActions sx={{ justifyContent: "center" }}>
+                <CardActions
+                  sx={{
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    gap: "10px",
+                  }}
+                >
                   <Button
                     size="small"
                     variant="contained"
                     sx={{
                       backgroundColor: "#2098D1",
                       "&:hover": { backgroundColor: "#176a8c" },
+                      width: "100%",
                     }}
                     component={Link}
                     to={`/clinic/${clinic.id}`}
                   >
                     Đặt Lịch
                   </Button>
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <Link to={`/brand/${clinic.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-                      <Button variant="outlined" style={{ margin: "0 5px" }}>
-                        Xem thông tin
-                      </Button>
+                  <Button variant="outlined" sx={{ width: "100%" }}>
+                    <Link
+                      to={`/brand/${clinic.id}`}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      Xem thông tin
                     </Link>
-                  </Box>
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>

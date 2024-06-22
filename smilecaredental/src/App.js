@@ -35,6 +35,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
+           
             <Route path="/home" element={<Home />} />
             <Route path="/introduce" element={<Introduce />} />
             <Route path="/service" element={<Service />} />
@@ -51,6 +52,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/forgetpassword" element={<ForgetPassword />} />
             <Route path="/forgetpassword2" element={<ForgetPassword2 />} />
+            
+            <Route path="/book-appointment/:doctorId" element={<Booking />} /> 
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/clinicManagement" element={<ClinicManagement />} />
             <Route path="/doctor" element={<DoctorManagement />} />
