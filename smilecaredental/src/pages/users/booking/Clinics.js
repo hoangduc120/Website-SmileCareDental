@@ -105,11 +105,11 @@ function Clinics() {
                       gap: "10px",
                     }}
                   >
-                     <Button variant="outlined" style={{ margin: "0 5px" }}>
-                      <Link to={`/brand/${clinic.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                    <Link to={`/brand/${clinic.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                      <Button variant="outlined" style={{ margin: "0 5px" }}>
                         Xem thông tin
-                      </Link>
-                    </Button>
+                      </Button>
+                    </Link>
                   </Box>
                 </CardActions>
               </Card>

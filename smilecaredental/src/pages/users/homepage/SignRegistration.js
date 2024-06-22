@@ -1,7 +1,36 @@
-import { Box, Button, Container, List, ListItem, ListItemText, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, List, ListItem, ListItemText, Stack, TextField, Typography } from '@mui/material';
 import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 function SignRegistration() {
+
+    const initialValues = {
+        username: "",
+        email: "",
+        phoneNumber: "",
+        content: "",
+    }
+    const onSubmit = (values, props) => {
+        setTimeout(() => {
+            props.resetForm()
+            props.setSubmitting(false)
+        }, 2000)
+    }
+
+    const validationSchema = Yup.object().shape({
+        username: Yup.string().required("Vui lòng nhập tên của bạn"),
+        email: Yup.string().email('Hãy nhập định dạng emai!').required("Không để trống!"),
+        phoneNumber: Yup
+            .string()
+            .matches(/^[0-9]+$/, "Số điện thoại chỉ chứa các số")
+            .length(10, "Số điện thoại phải có ít nhất 10 chữ số")
+            .required("Vui lòng nhập số điện thoại"),
+        content: Yup.string().required("Hãy nhập nội dung"),
+
+    });
+
+
     return (
         <>
             <Container maxWidth="md">
@@ -55,68 +84,24 @@ function SignRegistration() {
                     <Typography variant="body1" gutterBottom>
                         Nếu bạn quan tâm đến việc đưa thông tin phòng khám của mình lên Booking Smile, vui lòng liên hệ với chúng tôi tại
                     </Typography>
-                    <Box my={4} padding="20px" bgcolor="#FFFFFF" borderRadius="8px">
-                        <Typography variant="h5" gutterBottom fontWeight={700}>
-                            Form gửi thông tin
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất để thảo luận chi tiết và hỗ trợ bạn trong quá trình này.
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Hãy cùng chúng tôi tạo nên một cộng đồng nha khoa đa dạng và chất lượng trên Booking Smile. Cảm ơn bạn đã quan tâm và hợp tác cùng chúng tôi.
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Trân trọng,
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Giám Đốc Kinh Doanh – Booking Smile
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Hoàng Việt Đức
-                        </Typography>
-
-                        <Box component="form" sx={{ mt: 3 }}>
-                            <TextField
-                                fullWidth
-                                required
-                                label="Họ và tên"
-                                margin="normal"
-                                variant="outlined"
-                            />
-                            <TextField
-                                fullWidth
-                                required
-                                label="Email"
-                                margin="normal"
-                                variant="outlined"
-                            />
-                            <TextField
-                                fullWidth
-                                required
-                                label="Số điện thoại"
-                                margin="normal"
-                                variant="outlined"
-                            />
-                            <TextField
-                                fullWidth
-                                required
-                                label="Nội dung"
-                                margin="normal"
-                                variant="outlined"
-                                multiline
-                                rows={4}
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                sx={{ mt: 2 }}
-                            >
-                                Gửi thông tin
-                            </Button>
-                        </Box>
-                    </Box>
+                    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+                        {(props) => (
+                            <Form>
+                                <Stack spacing={4} padding={'50px'}>
+                                    <Field as={TextField} fullWidth name="username" label='Nhập tên tài khoản'
+                                        placeholder="hoangduc" helperText={<ErrorMessage name="username" component="span" style={{ color: 'red' }} />} />
+                                    <Field as={TextField} fullWidth name="email" label='Nhập email của bạn'
+                                        placeholder="hoangduc@example.com" helperText={<ErrorMessage name="email" component="span" style={{ color: 'red' }} />} />
+                                    <Field as={TextField} fullWidth name="phoneNumber" label='Nhập sđt của bạn'
+                                        placeholder="Nhập sđt của bạn" helperText={<ErrorMessage name="phoneNumber" component="span" style={{ color: 'red' }} />} />
+                                    <Field as={TextField} fullWidth name='content' multiline
+                                        label='Nội dung' placeholder="Nhập nội dung"
+                                        helperText={<ErrorMessage name="content" component="span" style={{ color: 'red' }} />} />
+                                    <Button variant="contained">Đăng Ký Ngay</Button>
+                                </Stack>
+                            </Form>
+                        )}
+                    </Formik>
                 </Box>
             </Container >
         </>
