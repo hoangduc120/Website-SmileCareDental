@@ -12,7 +12,7 @@ import React from "react";
 import { Services } from "../../../components/datatest/service/Service";
 import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
-import DisplayButton from "../../../components/Layout/DisplayButton";
+import DisplayButton from "../../../components/layout/DisplayButton";
 import brandsData from "../../../components/datatest/brands/BrandsData";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -178,47 +178,7 @@ function Home() {
       </Container>
 
 
-            <Box sx={{ backgroundColor: '#0477CA', padding: 2 }}>
-                <Container>
-                    <Grid container spacing={2}>
-                        {listServices.map((listService, index) => (
-                            <Grid item xs={6} sm={3} key={index}>
-                                <Button
-                                    variant="contained"
-                                    fullWidth
-                                    sx={{
-                                        height: 60, backgroundColor: 'white', color: '#2261C0', fontWeight: "700", fontSize: "14px",
-                                        '&:hover': {
-                                            backgroundColor: 'lightgray',
-                                        }
-                                    }}
-                                    href={listService.link}
-                                    target="_blank"
-                                    rel="white"
-                                >
-                                    {listService.name}
-                                </Button>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Container>
-            </Box>
-            <hr />
-            <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-
-            >
-                <DisplayButton />
-            </Box>
-            
-            
-        </>
-    )
-}
-export default Home
-      <Box sx={{ backgroundColor: "#0477CA", padding: 2 }}>
+      <Box sx={{ backgroundColor: '#0477CA', padding: 2 }}>
         <Container>
           <Grid container spacing={2}>
             {listServices.map((listService, index) => (
@@ -227,14 +187,10 @@ export default Home
                   variant="contained"
                   fullWidth
                   sx={{
-                    height: 60,
-                    backgroundColor: "white",
-                    color: "#2261C0",
-                    fontWeight: "700",
-                    fontSize: "14px",
-                    "&:hover": {
-                      backgroundColor: "lightgray",
-                    },
+                    height: 60, backgroundColor: 'white', color: '#2261C0', fontWeight: "700", fontSize: "14px",
+                    '&:hover': {
+                      backgroundColor: 'lightgray',
+                    }
                   }}
                   href={listService.link}
                   target="_blank"
@@ -248,11 +204,20 @@ export default Home
         </Container>
       </Box>
       <hr />
-      <Box>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+
+      >
         <DisplayButton />
       </Box>
-    </>
-  );
-}
 
-export default Home;
+
+    </>
+  )
+}
+export default Home
+
+
+

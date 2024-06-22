@@ -4,7 +4,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
 import SidebarProfile from '../../pages/users/profile/SidebarProfile';
 import SidebarOwner from '../../pages/users/admin/SidebarOwner'
-import Footer from '../Layout/Footer';
+import Footer from '../layout/Footer';
 const MainLayout = () => {
     const location = useLocation();
     const isUserProfileRoute = ['/userinfo', '/myaccount', '/changepassword', '/viewappointments'].includes(location.pathname);
