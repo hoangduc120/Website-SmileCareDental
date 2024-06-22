@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Container, Typography, Table, TableHead, TableRow, TableCell, TableBody, Button, 
   Dialog, DialogActions, DialogContent, DialogTitle, TextField, Select, MenuItem, 
   FormControl, InputLabel, IconButton
 } from '@mui/material';
 import { Close, Delete, Edit, Visibility } from '@mui/icons-material';
+import { Formik, Form, useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const PatientManagement = () => {
   const [patients, setPatients] = useState([
@@ -23,34 +25,26 @@ const PatientManagement = () => {
   const [openDelete, setOpenDelete] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: '',
-    gender: '',
-    dateOfBirth: '',
-    phone: '',
-    email: '',
-  });
 
   const handleOpen = () => {
-    setFormData({ fullName: '', gender: '', dateOfBirth: '', phone: '', email: '' });
     setIsEdit(false);
     setOpen(true);
   };
 
   const handleClose = () => setOpen(false);
 
-  const handleAddOrEdit = () => {
+  const handleAddOrEdit = (values) => {
     if (isEdit && selectedPatient) {
-      setPatients(patients.map(patient => (patient.id === selectedPatient.id ? { ...formData, id: selectedPatient.id } : patient)));
+      setPatients(patients.map(patient => (patient.id === selectedPatient.id ? { ...values, id: selectedPatient.id } : patient)));
     } else {
-      setPatients([...patients, { ...formData, id: patients.length + 1 }]);
+      setPatients([...patients, { ...values, id: patients.length + 1 }]);
     }
     handleClose();
   };
 
   const handleEdit = (patient) => {
     setSelectedPatient(patient);
-    setFormData(patient);
+    formik.setValues(patient);// Cập nhật giá trị của formik khi chỉnh sửa
     setIsEdit(true);
     setOpen(true);
   };
@@ -74,16 +68,30 @@ const PatientManagement = () => {
 
   const handleDeleteClose = () => setOpenDelete(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const formik = useFormik({
+    initialValues: {
+      fullName: '',
+      gender: '',
+      dateOfBirth: '',
+      phone: '',
+      email: '',
+    },
+    onSubmit: (values, props) => {
+      handleAddOrEdit(values);
+      setTimeout(() => {
+        props.resetForm();
+        props.setSubmitting(false);
+      }, 2000);
+    },
+    validationSchema : Yup.object().shape({
+      fullName: Yup.string().required('Vui lòng nhập Họ và tên'),
+      gender: Yup.string().required('Vui lòng chọn Giới tính'),
+      dateOfBirth: Yup.string().required('Vui lòng nhập Ngày sinh'),
+      phone: Yup.number().required('Vui lòng nhập Điện thoại'),
+      email: Yup.string().required('Vui lòng nhập Email').email('Email không hợp lệ'),
+    }),
 
-  useEffect(() => {
-    if (isEdit && selectedPatient) {
-      setFormData(selectedPatient);
-    }
-  }, [selectedPatient, isEdit]);
+  });
 
   return (
     <Container maxWidth="lg">
@@ -149,62 +157,82 @@ const PatientManagement = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>{isEdit ? 'Chỉnh sửa bệnh nhân' : 'Thêm bệnh nhân mới'}</DialogTitle>
         <DialogContent>
-          <form>
-            <TextField
-              margin="dense"
-              label="Họ và tên"
-              name="fullName"
-              fullWidth
-              value={formData.fullName}
-              onChange={handleInputChange}
-            />
-            <FormControl fullWidth margin="dense">
-              <InputLabel>Giới tính</InputLabel>
-              <Select
-                name="gender"
-                value={formData.gender}
-                onChange={handleInputChange}
-              >
-                <MenuItem value="Nam">Nam</MenuItem>
-                <MenuItem value="Nữ">Nữ</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              margin="dense"
-              label="Ngày sinh"
-              name="dateOfBirth"
-              fullWidth
-              value={formData.dateOfBirth}
-              onChange={handleInputChange}
-            />
-            <TextField
-              margin="dense"
-              label="Điện thoại"
-              name="phone"
-              fullWidth
-              value={formData.phone}
-              onChange={handleInputChange}
-            />
-            <TextField
-              margin="dense"
-              label="Email"
-              name="email"
-              fullWidth
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Hủy
-              </Button>
-              <Button onClick={handleAddOrEdit} color="primary">
-                {isEdit ? 'Chỉnh sửa' : 'Thêm'}
-              </Button>
-            </DialogActions>
-          </form>
+          <Formik initialValues={formik.initialValues} validationSchema={formik.validationSchema} onSubmit={formik.handleSubmit}
+          >
+            {(props) => (
+              <Form>
+                <TextField
+                  margin="dense"
+                  label="Họ và tên"
+                  name="fullName"
+                  fullWidth
+                  value={formik.values.fullName}
+                  onChange={formik.handleChange}
+                />
+                {formik.touched.fullName && formik.errors.fullName && (<Typography variant="caption" color="red">{formik.errors.fullName}</Typography>)}
+                <FormControl fullWidth margin="dense">
+                  <InputLabel>Giới tính</InputLabel>
+                  <Select
+                    name="gender"
+                    label="Giới tính"
+                    value={formik.values.gender}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur} 
+                    error={formik.touched.gender && Boolean(formik.errors.gender)}
+                  >
+                    <MenuItem value="">Chọn giới tính</MenuItem>
+                    <MenuItem value="Nam">Nam</MenuItem>
+                    <MenuItem value="Nữ">Nữ</MenuItem>
+                  </Select>
+                  {formik.touched.gender && formik.errors.gender && (<Typography variant="caption" color="red">{formik.errors.gender}</Typography>)}
+                </FormControl>
+                <TextField
+                  margin="dense"
+                  // label="Ngày sinh"
+                  name="dateOfBirth"
+                  type="date"
+                  fullWidth
+                  value={formik.values.dateOfBirth}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur} 
+                  error={formik.touched.dateOfBirth && Boolean(formik.errors.dateOfBirth)}
+                  helperText={formik.touched.dateOfBirth && formik.errors.dateOfBirth}
+                  />
+                <TextField
+                  margin="dense"
+                  label="Điện thoại"
+                  name="phone"
+                  fullWidth
+                  value={formik.values.phone}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur} 
+                  error={formik.touched.phone && Boolean(formik.errors.phone)}
+                  helperText={formik.touched.phone && formik.errors.phone}
+                  />
+                <TextField
+                  margin="dense"
+                  label="Email"
+                  name="email"
+                  fullWidth
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur} 
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                  />
+                  <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                      Hủy
+                    </Button>
+                    <Button onClick={props.handleSubmit} color="primary">
+                    {isEdit ? 'Chỉnh sửa' : 'Thêm'}
+                    </Button>
+                  </DialogActions>
+                </Form>
+            )}
+          </Formik>
         </DialogContent>
       </Dialog>
-
       <Dialog open={openDetail} onClose={handleDetailClose}>
         <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>
           Chi tiết bệnh nhân
@@ -244,3 +272,5 @@ const PatientManagement = () => {
 };
 
 export default PatientManagement;
+
+
