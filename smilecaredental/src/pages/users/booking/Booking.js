@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { Formik, Form,useFormik } from "formik";
+import { Formik, Form, useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import {
@@ -250,6 +250,7 @@ function Booking() {
                       name="name"
                       label="Tên của bạn"
                       placeholder="Nhập tên của bạn"
+                      onChange={formik.handleChange}
                       value={formik.values.name}
                       onBlur={formik.handleBlur}
                       error={formik.touched.name && Boolean(formik.errors.name)}
