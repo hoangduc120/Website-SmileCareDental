@@ -7,34 +7,47 @@ import {
   Stack,
   TextField,
   Typography,
-  Link as MuiLink,
-  Paper
+  Link as MuiLink, Paper
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import React from "react";
-import { Link } from "react-router-dom";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
+import axiosInstance from '../../../api/axiosInstance'
 function Login() {
-  const initialValues = {
-    username: '',
-    password: '',
-    remember: false
-  };
+  const navigate = useNavigate()
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      remember: false
+    },
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
+      try {
+        const res = await axiosInstance.post('/api/auth/login', {
+          email: values.email,
+          password: values.password,
+        })
+        console.log('Login successful', res.data)
 
-  const onSubmit = (values, props) => {
-    console.log(values);
-    setTimeout(() => {
-      props.resetForm();
-      props.setSubmitting(false);
-    }, 2000);
-  };
+        localStorage.setItem('token', res.data.token)
 
-  const validationSchema = Yup.object().shape({
-    username: Yup.string().required("Không để trống"),
-    password: Yup.string().required("Không để trống")
-  });
+        resetForm()
+        navigate('/home')
+      } catch (err) {
+        console.error('Login failed', err.response ? err.response.data : "lỗi")
+        console.log(err.data)
+
+      } finally {
+        setSubmitting(false)
+      }
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string().required("Không để trống"),
+      password: Yup.string().required("Không để trống")
+    }),
+  })
 
   return (
     <Grid container component="main" >
@@ -56,41 +69,58 @@ function Login() {
               Chào mừng bạn
             </Typography>
 
-            <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-              {(props) => (
-                <Form>
-                  <Stack spacing={3}>
-                    <Field as={TextField} label='Tên tài khoản' name="username"
-                      placeholder='Nhập tên tài khoản' fullWidth required
-                      helperText={<ErrorMessage name="username" component="span" style={{ color: 'red' }} />}
-                    />
-                    <Field as={TextField} label='Mật khẩu' name="password"
-                      placeholder='Nhập mật khẩu' type='password' fullWidth required
-                      helperText={<ErrorMessage name="password" component="span" style={{ color: 'red' }} />}
-                    />
-                    <Stack direction="row" justifyContent="space-between" alignItems="center">
-                      <Field as={FormControlLabel}
-                        name='remember'
-                        control={
-                          <Checkbox
-                            color="primary"
-                          />
-                        }
-                        label="Ghi nhớ tôi"
+            <form onSubmit={formik.handleSubmit}>
+
+              <Stack spacing={3}>
+                <TextField
+                  label='Email'
+                  name="email"
+                  placeholder='Nhập tên tài khoản'
+                  fullWidth
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                />
+
+                <TextField
+                  label='Mật khẩu'
+                  name="password"
+                  placeholder='Nhập mật khẩu'
+                  type='password'
+                  fullWidth
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.password && Boolean(formik.errors.password)}
+                  helperText={formik.touched.password && formik.errors.password}
+                />
+                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="remember"
+                        color="primary"
+                        checked={formik.values.remember}
+                        onChange={formik.handleChange}
                       />
-                      <Link to="/forgetpassword" underline="none">
-                        <Typography variant="body2" color="primary">
-                          Quên mật khẩu?
-                        </Typography>
-                      </Link>
-                    </Stack>
-                    <Button type="submit" variant="contained" fullWidth disabled={props.isSubmitting}>
-                      Đăng nhập
-                    </Button>
-                  </Stack>
-                </Form>
-              )}
-            </Formik>
+                    }
+                    label="Ghi nhớ tôi"
+                  />
+                  <MuiLink component={Link} to="/forgetpassword" >
+                    <Typography variant="body2" color="primary">
+                      Quên mật khẩu?
+                    </Typography>
+                  </MuiLink>
+                </Stack>
+                <Button type="submit" variant="contained" fullWidth disabled={formik.isSubmitting}>
+                  {formik.isSubmitting ? 'Đang xử lý...' : 'Đăng nhập'}
+                </Button>
+              </Stack>
+
+
+            </form>
 
             <Stack direction="row" alignItems="center" justifyContent="center" spacing={2}>
               <Typography variant="body2">

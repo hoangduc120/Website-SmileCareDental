@@ -2,19 +2,36 @@ import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import React from "react";
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { Link } from "react-router-dom";
-import SendIcon from '@mui/icons-material/Send';
-import { ErrorMessage, Field, Formik, Form } from "formik";
+import { useFormik } from "formik";
 import * as Yup from 'yup'
+import axiosInstance from "../../../api/axiosInstance";
 function ForgetPassword() {
-  const initialValues = {
-    email: '',
-    otp: '',
-  }
-
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Hãy nhập định dạng emai').required("Không để trống"),
-    otp: Yup.string().required("Không để trống")
+  // const navigate = useNavigate()
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      // otp: '',
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string().email('Hãy nhập định dạng emai').required("Không để trống"),
+      // otp: Yup.string().required("Không để trống")
+    }),
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
+      try {
+        const response = await axiosInstance.post('/api/auth/request-password-reset', {
+          email: values.email,
+        })
+        console.log("Reset password request successful", response.data)
+        resetForm();
+        // navigate("/")
+      } catch (error) {
+        console.error("Reset password request failed", error.response ? error.response.data : error.message)
+      } finally {
+        setSubmitting(false)
+      }
+    }
   })
+
   return (
     <Grid
       container
@@ -28,17 +45,17 @@ function ForgetPassword() {
     >
       <Grid
         item
-        xs="6"
+        xs={6}
         sx={{
           borderRadius: 1,
           bgcolor: "#fff",
+          padding: "25px",
         }}
       >
         <Box
           display="flex"
           justifyContent="center"
           alignItems="center"
-          padding="25px"
 
         >
           <ChangeCircleIcon fontSize="large" style={{ color: "#2098D1" }} />
@@ -49,31 +66,47 @@ function ForgetPassword() {
             Quên mật khẩu
           </Typography>
 
-          <Formik initialValues={initialValues} validationSchema={validationSchema}>
-            {(props) => (
-              <Form>
-                <Stack spacing={4} padding={"50px"}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '16px' }}>
-                    <Field as={TextField} label='Nhập Email' name="email"
-                      placeholder='hoangduc@example.com' fullWidth required
-                      helperText={<ErrorMessage name="email" component="span" style={{ color: 'red' }} />}
-                      style={{ flex: 1 }}
-                    />
-                    <Button>
-                      <SendIcon />
-                    </Button>
-                  </div>
-                  <Field as={TextField} fullWidth name="otp" label='Nhập mã code'
-                    placeholder="Nhập OTP" helperText={<ErrorMessage name="name" component="span" style={{ color: 'red' }} />} />
-                  <Link to="/forgetpassword2" style={{ textDecoration: "none" }}>
-                    <Button variant="contained" fullWidth>
-                      Xác Nhận
-                    </Button>
-                  </Link>
-                </Stack>
-              </Form>
-            )}
-          </Formik>
+
+          <form onSubmit={formik.handleSubmit}>
+            <Stack spacing={3}>
+              <TextField
+                label='Email'
+                name="email"
+                placeholder='Nhập địa chỉ email'
+                fullWidth
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+              />
+
+              {/* <TextField
+                label='Mã OTP'
+                name="otp"
+                placeholder='Nhập mã OTP'
+                fullWidth
+                value={formik.values.otp}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.otp && Boolean(formik.errors.otp)}
+                helperText={formik.touched.otp && formik.errors.otp}
+              /> */}
+              <Button type="submit" variant="contained" fullWidth disabled={formik.isSubmitting}>
+                {formik.isSubmitting ? 'Đang xử lý...' : 'Xác nhận'}
+              </Button>
+            </Stack>
+          </form>
+          <Stack direction="row" alignItems="center" justifyContent="center" spacing={2}>
+            <Typography variant="body2">
+              Quay lại đăng nhập?
+            </Typography>
+            <Link to="/login" underline="none">
+              <Button variant="outlined">
+                Đăng nhập
+              </Button>
+            </Link>
+          </Stack>
 
         </Stack>
       </Grid>
