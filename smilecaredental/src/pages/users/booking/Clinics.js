@@ -11,21 +11,23 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DisplayButton from "../../../components/layout/DisplayButton.js";
-import axios from "axios";
+import axiosInstance from "../../../api/axiosInstance.js";
 
 function Clinics() {
   const [clinics, setClinics] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("https://667113c7e083e62ee439f20f.mockapi.io/clinics")
+    axiosInstance
+      .get("all-clinics")
       .then((response) => {
-        setClinics(response.data);
+        console.log(response.data)
+        setClinics(response.data.clinics);
       })
       .catch((error) => {
         console.error("Error fetching clinics:", error);
       });
   }, []);
+
 
   return (
     <>
@@ -98,7 +100,7 @@ function Clinics() {
                       fontSize: { xs: "1rem", sm: "1.25rem" },
                     }}
                   >
-                    {clinic.nameRoom}
+                    {clinic.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {clinic.info}

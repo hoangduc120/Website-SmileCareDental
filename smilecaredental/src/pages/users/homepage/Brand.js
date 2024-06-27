@@ -9,17 +9,7 @@ import {
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import TextRating from "@mui/material/Rating";
-import axios from "axios";
-// import brandsData from "../../../components/datatest/brands/BrandsData";
-const vietnameseDays = {
-  Monday: "Thứ hai",
-  Tuesday: "Thứ ba",
-  Wednesday: "Thứ tư",
-  Thursday: "Thứ năm",
-  Friday: "Thứ sáu",
-  Saturday: "Thứ bảy",
-  Sunday: "Chủ nhật",
-};
+import axiosInstance from "../../../api/axiosInstance";
 
 function Brand() {
   const { id } = useParams();
@@ -31,20 +21,20 @@ function Brand() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    
-    const fetchData = () => {
-      axios.get(`https://667113c7e083e62ee439f20f.mockapi.io/BrandsData/${id}`)
-        .then(res => {
-          setBrand(res.data);
-          setLoading(false);
-        })
-        .catch(error => {
-          setError(error);
-          setLoading(false);
-        });
-    };
-    fetchData();
-  }, [id]);
+
+    const fetchData = async () => {
+      try {
+        const res = await axiosInstance.get(`/detail/clinic/${id}`)
+        setBrand(res.data.clinic)
+        setLoading(false)
+      }
+      catch (error) {
+        setError(error)
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [id])
 
   if (loading) {
     return <div>Loading...</div>;
@@ -61,10 +51,13 @@ function Brand() {
   const {
     name,
     address,
+    phonenumber,
+    clinic_owner,
     imageUrl,
     bannerUrl,
-    introduction,
-    workingHours,
+    description,
+    clinic_schedules: workingHours,
+    clinic_services: services,
     promotionalBannerUrl,
   } = brand;
 
@@ -147,7 +140,6 @@ function Brand() {
             <Typography variant="h5" sx={{ marginBottom: "10px" }}>
               {name}
             </Typography>
-            <Typography variant="body1">{`Địa chỉ: ${address}`}</Typography>
           </Grid>
         </Grid>
 
@@ -194,31 +186,23 @@ function Brand() {
                 marginBottom: "20px",
               }}
             >
-              {Object.entries(workingHours).map(([day, hours]) => (
-                <Box
-                  key={day}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    color: day === "Sunday" ? "red" : "inherit",
-                    marginBottom: "5px",
-                  }}
-                >
-                  <Typography>{vietnameseDays[day]}</Typography>
-                  <Typography>{hours}</Typography>
-                </Box>
-              ))}
-            </Box>
+              {Array.isArray(workingHours) &&
+                workingHours.map(({ day_of_week, start_time, end_time }) => (
+                  <Box
+                    key={day_of_week}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      color: day_of_week === "Sunday" ? "red" : "inherit",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    <Typography>{[day_of_week]}</Typography>
+                    <Typography>{`${start_time} - ${end_time}`}</Typography>
+                  </Box>
+                ))
+              }
 
-            <Box
-              sx={{
-                backgroundColor: "#E0F7FA",
-                padding: "12px",
-                borderRadius: "4px",
-                marginBottom: "20px",
-              }}
-            >
-              <Typography variant="body1">{brand.customInfo}</Typography>
             </Box>
 
             <Box
@@ -230,42 +214,25 @@ function Brand() {
               }}
             >
               <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
-                Danh sách cơ sở
+                Giới thiệu
               </Typography>
-              <Typography variant="body1" component="div">
-                {brand.branch &&
-                  brand.branch.map((city, cityIndex) => (
-                    <div key={cityIndex}>
-                      <Typography variant="body1" component="div">
-                        <strong>{city.city}</strong>
-                      </Typography>
-                      <ul>
-                        {city.addresses.map((address, addressIndex) => (
-                          <li key={addressIndex}>
-                            <Typography variant="body1" component="div">
-                              {address}
-                            </Typography>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-              </Typography>
+              <Typography>{description}</Typography>
             </Box>
 
             <Box
-              id="introduction"
               sx={{
                 backgroundColor: "#E0F7FA",
                 padding: "12px",
                 borderRadius: "4px",
-                marginBottom: "20px",
               }}
             >
               <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
-                Thông tin chi tiết
+                Địa Chỉ
               </Typography>
-              <Typography variant="body1">{introduction}</Typography>
+              <Typography variant="body1">{`Địa chỉ: ${address}`}</Typography>
+              <Typography variant="body1">{`Số điện thoại: ${phonenumber}`}</Typography>
+              <Typography variant="body1">{`Email: ${clinic_owner?.email}`}</Typography>
+
             </Box>
 
             <Box
@@ -280,15 +247,37 @@ function Brand() {
               <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
                 Bảng Giá Dịch Vụ Nha Khoa
               </Typography>
-              {brand.priceList.map((item, index) => (
-                <div key={index}>
+              {Array.isArray(services) && services.map((service, index) => (
+                <Box key={index}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "10px",
+                    padding: "10px",
+                    backgroundColor: index % 2 === 0 ? "#BBDEFB" : "#E3F2FD",
+                  }}
+                >
                   <Typography>
-                    <strong>{item.serviceName}:</strong>{" "}
-                    <span style={{ marginRight: "10px" }}>{item.price}</span>
+                    <strong>{service.service.name}:</strong>{" "}
                   </Typography>
-                  {index !== brand.priceList.length - 1 && <br />}
-                </div>
+                  <Typography>{service.service.price} VNĐ</Typography>
+                </Box>
               ))}
+            </Box>
+
+            <Box
+              id="introduction"
+              sx={{
+                backgroundColor: "#E0F7FA",
+                padding: "12px",
+                borderRadius: "4px",
+                marginBottom: "20px",
+              }}
+            >
+              <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+                Giới Thiệu
+              </Typography>
+              <Typography variant="body1">{description}</Typography>
             </Box>
 
             <Box

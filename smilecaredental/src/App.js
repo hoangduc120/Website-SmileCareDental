@@ -1,9 +1,9 @@
 import './App.css';
-import ClinicManagement from './pages/users/clinicOwner/ClinicManagement.js';
-import DoctorManagement from './pages/users/clinicOwner/DoctorManagement.js';
-import PatientManagement from './pages/users/clinicOwner/PatientManegement.js';
-import AppointmentManagement from './pages/users/clinicOwner/AppoinmentManagement.js';
-import Dashboard from './pages/users/clinicOwner/Dashboard.js';
+import ClinicManagement from './pages/admin/clinicOwner/ClinicManagement.js';
+import DoctorManagement from './pages/admin/clinicOwner/DoctorManagement.js';
+import PatientManagement from './pages/admin/clinicOwner/PatientManegement.js';
+import AppointmentManagement from './pages/admin/clinicOwner/AppoinmentManagement.js';
+import Dashboard from './pages/admin/clinicOwner/Dashboard.js';
 import React from 'react';
 import UserInfo from './pages/users/profile/UserInfo.js';
 import ChangePassword from './pages/users/profile/ChangePassword';
@@ -24,10 +24,10 @@ import ForgetPassword2 from "./pages/users/login/ForgetPassword2.js";
 import Clinics from "./pages/users/booking/Clinics.js";
 import Booking from "./pages/users/booking/Booking.js";
 import MainLayout from './components/layout/MainLayout.js';
-import DentalFacility from './pages/users/adminSystem/DentalFacility.js';
-import AccountUser from './pages/users/adminSystem/AccountUser.js';
-import NewClinic from './pages/users/adminSystem/NewClinic.js';
-import DashboardSystem from './pages/users/adminSystem/DashboardSystem.js';
+import DentalFacility from './pages/admin/adminSystem/DentalFacility.js';
+import AccountUser from './pages/admin/adminSystem/AccountUser.js';
+import NewClinic from './pages/admin/adminSystem/NewClinic.js';
+import DashboardSystem from './pages/admin/adminSystem/DashboardSystem.js';
 
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
-           
+
             <Route path="/home" element={<Home />} />
             <Route path="/introduce" element={<Introduce />} />
             <Route path="/service" element={<Service />} />
@@ -52,8 +52,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/forgetpassword" element={<ForgetPassword />} />
             <Route path="/forgetpassword2" element={<ForgetPassword2 />} />
-            
-            <Route path="/book-appointment/:doctorId" element={<Booking />} /> 
+
+            <Route path="/book-appointment/:doctorId" element={<Booking />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/clinicManagement" element={<ClinicManagement />} />
             <Route path="/doctor" element={<DoctorManagement />} />

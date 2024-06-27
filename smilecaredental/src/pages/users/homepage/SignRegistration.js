@@ -1,10 +1,23 @@
 import { Box, Button, Container, List, ListItem, ListItemText, Stack, TextField, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 function SignRegistration() {
+    const [avatar, setAvatar] = useState()
+    useEffect(() => {
+        // cleanup
+        return () => {
+            avatar && URL.revokeObjectURL(avatar.preview)
+        }
+    }, [avatar])
+    const handlePreviewAvatar = (e) => {
+        const file = e.target.files[0]
 
+        file.preview = URL.createObjectURL(file)
+
+        setAvatar(file)
+    }
     const initialValues = {
         username: "",
         email: "",
@@ -97,6 +110,15 @@ function SignRegistration() {
                                     <Field as={TextField} fullWidth name='content' multiline
                                         label='Nội dung' placeholder="Nhập nội dung"
                                         helperText={<ErrorMessage name="content" component="span" style={{ color: 'red' }} />} />
+                                    <div>
+                                        <input
+                                            type="file"
+                                            onChange={handlePreviewAvatar}
+                                        />
+                                        {avatar && (
+                                            <img src={avatar.preview} alt="" width="20%" />
+                                        )}
+                                    </div>
                                     <Button variant="contained">Đăng Ký Ngay</Button>
                                 </Stack>
                             </Form>
@@ -108,3 +130,7 @@ function SignRegistration() {
     )
 }
 export default SignRegistration;
+
+
+
+

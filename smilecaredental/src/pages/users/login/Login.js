@@ -44,7 +44,7 @@ function Login() {
       }
     },
     validationSchema: Yup.object().shape({
-      email: Yup.string().required("Không để trống"),
+      email: Yup.string().required("Không để trống").email("Email không hợp lệ"),
       password: Yup.string().required("Không để trống")
     }),
   })

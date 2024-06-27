@@ -19,3 +19,19 @@ export const requestPasswordReset = async (email) => {
 export const resetPassword = async (data) => {
   return axiosInstance.post('/reset-password', data);
 };
+
+export const updateClinic = async (clinicData) => {
+  return axiosInstance.put(`/clinic-owner/clinic/update`, clinicData);
+};
+
+export const createClinic = async (clinicData) => {
+  return axiosInstance.post(`/clinic-owner/clinic/create`, clinicData);
+};
+
+export const deleteClinicById = async (clinicId) => {
+  return axiosInstance.delete(`/clinic-owner/clinic/delete`, { data: { id: clinicId } });
+};
+
+export const searchDentistsByName = async (name) => {
+  return axiosInstance.get(`/clinic-owner/dentist/searchdentist`, { params: { name } });
+};

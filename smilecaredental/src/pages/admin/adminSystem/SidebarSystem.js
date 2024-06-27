@@ -22,6 +22,7 @@ const SidebarSystem = () => {
           backgroundImage: 'linear-gradient(to bottom, #0D47A1, #1565C0)',
           color: '#ffffff',
           width: 300,
+          position: 'relative'
         },
       }}
     >
