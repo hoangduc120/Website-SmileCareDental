@@ -5,6 +5,7 @@ import { Formik, Form } from "formik";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import axios from 'axios';
+import axiosInstance from '../../../api/axiosInstance';
 
 const slots = [
   '8:00 - 8:45',
@@ -28,32 +29,32 @@ const ClinicManagement = () => {
   const [editingClinic, setEditingClinic] = useState(null);
   const [selectedClinic, setSelectedClinic] = useState(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-  
-  const apiBaseUrl = 'https://6671234ae083e62ee43a3684.mockapi.io/students';
+
+  const apiBaseUrl = '/clinic-owner/clinic';
 
   useEffect(() => {
-    axios.get(apiBaseUrl)
+    axiosInstance.get(`${apiBaseUrl}/all`)
       .then(response => setClinics(response.data))
       .catch(error => console.error('Error fetching clinic data:', error));
   }, []);
-  
+
   const handleOpen = () => setOpen(true);
-  
+
   const handleClose = () => {
     setOpen(false);
     setEditingClinic(null);
   };
-  
+
   const handleAddOrEdit = (values) => {
     if (editingClinic) {
-      axios.put(`${apiBaseUrl}/${editingClinic.id}`, values)
+      axios.put(`${apiBaseUrl}/update`, { ...values, id: editingClinic.id })
         .then(response => {
           setClinics(clinics.map(clinic => clinic.id === editingClinic.id ? response.data : clinic));
           handleClose();
         })
         .catch(error => console.error('Error updating clinic:', error));
     } else {
-      axios.post(apiBaseUrl, values)
+      axios.post(`${apiBaseUrl}/create`, values)
         .then(response => {
           setClinics([...clinics, response.data]);
           handleClose();
@@ -61,36 +62,36 @@ const ClinicManagement = () => {
         .catch(error => console.error('Error adding clinic:', error));
     }
   };
-  
+
   const handleDelete = (id) => {
     setSelectedClinic(id);
     setConfirmDialogOpen(true);
   };
-  
+
   const handleEdit = (clinic) => {
     setEditingClinic(clinic);
     formik.setValues(clinic);
     handleOpen();
   };
-  
+
   const handleViewDetail = (clinic) => {
     setSelectedClinic(clinic);
     setOpenDetail(true);
   };
-  
+
   const handleConfirmDelete = () => {
-    axios.delete(`${apiBaseUrl}/${selectedClinic}`)
+    axios.delete(`${apiBaseUrl}/delete`, { data: { id: selectedClinic } })
       .then(() => {
         setClinics(clinics.filter(clinic => clinic.id !== selectedClinic));
         setConfirmDialogOpen(false);
       })
       .catch(error => console.error('Error deleting clinic:', error));
   };
-  
+
   const handleCancelDelete = () => {
     setConfirmDialogOpen(false);
   };
-  
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -174,16 +175,16 @@ const ClinicManagement = () => {
           <Formik initialValues={formik.initialValues} onSubmit={formik.handleSubmit} validationSchema={formik.validationSchema}>
             {(props) => (
               <Form>
-                <TextField fullWidth 
-                  name="name" 
-                  label="Tên phòng khám" 
+                <TextField fullWidth
+                  name="name"
+                  label="Tên phòng khám"
                   margin="dense"
                   value={formik.values.name}
                   onChange={formik.handleChange}
-                  onBlur={formik.handleBlur} 
+                  onBlur={formik.handleBlur}
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.touched.name && formik.errors.name}
-                /> 
+                />
                 <FormControl fullWidth sx={{ marginTop: '10px' }}>
                   <InputLabel id="slot-label">Giờ khám</InputLabel>
                   <Select
@@ -193,7 +194,7 @@ const ClinicManagement = () => {
                     label="Giờ khám"
                     value={formik.values.slot}
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} 
+                    onBlur={formik.handleBlur}
                     error={formik.touched.slot && Boolean(formik.errors.slot)}
                   >
                     {slots.map(slot => (
@@ -202,13 +203,13 @@ const ClinicManagement = () => {
                   </Select>
                   {formik.touched.slot && formik.errors.slot && (<Typography variant="caption" color="red">{formik.errors.slot}</Typography>)}
                 </FormControl>
-                <TextField fullWidth 
-                  name="doctor" 
-                  label="Bác sĩ" 
+                <TextField fullWidth
+                  name="doctor"
+                  label="Bác sĩ"
                   margin="dense"
                   value={formik.values.doctor}
-                  onChange={formik.handleChange} 
-                  onBlur={formik.handleBlur} 
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   error={formik.touched.doctor && Boolean(formik.errors.doctor)}
                   helperText={formik.touched.doctor && formik.errors.doctor}
                 />

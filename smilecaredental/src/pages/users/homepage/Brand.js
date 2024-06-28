@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import TextRating from "@mui/material/Rating";
-import axiosInstance from "../../../api/axiosInstance";
+import { getDetailClinicPage } from "../../../api/api";
 
 function Brand() {
   const { id } = useParams();
@@ -24,7 +24,7 @@ function Brand() {
 
     const fetchData = async () => {
       try {
-        const res = await axiosInstance.get(`/detail/clinic/${id}`)
+        const res = await getDetailClinicPage(id)
         setBrand(res.data.clinic)
         setLoading(false)
       }

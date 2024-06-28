@@ -15,27 +15,29 @@ import DisplayButton from "../../../components/layout/DisplayButton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import axiosInstance from "../../../api/axiosInstance";
+import { getPageAllClinics, getPageAllServices } from "../../../api/api";
 
 function Home() {
   const [services, setServices] = useState([])
   const [clinics, setClinics] = useState([])
+  const [loading, setLoading] = useState(true)
 
+  const fetchServices = () => getPageAllServices()
+  const fetchClinics = () => getPageAllClinics()
   useEffect(() => {
-    axiosInstance.get("/all-services")
-      .then(res => {
-        setServices(res.data.services)
-      })
-      .catch(error => {
-        console.error("...", error)
-      })
-    axiosInstance.get("/all-clinics")
-    .then(res => {
-      setClinics(res.data.clinics)
-    })
-    .catch(error => {
-      console.error("...", error)
-    })
+    const fetchData = async () => {
+      try {
+        const servicesResponse = await fetchServices()
+        const clinicsResponse = await fetchClinics()
+        setServices(servicesResponse.data.services)
+        setClinics(clinicsResponse.data.clinics)
+      } catch (error) {
+        console.error("Error fetching services and clinics:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
   }, [])
 
   const settings = {
@@ -144,8 +146,8 @@ function Home() {
             các thương hiệu đã được xác minh bởi Booking Smile.
           </Typography>
           <Slider {...settings}>
-            {clinics.map((clinic, index) => (
-              <Box key={index} px={2}>
+            {clinics.map((clinic) => (
+              <Box key={clinic.id} px={2}>
                 <Card sx={{ maxWidth: 300, margin: "0 auto", marginBottom: "20px" }}>
                   <CardMedia
                     component="img"

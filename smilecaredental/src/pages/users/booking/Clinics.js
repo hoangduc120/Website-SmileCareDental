@@ -11,21 +11,21 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DisplayButton from "../../../components/layout/DisplayButton.js";
-import axiosInstance from "../../../api/axiosInstance.js";
+import { getPageAllClinics } from "../../../api/api.js";
 
 function Clinics() {
   const [clinics, setClinics] = useState([]);
 
   useEffect(() => {
-    axiosInstance
-      .get("all-clinics")
-      .then((response) => {
-        console.log(response.data)
+    const fetchClinics = async () => {
+      try {
+        const response = await getPageAllClinics()
         setClinics(response.data.clinics);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching clinics:", error);
-      });
+      }
+    }
+    fetchClinics()
   }, []);
 
 
@@ -125,7 +125,7 @@ function Clinics() {
                     to={`/clinic/${clinic.id}`}
                   >
                     Các bác sĩ trong phòng khám
-                    
+
                   </Button>
                   <Button variant="outlined" sx={{ width: "100%" }}>
                     <Link

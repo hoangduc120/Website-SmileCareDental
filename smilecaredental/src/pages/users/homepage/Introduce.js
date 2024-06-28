@@ -6,18 +6,22 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DisplayButton from "../../../components/layout/DisplayButton.js";
 import { useState } from 'react';
 import { useEffect } from 'react';
-import axiosInstance from '../../../api/axiosInstance.js';
+import { getPageAllServices } from '../../../api/api.js';
 function Introduce() {
     const [services, setServices] = useState([])
+
     useEffect(() => {
-        axiosInstance.get("/all-services")
-            .then(res => {
-                setServices(res.data.services)
-            })
-            .catch(error => {
-                console.error("...", error)
-            })
-    }, [])
+        const fetchData = async () => {
+            try {
+                const response = await getPageAllServices()
+                setServices(response.data.services);
+            } catch (error) {
+                console.error("Error fetching clinics:", error);
+            }
+        }
+        fetchData()
+    }, []);
+
     return (
         <>
             <Box textAlign="center" height="20vh">

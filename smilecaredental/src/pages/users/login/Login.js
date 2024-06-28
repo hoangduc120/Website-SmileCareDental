@@ -14,7 +14,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import axiosInstance from '../../../api/axiosInstance'
+import { login } from '../../../api/api'
 function Login() {
   const navigate = useNavigate()
   const formik = useFormik({
@@ -25,7 +25,7 @@ function Login() {
     },
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
-        const res = await axiosInstance.post('/api/auth/login', {
+        const res = await login({
           email: values.email,
           password: values.password,
         })

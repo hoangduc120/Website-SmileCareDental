@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { useFormik } from "formik";
 import * as Yup from 'yup'
-import axiosInstance from "../../../api/axiosInstance";
+import { resetPassword } from "../../../api/api";
 function ForgetPassword2() {
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ function ForgetPassword2() {
     }),
     onSubmit: async (values, { setSubmiting, resetForm }) => {
       try {
-        const res = await axiosInstance.post('/api/auth/reset-password', {
+        const res = await resetPassword({
           password: values.password,
           confirmPassword: values.confirmPassword,
         });

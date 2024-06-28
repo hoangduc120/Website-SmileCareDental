@@ -4,7 +4,7 @@ import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from 'yup'
-import axiosInstance from "../../../api/axiosInstance";
+import { requestPasswordReset } from "../../../api/api";
 function ForgetPassword() {
   // const navigate = useNavigate()
   const formik = useFormik({
@@ -18,7 +18,7 @@ function ForgetPassword() {
     }),
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
-        const response = await axiosInstance.post('/api/auth/request-password-reset', {
+        const response = await requestPasswordReset({
           email: values.email,
         })
         console.log("Reset password request successful", response.data)
