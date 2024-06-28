@@ -92,9 +92,6 @@ export const searchDentistsByName = async (name) => {
   return axiosInstance.get(`/clinic-owner/dentist/searchdentist`, { params: { name } });
 };
 
-// export const getUsers = async () => {
-//   return axiosInstance.get('/admin/users/customers-clinicowners');
-// };
 
 // Admin API
 export const createUser = async (userData) => {
@@ -112,3 +109,7 @@ export const deleteUser = async (userId) => {
 export const searchUsersByName = async (name) => {
   return axiosInstance.get('/admin/users/search', { params: { name } });
 };
+
+export const getCustomersAndClinicOwners = async () => {
+  return axiosInstance.get('/admin/users/customers-clinicowners');
+}

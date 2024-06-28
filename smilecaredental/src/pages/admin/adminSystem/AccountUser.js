@@ -1,52 +1,90 @@
-import React, { useState } from 'react';
-import { Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  Typography, Button,
+  Table, TableBody,
+  TableCell, TableContainer,
+  TableHead, TableRow,
+  Paper, IconButton,
+  Dialog, DialogActions, DialogContent,
+  DialogTitle, TextField, FormControl,
+  InputLabel, Select, MenuItem
+} from '@mui/material';
 import { Add, Edit, Delete } from '@mui/icons-material';
 import { useFormik, Formik, Form } from 'formik';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
-
+import { createUser, updateUser, deleteUser, getCustomersAndClinicOwners } from '../../../api/api'
 const AccountUser = () => {
-  const [users, setUsers] = useState([
-    { id: 1, name: 'Nguyễn Văn A',gender:'Nam', dateOfBirth:'1990-09-10', email: 'nguyenvana@gmail.com', phone: '0123456789' },
-    { id: 2, name: 'Trần Thị B',gender:'Nam', dateOfBirth:'1990-09-10', email: 'tranthib@gmail.com', phone: '0987654321' },
-    { id: 3, name: 'Nguyễn Văn A',gender:'Nam', dateOfBirth:'1990-09-10', email: 'nguyenvana@gmail.com', phone: '0123456789' },
-    { id: 4, name: 'Trần Thị B',gender:'Nam', dateOfBirth:'1990-09-10', email: 'tranthib@gmail.com', phone: '0987654321' },
-    { id: 5, name: 'Nguyễn Văn A',gender:'Nam', dateOfBirth:'1990-09-10', email: 'nguyenvana@gmail.com', phone: '0123456789' },
-    { id: 6, name: 'Trần Thị B',gender:'Nam', dateOfBirth:'1990-09-10', email: 'tranthib@gmail.com', phone: '0987654321' },
-  ]);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const [selectedDeleteId, setSelectedDeleteId] = useState(null);
+  const [users, setUsers] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await getCustomersAndClinicOwners()
+        setUsers(res.data || []);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchUsers();
+  }, [])
 
   const handleAdd = () => {
     setIsEdit(false);
     formik.resetForm();
-    setOpenEditDialog(true);
+    setOpenDialog(true);
   };
 
   const handleEdit = (user) => {
     setIsEdit(true);
     formik.setValues(user);
-    setOpenEditDialog(true);
+    setOpenDialog(true);
   };
 
-  const handleConfirmDelete = (id) => {
-    setSelectedDeleteId(id);
-    setOpenConfirmDialog(true);
-  };
-
-  const handleDelete = () => {
-    setUsers(users.filter(user => user.id !== selectedDeleteId));
-    setOpenConfirmDialog(false);
-  };
-
-  const handleAddOrEdit = (values) => {
-    if (values.id) {
-      setUsers(users.map(user => (user.id === values.id ? values : user)));
-    } else {
-      setUsers([...users, { ...values, id: users.length + 1 }]);
+  const handleDelete = async (id) => {
+    const confirm = window.confirm("Are you sure you want to delete");
+    if (confirm) {
+      try {
+        await deleteUser(`${id}`);
+        setUsers(users.filter(user => user.id !== id));
+        toast.success("Data delete susccessfully!");
+      } catch (error) {
+        console.error('Failed to delete user', error);
+      }
     }
-    setOpenEditDialog(false);
+  };
+  const handleAddUser = async (values) => {
+    try {
+      const status = values.status === '1'; // Convert '1' to true, '0' to false
+      const res = await createUser({
+        ...values,
+        status: status,
+      });
+      setUsers([...users, { ...values, id: res.data.user.id, status: status }]);
+      setOpenDialog(false);
+      toast.success("Thêm người dùng thành công!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Thêm người dùng thất bại!");
+    }
+  };
+  const handleUpdateUser = async (values) => {
+    try {
+      const status = values.status === '1'; // Convert '1' to true, '0' to false
+      await updateUser(values.id, {
+        ...values,
+        status: status,
+      });
+      setUsers(users.map(user => (user.id === values.id ? { ...values, status: status } : user)));
+      setOpenDialog(false);
+      toast.success("Cập nhật người dùng thành công!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Cập nhật người dùng thất bại!");
+    }
   };
 
   const formik = useFormik({
@@ -54,28 +92,35 @@ const AccountUser = () => {
       id: '',
       name: '',
       gender: '',
-      dateOfBirth: '',
-      phone: '',
+      role: '',
+      status: '',
+      phonenumber: '',
       email: '',
     },
     onSubmit: (values, props) => {
-      handleAddOrEdit(values);
+      if (isEdit) {
+        handleUpdateUser(values);
+      } else {
+        handleAddUser(values);
+      }
       setTimeout(() => {
         props.resetForm();
         props.setSubmitting(false);
       }, 2000);
     },
     validationSchema: Yup.object().shape({
-      name: Yup.string().required('Vui lòng nhập Tên người dùng').min(5, 'Tên phải có ít nhất 5 ký tự'),
+      name: Yup.string().required('Vui lòng nhập Tên người dùng'),
       gender: Yup.string().required('Vui lòng chọn Giới tính'),
-      dateOfBirth: Yup.string().required('Vui lòng nhập Ngày sinh'),
-      phone: Yup.number().required('Vui lòng nhập Số điện thoại'),
+      role: Yup.string().required('Vui lòng chọn vai trò '),
+      phonenumber: Yup.number().required('Vui lòng nhập Số điện thoại'),
       email: Yup.string().required('Vui lòng nhập Email').email('Email không hợp lệ'),
+
     }),
   });
 
   return (
     <div style={{ padding: '16px' }}>
+      <ToastContainer />
       <Typography variant="h4" gutterBottom sx={{ marginBottom: '20px', textAlign: 'center', color: '#0D47A1', fontWeight: 'bold' }}>
         Quản lý tài khoản người dùng
       </Typography>
@@ -88,7 +133,8 @@ const AccountUser = () => {
             <TableRow>
               <TableCell>Tên người dùng</TableCell>
               <TableCell>Giới tính</TableCell>
-              <TableCell>Ngày sinh</TableCell>
+              <TableCell>Vai trò</TableCell>
+              <TableCell>Trạng thái</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Số điện thoại</TableCell>
               <TableCell>Hành động</TableCell>
@@ -99,14 +145,15 @@ const AccountUser = () => {
               <TableRow key={user.id}>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.gender}</TableCell>
-                <TableCell>{user.dateOfBirth}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell>{user.status ? 'Hoạt động' : 'Không hoạt động'}</TableCell>
                 <TableCell>{user.email}</TableCell>
-                <TableCell>{user.phone}</TableCell>
+                <TableCell>{user.phonenumber}</TableCell>
                 <TableCell>
                   <IconButton color="primary" onClick={() => handleEdit(user)}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="secondary" onClick={() => handleConfirmDelete(user.id)}>
+                  <IconButton color="secondary" onClick={() => handleDelete(user.id)}>
                     <Delete />
                   </IconButton>
                 </TableCell>
@@ -116,7 +163,7 @@ const AccountUser = () => {
         </Table>
       </TableContainer>
 
-      <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>{isEdit ? 'Chỉnh sửa tài khoản người dùng' : 'Thêm tài khoản người dùng mới'}</DialogTitle>
         <DialogContent>
           <Formik initialValues={formik.initialValues} validationSchema={formik.validationSchema} onSubmit={formik.handleSubmit}>
@@ -149,28 +196,34 @@ const AccountUser = () => {
                   </Select>
                   {formik.touched.gender && formik.errors.gender && (<Typography variant="caption" color="red">{formik.errors.gender}</Typography>)}
                 </FormControl>
-                <TextField
-                  margin="dense"
-                  // label="Ngày sinh"
-                  name="dateOfBirth"
-                  type="date"
-                  fullWidth
-                  value={formik.values.dateOfBirth}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.dateOfBirth && Boolean(formik.errors.dateOfBirth)}
-                  helperText={formik.touched.dateOfBirth && formik.errors.dateOfBirth}
-                />
+                <FormControl fullWidth margin="dense">
+                  <InputLabel>Vai Trò</InputLabel>
+                  <Select
+                    name="role"
+                    label="Vai trò"
+                    value={formik.values.role}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.role && Boolean(formik.errors.role)}
+                  >
+                    <MenuItem value="">Chọn vai trò</MenuItem>
+                    <MenuItem value="admin">Admin</MenuItem>
+                    <MenuItem value="customer">Customer</MenuItem>
+                    <MenuItem value="dentist">Dentist</MenuItem>
+                    <MenuItem value="clinic owner">Clinic owner</MenuItem>
+                  </Select>
+                  {formik.touched.role && formik.errors.role && (<Typography variant="caption" color="red">{formik.errors.role}</Typography>)}
+                </FormControl>
                 <TextField
                   margin="dense"
                   label="Số điện thoại"
-                  name="phone"
+                  name="phonenumber"
                   fullWidth
-                  value={formik.values.phone}
+                  value={formik.values.phonenumber}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.phone && Boolean(formik.errors.phone)}
-                  helperText={formik.touched.phone && formik.errors.phone}
+                  error={formik.touched.phonenumber && Boolean(formik.errors.phonenumber)}
+                  helperText={formik.touched.phonenumber && formik.errors.phonenumber}
                 />
                 <TextField
                   margin="dense"
@@ -183,8 +236,23 @@ const AccountUser = () => {
                   error={formik.touched.email && Boolean(formik.errors.email)}
                   helperText={formik.touched.email && formik.errors.email}
                 />
+                <FormControl fullWidth margin="dense">
+                  <InputLabel>Trạng thái</InputLabel>
+                  <Select
+                    name="status"
+                    label="Trạng thái"
+                    value={formik.values.status}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.status && Boolean(formik.errors.status)}
+                  >
+                    <MenuItem value="">Chọn Trạng thái</MenuItem>
+                    <MenuItem value="false">Hủy</MenuItem>
+                    <MenuItem value="true">Kích hoạt</MenuItem>
+                  </Select>
+                </FormControl>
                 <DialogActions>
-                  <Button onClick={() => setOpenEditDialog(false)} color="secondary">
+                  <Button onClick={() => setOpenDialog(false)} color="secondary">
                     Hủy
                   </Button>
                   <Button onClick={props.handleSubmit} color="primary">
@@ -195,23 +263,6 @@ const AccountUser = () => {
             )}
           </Formik>
         </DialogContent>
-      </Dialog>
-
-      <Dialog open={openConfirmDialog} onClose={() => setOpenConfirmDialog(false)}>
-        <DialogTitle>Xác nhận xóa</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Bạn có chắc chắn muốn xóa tài khoản người dùng này không?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenConfirmDialog(false)} color="primary">
-            Hủy
-          </Button>
-          <Button onClick={handleDelete} color="secondary">
-            Xóa
-          </Button>
-        </DialogActions>
       </Dialog>
     </div>
   );
