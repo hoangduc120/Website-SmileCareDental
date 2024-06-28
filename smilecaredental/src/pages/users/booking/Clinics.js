@@ -124,7 +124,8 @@ function Clinics() {
                     component={Link}
                     to={`/clinic/${clinic.id}`}
                   >
-                    Đặt Lịch
+                    Các bác sĩ trong phòng khám
+                    
                   </Button>
                   <Button variant="outlined" sx={{ width: "100%" }}>
                     <Link

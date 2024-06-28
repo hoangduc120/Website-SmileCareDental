@@ -46,12 +46,12 @@ function Booking() {
     if (clinicsData) {
       const foundDoctor = clinicsData
         .map((clinic) =>
-          clinic.doctors.find((doc) => doc.index === parseInt(doctorId))
+          clinic.dentist_infos.find((doc) => doc.dentist_id === parseInt(doctorId))
         )
         .find((doctor) => doctor !== undefined);
 
       if (foundDoctor) {
-        setDoctor(foundDoctor);
+        setDoctor(foundDoctor.dentist);
       }
     }
   }, [doctorId, clinicsData]);

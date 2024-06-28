@@ -10,34 +10,34 @@ import {
   Button,
 
 } from "@mui/material";
+import axiosInstance from "../../../api/axiosInstance";
 
 function Doctors() {
   const { id } = useParams();
-  const [clinics, setClinics] = useState([]);
+  // const [clinics, setClinics] = useState([]);
   const [clinic, setClinic] = useState(null);
 
-  useEffect(() => { 
-    // Fetch mock API data
+  useEffect(() => {
 
-    fetch("https://667113c7e083e62ee439f20f.mockapi.io/clinics")
-      .then((res) => res.json())
-      .then((data) => {
-        setClinics(data); // Lưu trữ danh sách phòng khám vào state
+    axiosInstance
+      .get(`clinic/${id}/dentists`)
+      .then((res) => {
+        setClinic(res.data); // Lưu trữ danh sách phòng khám vào state
       })
       .catch((error) => {
         console.error("Error fetching clinics:", error);
       });
-  }, []);
+  }, [id]);
 
-  useEffect(() => {
-    // Tìm kiếm phòng khám theo id từ params
-    const foundClinic = clinics.find((clinic) => clinic.id === parseInt(id));
-    setClinic(foundClinic); // Lưu trữ thông tin phòng khám được tìm thấy vào state
-  }, [clinics, id]);
+  // useEffect(() => {
+  //   // Tìm kiếm phòng khám theo id từ params
+  //   const foundClinic = clinics.find((clinic) => clinic.id === parseInt(id));
+  //   setClinic(foundClinic); // Lưu trữ thông tin phòng khám được tìm thấy vào state
+  // }, [clinics, id]);
 
   if (!clinic) {
     return <Typography variant="h4">Loading...</Typography>;
- 
+
   }
 
   return (
@@ -47,8 +47,8 @@ function Doctors() {
       </Typography>
 
       <Grid container spacing={2}>
-        {clinic.doctors.map((doctor) => (
-          <Grid item xs={12} sm={6} md={4} key={doctor.index}>
+        {clinic.dentist_infos.map((dentist_info) => (
+          <Grid item xs={12} sm={6} md={4} key={dentist_info.id}>
             <Card sx={{ textAlign: "center" }}>
               <CardMedia
                 component="img"
@@ -58,19 +58,19 @@ function Doctors() {
                   borderRadius: "50%",
                   margin: "0 auto",
                 }}
-                image={doctor.image}
-                title={doctor.name}
+                image={dentist_info.dentist.image } 
+                title={dentist_info.dentist.name || "Bác sĩ"}
               />
               <CardContent>
-                <Typography variant="h6">{doctor.name}</Typography>
+                <Typography variant="h6">{dentist_info.dentist.name}</Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {doctor.specialty}
+                  {dentist_info.degree}
                 </Typography>
                 <Button
                   variant="contained"
                   color="primary"
                   component={Link}
-                  to={`/book-appointment/${doctor.index}`}
+                  to={`/book-appointment/${dentist_info.dentist_id}`}
                   sx={{ marginTop: 2 }}
                 >
                   Đặt lịch
