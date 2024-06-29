@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Formik, Form, useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import {
   Avatar,
   Box,
@@ -21,25 +20,31 @@ import {
   Typography,
 } from "@mui/material";
 import { timeSlots } from "../../../components/datatest/doctor/TimeData";
+import { getDetailDoctorPage } from "../../../api/api";
 
 function Booking() {
   const { doctorId } = useParams();
   const [doctor, setDoctor] = useState(null);
   const [clinicsData, setClinicsData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const generalRef = useRef(null);
   const experienceRef = useRef(null);
   const trainingRef = useRef(null);
 
   useEffect(() => {
-    axios
-      .get("https://667113c7e083e62ee439f20f.mockapi.io/clinics")
-      .then((response) => {
-        setClinicsData(response.data);
-      })
-      .catch((error) => {
+    const fetchClinics = async (id) => {
+      try {
+        const response = await getDetailDoctorPage(id)
+        setClinicsData(response.data.clinic);
+      } catch (error) {
         console.error("Error fetching clinics:", error);
-      });
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchClinics()
   }, []);
 
   useEffect(() => {
@@ -96,8 +101,12 @@ function Booking() {
     }
   };
 
-  if (!doctor) return <Typography>Loading...</Typography>;
+  if (loading) return <Typography>Loading...</Typography>;
+  if (error) return <Typography>Error loading data: {error.message}</Typography>;
 
+  const doctorName = doctor?.name || "Bác sĩ chưa cập nhật tên";
+  const doctorImage = doctor?.image || "default-image-url"; // Replace with a valid default image URL
+  const doctorSpecialty = doctor?.specialty || "Chưa cập nhật chuyên môn";
   return (
     <Box sx={{ flexGrow: 1, p: 3, backgroundColor: "#f0f8ff" }}>
       <Grid container spacing={2}>
@@ -111,8 +120,8 @@ function Booking() {
               mt={2}
             >
               <Avatar
-                alt={doctor.name.toString()}
-                src={doctor.image}
+                alt={doctorName.toString()}
+                src={doctorImage}
                 sx={{ width: 100, height: 100 }}
               />
               <Typography
@@ -120,10 +129,10 @@ function Booking() {
                 mt={1}
                 sx={{ fontWeight: "bold" }}
               >
-                {doctor.name}
+                {doctorName}
               </Typography>
               <Typography variant="subtitle2" color="textSecondary">
-                {doctor.specialty}
+                {doctorSpecialty}
               </Typography>
             </Box>
 
@@ -177,7 +186,7 @@ function Booking() {
                 >
                   Thông tin chung
                 </Typography>
-                {doctor.generalInfo &&
+                {doctor?.generalInfo &&
                   doctor.generalInfo.split("\n").map((info, index) => (
                     <Typography variant="body1" key={index} paragraph>
                       {info}
@@ -192,7 +201,7 @@ function Booking() {
                 >
                   Kinh nghiệm
                 </Typography>
-                {doctor.experience &&
+                {doctor?.experience &&
                   doctor.experience.split("\n").map((exp, index) => (
                     <Typography variant="body1" key={index} paragraph>
                       {exp}
@@ -207,7 +216,7 @@ function Booking() {
                 >
                   Đào tạo
                 </Typography>
-                {doctor.training &&
+                {doctor?.training &&
                   doctor.training.split("\n").map((train, index) => (
                     <Typography variant="body1" key={index} paragraph>
                       {train}

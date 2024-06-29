@@ -9,7 +9,7 @@ import {
   Typography,
   Link as MuiLink, Paper
 } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
+import GoogleButton from 'react-google-button'
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
@@ -132,13 +132,9 @@ function Login() {
                 </Button>
               </Link>
             </Stack>
-            <Button
-              variant="outlined"
-              startIcon={<GoogleIcon />}
-              sx={{ textTransform: "none", mt: 2 }}
-            >
-              Đăng nhập với Google
-            </Button>
+            <GoogleButton
+              onClick={() => { console.log('Google button clicked') }}
+            />
           </Stack>
         </Paper>
       </Grid>
