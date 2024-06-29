@@ -113,3 +113,9 @@ export const searchUsersByName = async (name) => {
 export const getCustomersAndClinicOwners = async () => {
   return axiosInstance.get('/admin/users/customers-clinicowners');
 }
+export const getAllClinics = async () => {
+  return axiosInstance.get('/admin/clinics');
+}
+export const getAllDentists = async () => {
+  return axiosInstance.get('/admin/dentists');
+}
