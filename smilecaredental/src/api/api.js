@@ -75,6 +75,7 @@ export const getDentistsByClinic = async (id) => {
 };
 
 
+
 // Clinic Owner API
 export const updateClinic = async (clinicData) => {
   return axiosInstance.put(`/clinic-owner/clinic/update`, clinicData);

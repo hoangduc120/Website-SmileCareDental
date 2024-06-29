@@ -10,30 +10,24 @@ import {
   Button,
 
 } from "@mui/material";
-import axiosInstance from "../../../api/axiosInstance";
+import { getDentistsByClinic } from "../../../api/api";
 
 function Doctors() {
   const { id } = useParams();
-  // const [clinics, setClinics] = useState([]);
   const [clinic, setClinic] = useState(null);
 
   useEffect(() => {
-
-    axiosInstance
-      .get(`clinic/${id}/dentists`)
-      .then((res) => {
-        setClinic(res.data); // Lưu trữ danh sách phòng khám vào state
-      })
-      .catch((error) => {
+    const fetchClinics = async () => {
+      try {
+        const response = await getDentistsByClinic(id)
+        setClinic(response.data.clinic[0]);
+      } catch (error) {
         console.error("Error fetching clinics:", error);
-      });
+      }
+    }
+    fetchClinics()
   }, [id]);
 
-  // useEffect(() => {
-  //   // Tìm kiếm phòng khám theo id từ params
-  //   const foundClinic = clinics.find((clinic) => clinic.id === parseInt(id));
-  //   setClinic(foundClinic); // Lưu trữ thông tin phòng khám được tìm thấy vào state
-  // }, [clinics, id]);
 
   if (!clinic) {
     return <Typography variant="h4">Loading...</Typography>;
@@ -43,7 +37,7 @@ function Doctors() {
   return (
     <Box sx={{ padding: 2 }}>
       <Typography variant="h4" sx={{ marginBottom: 2, textAlign: "center" }}>
-        Danh sách bác sĩ tại {clinic.nameRoom}
+        Danh sách bác sĩ tại {clinic.name}
       </Typography>
 
       <Grid container spacing={2}>
@@ -58,7 +52,7 @@ function Doctors() {
                   borderRadius: "50%",
                   margin: "0 auto",
                 }}
-                image={dentist_info.dentist.image } 
+                image={dentist_info.dentist.image}
                 title={dentist_info.dentist.name || "Bác sĩ"}
               />
               <CardContent>
