@@ -16,7 +16,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { getPageAllClinics, getPageAllServices } from "../../../api/api";
-
 function Home() {
   const [services, setServices] = useState([])
   const [clinics, setClinics] = useState([])
@@ -39,6 +38,9 @@ function Home() {
     }
     fetchData()
   }, [])
+
+  const topServices = services.slice(0, 6);
+  const bottomServices = services.slice(0, 8);
 
   const settings = {
     dots: true,
@@ -98,7 +100,7 @@ function Home() {
         </Typography>
         <Box sx={{ paddingX: "15px" }}>
           <Grid container spacing={2}>
-            {services.map((service) => (
+            {topServices.map((service) => (
               <Grid item xs={4} key={service.id}>
                 <Box
                   display="flex"
@@ -108,7 +110,7 @@ function Home() {
                 >
                   <CardMedia
                     component="img"
-                    image={service.image}
+                    image={service.img}
                     alt={service.name}
                     height="200"
                   />
@@ -152,7 +154,7 @@ function Home() {
                   <CardMedia
                     component="img"
                     height="150"
-                    image={clinic.img}
+                    image={clinic.Image}
                     alt={clinic.name}
                   />
                   <CardContent sx={{ textAlign: "center" }}>
@@ -193,7 +195,7 @@ function Home() {
       <Box sx={{ backgroundColor: "#0477CA", padding: 2 }}>
         <Container>
           <Grid container spacing={2}>
-            {services.map((service) => (
+            {bottomServices.map((service) => (
               <Grid item xs={6} sm={3} key={service.id}>
                 <Button
                   variant="contained"
