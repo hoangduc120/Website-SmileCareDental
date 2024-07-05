@@ -110,7 +110,7 @@ function Home() {
                 >
                   <CardMedia
                     component="img"
-                    image={service.img}
+                    image={service.image}
                     alt={service.name}
                     height="200"
                   />
@@ -154,7 +154,7 @@ function Home() {
                   <CardMedia
                     component="img"
                     height="150"
-                    image={clinic.Image}
+                    image={clinic.image}
                     alt={clinic.name}
                   />
                   <CardContent sx={{ textAlign: "center" }}>

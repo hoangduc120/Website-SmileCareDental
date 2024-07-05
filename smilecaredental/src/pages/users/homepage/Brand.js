@@ -53,7 +53,7 @@ function Brand() {
     address,
     phonenumber,
     clinic_owner,
-    imageUrl,
+    image,
     bannerUrl,
     description,
     clinic_schedules: workingHours,
@@ -126,7 +126,7 @@ function Brand() {
           <Grid item>
             <Avatar
               alt={name}
-              src={imageUrl}
+              src={image}
               sx={{
                 width: { xs: 100, md: 150 },
                 height: { xs: 100, md: 150 },

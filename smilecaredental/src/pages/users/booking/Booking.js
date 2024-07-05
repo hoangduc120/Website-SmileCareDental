@@ -20,7 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 import { timeSlots } from "../../../components/datatest/doctor/TimeData";
-import { getDetailDoctorPage } from "../../../api/api";
+import { createAppointment, getDetailDoctorPage } from "../../../api/api";
 
 function Booking() {
   const { doctorId } = useParams();
@@ -34,32 +34,42 @@ function Booking() {
   const trainingRef = useRef(null);
 
   useEffect(() => {
-    const fetchClinics = async (id) => {
+    const fetchDoctorDetails = async (id) => {
       try {
-        const response = await getDetailDoctorPage(id)
+        const response = await getDetailDoctorPage(id);
+        setDoctor(response.data.doctor);
         setClinicsData(response.data.clinic);
       } catch (error) {
-        console.error("Error fetching clinics:", error);
+        setError(error);
+        console.error("Error fetching doctor details:", error);
       } finally {
         setLoading(false);
       }
-    }
-    fetchClinics()
-  }, []);
+    };
+    fetchDoctorDetails(doctorId);
+  }, [doctorId]);
 
-  useEffect(() => {
-    if (clinicsData) {
-      const foundDoctor = clinicsData
-        .map((clinic) =>
-          clinic.dentist_infos.find((doc) => doc.dentist_id === parseInt(doctorId))
-        )
-        .find((doctor) => doctor !== undefined);
+  const handleSubmit = async (values) => {
+    try {
+      const response = await createAppointment({
+        clinicId: clinicsData.id,  // Giả sử bạn có biến clinicId từ context hoặc prop
+        dentistId: doctorId,
+        serviceId: 1, 
+        slotId: values.time,
+        appointmentDate: values.date,
+        name: values.name,
+        gender: values.gender,
+        phone: values.phone,
+        appointmentType: values.appointmentType,
+      });
 
-      if (foundDoctor) {
-        setDoctor(foundDoctor.dentist);
-      }
+      console.log('Appointment created successfully:', response.data);
+      // Bạn có thể hiển thị thông báo thành công hoặc xử lý logic khác
+    } catch (error) {
+      console.error('Error creating appointment:', error);
+      // Bạn có thể hiển thị thông báo lỗi hoặc xử lý logic khác
     }
-  }, [doctorId, clinicsData]);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -71,6 +81,7 @@ function Booking() {
       time: "",
     },
     onSubmit: (values, props) => {
+      handleSubmit(values);
       setTimeout(() => {
         props.resetForm();
         props.setSubmitting(false);
@@ -91,6 +102,7 @@ function Booking() {
     }),
   });
 
+
   const scrollToSection = (section) => {
     if (section === "general" && generalRef.current) {
       generalRef.current.scrollIntoView({ behavior: "smooth" });
@@ -107,6 +119,7 @@ function Booking() {
   const doctorName = doctor?.name || "Bác sĩ chưa cập nhật tên";
   const doctorImage = doctor?.image || "default-image-url"; // Replace with a valid default image URL
   const doctorSpecialty = doctor?.specialty || "Chưa cập nhật chuyên môn";
+
   return (
     <Box sx={{ flexGrow: 1, p: 3, backgroundColor: "#f0f8ff" }}>
       <Grid container spacing={2}>
@@ -120,7 +133,7 @@ function Booking() {
               mt={2}
             >
               <Avatar
-                alt={doctorName.toString()}
+                alt={doctorName}
                 src={doctorImage}
                 sx={{ width: 100, height: 100 }}
               />
@@ -186,7 +199,7 @@ function Booking() {
                 >
                   Thông tin chung
                 </Typography>
-                {doctor?.generalInfo &&
+                {doctor.generalInfo &&
                   doctor.generalInfo.split("\n").map((info, index) => (
                     <Typography variant="body1" key={index} paragraph>
                       {info}
@@ -252,6 +265,7 @@ function Booking() {
                       onBlur={formik.handleBlur}
                       error={formik.touched.date && Boolean(formik.errors.date)}
                       helperText={formik.touched.date && formik.errors.date}
+                      onChange={formik.handleChange}
                     />
                     {/* Tên */}
                     <TextField

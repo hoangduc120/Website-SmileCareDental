@@ -120,3 +120,13 @@ export const getAllClinics = async () => {
 export const getAllDentists = async () => {
   return axiosInstance.get('/admin/dentists');
 }
+
+export const getAvailableSlotsForDate = async () => {
+  return axiosInstance.get('/dentists/:dentistId/availble-slots');
+}
+export const createAppointment = async () => {
+  return axiosInstance.post('/customer/create-appointment');
+}
+export const confirmAppointment = async () => {
+  return axiosInstance.get('/appointments/confirm/:appointmentId');
+}

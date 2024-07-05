@@ -87,7 +87,7 @@ function Clinics() {
                     margin: "0 auto ",
                     border: "3px solid #2098D1",
                   }}
-                  image={clinic.imageRoom}
+                  image={clinic.image}
 
                 />
                 <CardContent>
