@@ -28,6 +28,9 @@ import DentalFacility from './pages/users/adminSystem/DentalFacility.js';
 import AccountUser from './pages/users/adminSystem/AccountUser.js';
 import NewClinic from './pages/users/adminSystem/NewClinic.js';
 import DashboardSystem from './pages/users/adminSystem/DashboardSystem.js';
+import DoctorInfo from './pages/doctor/DoctorInfo.js';
+import DoctorAccount from './pages/doctor/DoctorAccount.js';
+import SidebarDoctor from './pages/doctor/SidebarDoctor.js';
 
 function App() {
   return (
@@ -65,6 +68,10 @@ function App() {
             <Route path="/newclinic" element={<NewClinic />} />
             <Route path="/dashboardsystem" element={<DashboardSystem />} />
             <Route path="/" element={<Navigate to="/home" />} />
+            {/* Doctor Profile */}
+            <Route path="/sidebardoctor" element={<SidebarDoctor />} />
+            <Route path="/doctorinfo" element={<DoctorInfo />} />
+            <Route path="/doctoraccount" element={<DoctorAccount />} />
           </Route>
 
           {/* Redirect unknown routes to home */}
