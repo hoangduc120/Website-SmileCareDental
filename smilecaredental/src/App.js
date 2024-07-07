@@ -23,11 +23,12 @@ import ForgetPassword from "./pages/users/login/ForgetPassword.js";
 import ForgetPassword2 from "./pages/users/login/ForgetPassword2.js";
 import Clinics from "./pages/users/booking/Clinics.js";
 import Booking from "./pages/users/booking/Booking.js";
-import MainLayout from './components/layout/MainLayout.js';
+import MainLayout from './components/Layout/MainLayout.js';
 import DentalFacility from './pages/users/adminSystem/DentalFacility.js';
 import AccountUser from './pages/users/adminSystem/AccountUser.js';
 import NewClinic from './pages/users/adminSystem/NewClinic.js';
 import DashboardSystem from './pages/users/adminSystem/DashboardSystem.js';
+import ViewAppointmentsDoctors from './pages/account_doctors/profiles/ViewAppointmentsDoctors.js';
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
-           
+          <Route path="/viewappointmentsdoctors" element={<ViewAppointmentsDoctors />} />
             <Route path="/home" element={<Home />} />
             <Route path="/introduce" element={<Introduce />} />
             <Route path="/service" element={<Service />} />

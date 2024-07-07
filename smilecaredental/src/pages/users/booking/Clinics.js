@@ -10,20 +10,23 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import DisplayButton from "../../../components/layout/DisplayButton.js";
+import DisplayButton from "../../../components/Layout/DisplayButton";
 import axios from "axios";
 
 function Clinics() {
   const [clinics, setClinics] = useState([]);
 
+  // call api clinics
   useEffect(() => {
     axios
-      .get("https://667113c7e083e62ee439f20f.mockapi.io/clinics")
+      .get("http://localhost:5000/all-clinics")
       .then((response) => {
-        setClinics(response.data);
+        // trả về dữ liệu của cái clinics 
+        setClinics(response.data.clinics);
       })
       .catch((error) => {
         console.error("Error fetching clinics:", error);
+        setClinics([]); // nếu nó bị lỗi thì in ra
       });
   }, []);
 
@@ -85,8 +88,8 @@ function Clinics() {
                     margin: "0 auto ",
                     border: "3px solid #2098D1",
                   }}
-                  image={clinic.imageRoom}
-
+                  //ảnh
+                  image={clinic.imageRoom} 
                 />
                 <CardContent>
                   <Typography
@@ -98,9 +101,11 @@ function Clinics() {
                       fontSize: { xs: "1rem", sm: "1.25rem" },
                     }}
                   >
-                    {clinic.nameRoom}
+                    {/* tên */}
+                    {clinic.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
+                    {/* thông tin */}
                     {clinic.info}
                   </Typography>
                 </CardContent>
