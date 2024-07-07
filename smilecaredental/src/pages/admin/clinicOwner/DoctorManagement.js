@@ -19,95 +19,38 @@ const DoctorManagement = () => {
     const fetchClinics = async () => {
       try {
         const response = await getDentistsByClinic(id)
-        setClinic(response.data.clinics[0]);
+        setClinic(response.data.clinic[0]);
       } catch (error) {
         console.error("Error fetching clinics:", error);
       }
     }
     fetchClinics()
-  }, [id])
-
-  // const handleAdd = () => {
-  //   setIsEdit(false);
-  //   formik.resetForm();
-  //   setOpenDialog(true);
-  // };
-
-  // const handleEdit = (clinic) => {
-  //   setIsEdit(true);
-  //   formik.setValues(clinic);
-  //   setOpenDialog(true);
-  // };
-
-  // const handleDelete = async (id) => {
-  //   const confirm = window.confirm("Are you sure you want to delete");
-  //   if (confirm) {
-  //     try {
-  //       await deleteUser(`${id}`);
-  //       setClinic(clinic.filter(clinic => clinic.id !== id));
-  //       toast.success("Data delete susccessfully!");
-  //     } catch (error) {
-  //       console.error('Failed to delete user', error);
-  //     }
-  //   }
-  // };
-
-  // const handleAddUser = async (values) => {
-  //   try {
-  //     const status = values.status === '1'; // Convert '1' to true, '0' to false
-  //     const res = await createUser({
-  //       ...values,
-  //       status: status,
-  //     });
-  //     setClinic([...clinic, { ...values, id: res.data.clinic.id, status: status }]);
-  //     setOpenDialog(false);
-  //     toast.success("Thêm người dùng thành công!");
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error("Thêm người dùng thất bại!");
-  //   }
-  // };
-
-
-  // const handleUpdateUser = async (values) => {
-  //   try {
-  //     const status = values.status === '1'; // Convert '1' to true, '0' to false
-  //     await updateUser(values.id, {
-  //       ...values,
-  //       status: status,
-  //     });
-  //     setUsers(clinic.map(user => (clinic.id === values.id ? { ...values, status: status } : clinic)));
-  //     setOpenDialog(false);
-  //     toast.success("Cập nhật người dùng thành công!");
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error("Cập nhật người dùng thất bại!");
-  //   }
-  // };
+  }, [id]);
 
   const formik = useFormik({
     initialValues: {
-      fullName: "",
-      phone: "",
+      name: "",
+      phonenumber: "",
       email: "",
     },
     onSubmit: (values, props) => {
-      // if (isEdit) {
-      //   handleUpdateUser(values);
-      // } else {
-      //   handleAddUser(values);
-      // }
       setTimeout(() => {
         props.resetForm();
         props.setSubmitting(false);
       }, 2000);
     },
     validationSchema: Yup.object().shape({
-      fullName: Yup.string().required('Vui lòng nhập Tên').min(5, 'Tên phải có ít nhất 5 ký tự'),
+      name: Yup.string().required('Vui lòng nhập Tên').min(5, 'Tên phải có ít nhất 5 ký tự'),
       phone: Yup.string().required('Vui lòng nhập Số điện thoại'),
       email: Yup.string().required('Vui lòng nhập Email').email('Email không hợp lệ'),
     }),
   });
+
+  if (!clinic) {
+    return <Typography variant="h4">Loading...</Typography>;
+
+  }
+
 
   return (
     <Container maxWidth="lg">
@@ -125,11 +68,11 @@ const DoctorManagement = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {clinic && clinic.dentist_infos.map((doctor) => (
-            <TableRow key={doctor.id} sx={{ backgroundColor: doctor.id % 2 === 0 ? '#f5f5f5' : '#ffffff', '&:hover': { backgroundColor: '#eeeeee' } }}>
-              <TableCell>{doctor.dentist.fullName}</TableCell>
-              <TableCell>{doctor.dentist.phone}</TableCell>
-              <TableCell>{doctor.dentist.email}</TableCell>
+          {clinic && clinic.dentist_infos.map((dentist_info) => (
+            <TableRow key={dentist_info.id} sx={{ backgroundColor: dentist_info.id % 2 === 0 ? '#f5f5f5' : '#ffffff', '&:hover': { backgroundColor: '#eeeeee' } }}>
+              <TableCell>{dentist_info.dentist.name}</TableCell>
+              <TableCell>{dentist_info.dentist.phonenumber}</TableCell>
+              <TableCell>{dentist_info.dentist.email}</TableCell>
               <TableCell>
                 <Button variant="outlined" color="primary" size="small" sx={{ marginRight: '5px', borderRadius: '8px', textTransform: 'none' }}
                 // onClick={() => handleViewDetail(clinic)}

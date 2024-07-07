@@ -130,3 +130,4 @@ export const createAppointment = async () => {
 export const confirmAppointment = async () => {
   return axiosInstance.get('/appointments/confirm/:appointmentId');
 }
+

@@ -58,12 +58,9 @@ const AccountUser = () => {
   };
   const handleAddUser = async (values) => {
     try {
-      const status = values.status === '1'; // Convert '1' to true, '0' to false
-      const res = await createUser({
-        ...values,
-        status: status,
-      });
-      setUsers([...users, { ...values, id: res.data.user.id, status: status }]);
+
+      const res = await createUser(values)
+      setUsers([...users, { ...values, id: res.data.user.id }]);
       setOpenDialog(false);
       toast.success("Thêm người dùng thành công!");
     } catch (error) {
@@ -73,12 +70,9 @@ const AccountUser = () => {
   };
   const handleUpdateUser = async (values) => {
     try {
-      const status = values.status === '1'; // Convert '1' to true, '0' to false
-      await updateUser(values.id, {
-        ...values,
-        status: status,
-      });
-      setUsers(users.map(user => (user.id === values.id ? { ...values, status: status } : user)));
+
+      await updateUser(values.id, values);
+      setUsers(users.map(user => (user.id === values.id ? values : user)));
       setOpenDialog(false);
       toast.success("Cập nhật người dùng thành công!");
     } catch (error) {
@@ -91,8 +85,6 @@ const AccountUser = () => {
     initialValues: {
       id: '',
       name: '',
-      gender: '',
-      role: '',
       status: '',
       phonenumber: '',
       email: '',
@@ -110,11 +102,8 @@ const AccountUser = () => {
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required('Vui lòng nhập Tên người dùng'),
-      gender: Yup.string().required('Vui lòng chọn Giới tính'),
-      role: Yup.string().required('Vui lòng chọn vai trò '),
       phonenumber: Yup.number().required('Vui lòng nhập Số điện thoại'),
       email: Yup.string().required('Vui lòng nhập Email').email('Email không hợp lệ'),
-
     }),
   });
 
@@ -132,8 +121,6 @@ const AccountUser = () => {
           <TableHead>
             <TableRow>
               <TableCell>Tên người dùng</TableCell>
-              <TableCell>Giới tính</TableCell>
-              <TableCell>Vai trò</TableCell>
               <TableCell>Trạng thái</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Số điện thoại</TableCell>
@@ -144,8 +131,6 @@ const AccountUser = () => {
             {users.map((user) => (
               <TableRow key={user.id}>
                 <TableCell>{user.name}</TableCell>
-                <TableCell>{user.gender}</TableCell>
-                <TableCell>{user.role}</TableCell>
                 <TableCell>{user.status ? 'Hoạt động' : 'Không hoạt động'}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.phonenumber}</TableCell>
@@ -180,40 +165,6 @@ const AccountUser = () => {
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.touched.name && formik.errors.name}
                 />
-                <FormControl fullWidth margin="dense">
-                  <InputLabel>Giới tính</InputLabel>
-                  <Select
-                    name="gender"
-                    label="Giới tính"
-                    value={formik.values.gender}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.gender && Boolean(formik.errors.gender)}
-                  >
-                    <MenuItem value="">Chọn giới tính</MenuItem>
-                    <MenuItem value="Nam">Nam</MenuItem>
-                    <MenuItem value="Nữ">Nữ</MenuItem>
-                  </Select>
-                  {formik.touched.gender && formik.errors.gender && (<Typography variant="caption" color="red">{formik.errors.gender}</Typography>)}
-                </FormControl>
-                <FormControl fullWidth margin="dense">
-                  <InputLabel>Vai Trò</InputLabel>
-                  <Select
-                    name="role"
-                    label="Vai trò"
-                    value={formik.values.role}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.role && Boolean(formik.errors.role)}
-                  >
-                    <MenuItem value="">Chọn vai trò</MenuItem>
-                    <MenuItem value="admin">Admin</MenuItem>
-                    <MenuItem value="customer">Customer</MenuItem>
-                    <MenuItem value="dentist">Dentist</MenuItem>
-                    <MenuItem value="clinic owner">Clinic owner</MenuItem>
-                  </Select>
-                  {formik.touched.role && formik.errors.role && (<Typography variant="caption" color="red">{formik.errors.role}</Typography>)}
-                </FormControl>
                 <TextField
                   margin="dense"
                   label="Số điện thoại"

@@ -30,11 +30,19 @@ function Login() {
           password: values.password,
         })
         console.log('Login successful', res.data)
-
+        alert('Login successful')
         localStorage.setItem('token', res.data.token)
 
+        const user = JSON.parse(atob(res.data.token.split('.')[1]))
+        if (user.role === 1) {
+          navigate('/dashboardsystem')
+        } else if (user.role === 4) {
+          navigate('/dashboardClinic')
+        } else {
+          navigate('/home')
+        }
         resetForm()
-        navigate('/home')
+
       } catch (err) {
         console.error('Login failed', err.response ? err.response.data : "lỗi")
         console.log(err.data)
