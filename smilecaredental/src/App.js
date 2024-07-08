@@ -30,6 +30,7 @@ import AccountUser from './pages/admin/adminSystem/AccountUser.js';
 import NewClinic from './pages/admin/adminSystem/NewClinic.js';
 import DashboardSystem from './pages/admin/adminSystem/DashboardSystem.js';
 import NotAuthorized from './NotAuthorized.js'
+import ViewAppointmentsDoctors from './pages/doctor/ViewAppointmentsDoctor.js';
 function App() {
   return (
     <div className="App">
@@ -53,6 +54,7 @@ function App() {
               <Route path="/forgetpassword" element={<ForgetPassword />} />
               <Route path="/forgetpassword2" element={<ForgetPassword2 />} />
               <Route path="/book-appointment/:doctorId" element={<Booking />} />
+              <Route path="viewappointmentsdoctors" element={<ViewAppointmentsDoctors />} />
               {/* CLINIC OWNER */}
               <Route element={<ProtectedRoute roles={[4]} />}>
                 <Route path="/dashboardClinic" element={<Dashboard />} />
@@ -77,7 +79,6 @@ function App() {
           </Routes>
 
           <ScrollToTopButton />
-          {/* commit */}
         </BrowserRouter>
       </AuthProvider>
     </div>
