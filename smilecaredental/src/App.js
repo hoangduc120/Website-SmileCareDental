@@ -31,6 +31,7 @@ import DashboardSystem from './pages/users/adminSystem/DashboardSystem.js';
 import DoctorInfo from './pages/doctor/DoctorInfo.js';
 import DoctorAccount from './pages/doctor/DoctorAccount.js';
 import SidebarDoctor from './pages/doctor/SidebarDoctor.js';
+import ExaminationResult from './pages/users/profile/ExaminationResult.js';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
             <Route path="/myaccount" element={<MyAccount />} />
             <Route path="/changepassword" element={<ChangePassword />} />
             <Route path="/viewappointments" element={<ViewAppointments />} />
+            <Route path="/examinationresult" element={<ExaminationResult />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgetpassword" element={<ForgetPassword />} />

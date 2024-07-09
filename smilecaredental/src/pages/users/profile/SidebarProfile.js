@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography } from '@mui/material';
-import { CalendarToday, Logout, AccountCircle, Lock } from '@mui/icons-material';
+import { CalendarToday, Logout, AccountCircle, Lock, Assignment } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 
 const SidebarProfile = () => {
@@ -20,6 +20,7 @@ const SidebarProfile = () => {
     { text: 'Tài khoản của tôi', icon: <AccountCircle />, path: '/myaccount' },
     { text: 'Thay đổi mật khẩu', icon: <Lock />, path: '/changepassword' },
     { text: 'Xem lịch khám', icon: <CalendarToday />, path: '/viewappointments' },
+    { text: 'Kết quả khám', icon: <Assignment />, path: '/examinationresult' },
   ];
 
   return (
