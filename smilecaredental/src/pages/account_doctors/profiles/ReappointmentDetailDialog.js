@@ -1,16 +1,32 @@
-// ReappointmentDetailDialog.jsx
-import React from "react";
+import React, { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+
+const slots = ["Slot 1", "Slot 2", "Slot 3"]; // Danh sách các slots
 
 const ReappointmentDetailDialog = ({ isOpen, onClose, appointment }) => {
-  // Kiểm tra nếu appointment không tồn tại thì return null
+  const [periodicInterval, setPeriodicInterval] = useState(appointment ? appointment.periodicInterval : '');
+  const [periodicCount, setPeriodicCount] = useState(appointment ? appointment.periodicCount : '');
+  const [selectedSlot, setSelectedSlot] = useState(appointment ? appointment.slotId : '');
+
+  const handleSubmit = () => {
+    // Xử lý submit dữ liệu ở đây
+    console.log({
+      patientName: appointment.patient, 
+      doctorName: appointment.doctorName,
+      serviceId: appointment.serviceId, 
+      periodicInterval,
+      periodicCount,
+      selectedSlot,
+    });
+    onClose();
+  };
+
   if (!appointment) return null;
 
   return (
@@ -21,65 +37,92 @@ const ReappointmentDetailDialog = ({ isOpen, onClose, appointment }) => {
       fullWidth
       PaperProps={{
         style: {
-          backgroundColor: "rgba(255, 255, 255, 0.9)",
+          backgroundColor: "rgba(255, 255, 255, 0.95)", 
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
           borderRadius: "8px",
           padding: "20px",
+          border: "1px solid rgba(0, 0, 0, 0.3)" 
         },
       }}
     >
-      <DialogTitle>Chi tiết lịch tái khám</DialogTitle>
+      <DialogTitle>Đặt lịch tái khám</DialogTitle>
       <DialogContent dividers>
-        <List>
-          <ListItem>
-            <ListItemText
-              primary={<strong>ID bệnh nhân:</strong>}
-              secondary={appointment.id}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary={<strong>Tên bệnh nhân:</strong>}
-              secondary={appointment.patient}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary={<strong>Ngày tái khám:</strong>}
-              secondary={appointment.reappointmentDate}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary={<strong>Có định kỳ:</strong>}
-              secondary={appointment.isPeriodic ? "Có" : "Không"}
-            />
-          </ListItem>
-          {appointment.isPeriodic && (
-            <ListItem>
-              <ListItemText
-                primary={<strong>Thời gian định kỳ:</strong>}
-                secondary={appointment.periodicInterval}
-              />
-            </ListItem>
-          )}
-          <ListItem>
-            <ListItemText
-              primary={<strong>Dịch vụ tái khám:</strong>}
-              secondary={appointment.serviceId}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary={<strong>Slot ID:</strong>}
-              secondary={appointment.slotId}
-            />
-          </ListItem>
-        </List>
+        <TextField
+          label="Tên bệnh nhân"
+          fullWidth
+          margin="normal"
+          value={appointment.patient} // Fix cứng
+          InputProps={{
+            readOnly: true,
+            style: { backgroundColor: "white" } 
+          }}
+        />
+        <TextField
+          label="Tên bác sĩ"
+          fullWidth
+          margin="normal"
+          value={appointment.doctorName} // Fix cứng
+          InputProps={{
+            readOnly: true,
+            style: { backgroundColor: "white" } 
+          }}
+        />
+        <TextField
+          label="Dịch vụ tái khám"
+          fullWidth
+          margin="normal"
+          value={appointment.serviceId} // Fix cứng
+          InputProps={{
+            readOnly: true,
+            style: { backgroundColor: "white" } 
+          }}
+        />
+        <TextField
+          label="Thời gian định kỳ"
+          type="number"
+          fullWidth
+          margin="normal"
+          value={periodicInterval}
+          onChange={(e) => setPeriodicInterval(e.target.value)}
+          InputProps={{
+            style: { backgroundColor: "white" } 
+          }}
+        />
+        <TextField
+          label="Số lần định kỳ"
+          type="number"
+          fullWidth
+          margin="normal"
+          value={periodicCount}
+          onChange={(e) => setPeriodicCount(e.target.value)}
+          InputProps={{
+            style: { backgroundColor: "white" } 
+          }}
+        />
+        <TextField
+          label="Slot tái khám"
+          select
+          fullWidth
+          margin="normal"
+          value={selectedSlot}
+          onChange={(e) => setSelectedSlot(e.target.value)}
+          InputProps={{
+            style: { backgroundColor: "white" } 
+          }}
+        >
+          {slots.map((slot, index) => (
+            <MenuItem key={index} value={slot}>
+              {slot}
+            </MenuItem>
+          ))}
+        </TextField>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
           Đóng
+        </Button>
+        <Button onClick={handleSubmit} color="primary">
+          Submit
         </Button>
       </DialogActions>
     </Dialog>

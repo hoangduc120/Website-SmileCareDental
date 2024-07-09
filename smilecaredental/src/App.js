@@ -28,7 +28,8 @@ import DentalFacility from './pages/users/adminSystem/DentalFacility.js';
 import AccountUser from './pages/users/adminSystem/AccountUser.js';
 import NewClinic from './pages/users/adminSystem/NewClinic.js';
 import DashboardSystem from './pages/users/adminSystem/DashboardSystem.js';
-import ViewAppointmentsDoctors from './pages/account_doctors/profiles/ViewAppointmentsDoctors.js';
+import ViewPatientList from './pages/account_doctors/profiles/ViewPatientList.js';
+import ViewScheduleAppointment from './pages/account_doctors/profiles/ViewScheduleAppointment.js';
 
 function App() {
   return (
@@ -36,7 +37,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
-          <Route path="/viewappointmentsdoctors" element={<ViewAppointmentsDoctors />} />
+          {/* <Route path="/viewappointmentsdoctors" element={<ViewAppointmentsDoctors />} /> */}
+          <Route path="/" element={<ViewScheduleAppointment />} />
+          <Route path="/viewpatientlist" element={<ViewPatientList />} />
             <Route path="/home" element={<Home />} />
             <Route path="/introduce" element={<Introduce />} />
             <Route path="/service" element={<Service />} />
