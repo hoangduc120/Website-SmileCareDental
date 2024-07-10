@@ -20,7 +20,8 @@ const SidebarDoctor = () => {
     { text: 'Tài khoản của tôi', icon: <AccountCircle />, path: '/doctoraccount' },
     { text: 'Xem lịch khám', icon: <CalendarToday />, path: '/doctorviewappointments' },
   ];
-
+  
+  
   return (
     <Drawer
       variant="permanent"
