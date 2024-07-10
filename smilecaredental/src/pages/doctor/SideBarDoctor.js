@@ -3,22 +3,23 @@ import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography } from '@mui/material';
 import { CalendarToday, Logout, AccountCircle } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../../api/authService';
 
 const SidebarDoctor = () => {
     const navigate = useNavigate();
     const [userName] = useState('Hoàng Việt Đức'); // Mock admin name
     const [selectedItem, setSelectedItem] = useState('/doctorinfo'); // Default selected item
-
     const handleLogout = () => {
-        console.log('User logged out'); // Implement your logout logic
-        setSelectedItem('logout');
-        navigate('/login'); // Redirect to login page
-    };
-
+        logout();
+        navigate('/login'); // Điều hướng về trang đăng nhập sau khi đăng xuất
+      };
     const menuItems = [
         { text: 'Thông tin cá nhân', icon: <AccountCircle />, path: '/doctorinfo' },
         { text: 'Tài khoản của tôi', icon: <AccountCircle />, path: '/doctoraccount' },
-        { text: 'Xem lịch khám', icon: <CalendarToday />, path: '/doctorviewappointments' },
+        { text: 'Xem lịch hẹn', icon: <CalendarToday />, path: '/viewscheduleappointment' },
+        { text: 'Xem danh sách bệnh nhân', icon: <CalendarToday />, path: '/viewpatienlist' },
+        { text: 'Kết quả khám', icon: <CalendarToday />, path: '/examinationresult' },
+        { icon: <Logout />, text: 'Đăng xuất', onClick: handleLogout }
     ];
 
     return (

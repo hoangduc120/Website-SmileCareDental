@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { HomeWork, Article, Home, Logout, People } from '@mui/icons-material';
+import { logout } from '../../../api/authService';
 
 const SidebarSystem = () => {
+  const navigate = useNavigate();
   const [adminName] = useState('Hoàng Đức');
+  const handleLogout = () => {
+    logout();
+    navigate('/login'); // Điều hướng về trang đăng nhập sau khi đăng xuất
+  };
   const menuItems = [
     { to: '/dashboardsystem', icon: <Home />, text: 'Dash board' },
     { to: '/dentalfacility', icon: <HomeWork />, text: 'Quản lý cơ sở nha khoa' },
     { to: '/accountuser', icon: <People />, text: 'Quản lý tài khoản người dùng' },
     { to: '/newclinic', icon: <Article />, text: 'Quản lý đơn đăng ký phòng khám mới' },
-    { to: '/', icon: <Logout />, text: 'Đăng xuất' }
+    { icon: <Logout />, text: 'Đăng xuất', onClick: handleLogout }
   ];
 
   return (

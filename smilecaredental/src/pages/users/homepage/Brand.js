@@ -63,7 +63,7 @@ function Brand() {
   const formik = useFormik({
     initialValues: {
       date: "",
-      clinicId: "", // Đảm bảo giá trị này được gán và cập nhật chính xác
+      clinicId: "", 
       time: "",
       dentistId: "",
       serviceId: "",

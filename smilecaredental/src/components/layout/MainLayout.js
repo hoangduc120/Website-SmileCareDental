@@ -5,13 +5,15 @@ import Header from './Header';
 import SidebarProfile from '../../pages/users/profile/SidebarProfile';
 import SidebarOwner from '../../pages/admin/clinicOwner/SidebarOwner'
 import SidebarSystem from '../../pages/admin/adminSystem/SidebarSystem';
+import SiddbarDoctor from '../../pages/doctor/SideBarDoctor';
 import Footer from '../layout/Footer';
 const MainLayout = () => {
     const location = useLocation();
     const isUserProfileRoute = ['/userinfo', '/myaccount', '/changepassword', '/viewappointments'].includes(location.pathname);
-    const isClinicRoute = ['/dashboardClinic', '/clinicManagement', '/doctor', '/appointment', '/patient'].includes(location.pathname);
+    const isClinicRoute = ['/dashboardclinic', '/clinicmanagement', '/doctor', '/appointment', '/patient'].includes(location.pathname);
     const isAdminRoute = ['/dashboardsystem', '/newclinic', '/accountuser', '/dentalfacility'].includes(location.pathname);
-    const sidebarComponent = isUserProfileRoute ? <SidebarProfile /> : isClinicRoute ? <SidebarOwner /> : isAdminRoute ? <SidebarSystem /> : null;
+    const isDoctor = ['/doctoraccount', '/doctorinfo', '/viewpatienlist', '/viewscheduleappointment', '/examinationresult'].includes(location.pathname);
+    const sidebarComponent = isUserProfileRoute ? <SidebarProfile /> : isClinicRoute ? <SidebarOwner /> : isAdminRoute ? <SidebarSystem /> : isDoctor ? <SiddbarDoctor /> : null;
 
     return (
         <div>

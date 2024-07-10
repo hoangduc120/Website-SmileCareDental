@@ -11,8 +11,10 @@ export const AuthProvider = ({ children }) => {
         if (token) {
             axiosInstance.get('/auth/me').then(response => {
                 setUser(response.data);
-            }).catch(() => {
+            }).catch(error => {
+                console.error('Failed to fetch user data:', error);
                 localStorage.removeItem('token');
+                setUser(null);
             });
         }
     }, []);

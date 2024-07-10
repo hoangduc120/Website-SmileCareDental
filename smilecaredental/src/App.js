@@ -13,7 +13,6 @@ import PatientManagement from './pages/admin/clinicOwner/PatientManegement.js';
 import AppointmentManagement from './pages/admin/clinicOwner/AppoinmentManagement.js';
 import Dashboard from './pages/admin/clinicOwner/Dashboard.js';
 import UserInfo from './pages/users/profile/UserInfo.js';
-import ChangePassword from './pages/users/profile/ChangePassword';
 import ViewAppointments from './pages/users/profile/ViewAppointments';
 import MyAccount from './pages/users/profile/MyAccount';
 import Doctors from "./pages/users/booking/Doctors.js";
@@ -30,7 +29,11 @@ import AccountUser from './pages/admin/adminSystem/AccountUser.js';
 import NewClinic from './pages/admin/adminSystem/NewClinic.js';
 import DashboardSystem from './pages/admin/adminSystem/DashboardSystem.js';
 import NotAuthorized from './NotAuthorized.js'
-import ViewAppointmentsDoctors from './pages/doctor/ViewAppointmentsDoctor.js';
+import DoctorAccount from './pages/doctor/DoctorAccount.js';
+import DoctorInfo from './pages/doctor/DoctorInfo.js';
+import ViewPatientList from './pages/doctor/ViewPatienList.js';
+import ViewScheduleAppointment from './pages/doctor/ViewScheduleAppointment.js';
+import ExaminationResult from './pages/doctor/ExaminationResult.js';
 function App() {
   return (
     <div className="App">
@@ -45,20 +48,30 @@ function App() {
               <Route path="/brand/:id" element={<Brand />} />
               <Route path="/clinic" element={<Clinics />} />
               <Route path="/clinic/:id" element={<Doctors />} />
-              <Route path="/userinfo" element={<UserInfo />} />
-              <Route path="/myaccount" element={<MyAccount />} />
-              <Route path="/changepassword" element={<ChangePassword />} />
-              <Route path="/viewappointments" element={<ViewAppointments />} />
+
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/forgetpassword" element={<ForgetPassword />} />
               <Route path="/forgetpassword2" element={<ForgetPassword2 />} />
+
               <Route path="/book-appointment/:doctorId" element={<Booking />} />
-              <Route path="viewappointmentsdoctors" element={<ViewAppointmentsDoctors />} />
+              <Route element={<ProtectedRoute roles={[3]} />}>
+                <Route path="/doctoraccount" element={<DoctorAccount />} />
+                <Route path="/doctorinfo" element={<DoctorInfo />} />
+                <Route path="/viewpatienlist" element={<ViewPatientList />} />
+                <Route path="/viewscheduleappointment" element={<ViewScheduleAppointment />} />
+                <Route path="/examinationresult" element={<ExaminationResult />} />
+              </Route>
+              {/* USER */}
+              <Route element={<ProtectedRoute roles={[2]} />}>
+                <Route path="/userinfo" element={<UserInfo />} />
+                <Route path="/myaccount" element={<MyAccount />} />
+                <Route path="/viewappointments" element={<ViewAppointments />} />
+              </Route>
               {/* CLINIC OWNER */}
               <Route element={<ProtectedRoute roles={[4]} />}>
-                <Route path="/dashboardClinic" element={<Dashboard />} />
-                <Route path="/clinicManagement" element={<ClinicManagement />} />
+                <Route path="/dashboardclinic" element={<Dashboard />} />
+                <Route path="/clinicmanagement" element={<ClinicManagement />} />
                 <Route path="/doctor" element={<DoctorManagement />} />
                 <Route path="/patient" element={<PatientManagement />} />
                 <Route path="/appointment" element={<AppointmentManagement />} />

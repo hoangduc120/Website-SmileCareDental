@@ -3,28 +3,26 @@ import {
   Badge,
   Box,
   Button,
-  Divider,
   Grid,
   ListItemIcon,
   Menu,
   MenuItem,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MailIcon from "@mui/icons-material/Mail";
 import PersonIcon from "@mui/icons-material/Person";
-import { Logout, Settings } from "@mui/icons-material";
+import { Logout } from "@mui/icons-material";
 import { logout } from "../../api/authService";
-import axiosInstance from "../../api/axiosInstance";
 
 function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
-  const [keyword, setKeyword] = useState('');
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -35,15 +33,15 @@ function Header() {
     logout();
     navigate('/login'); // Điều hướng về trang đăng nhập sau khi đăng xuất
   };
-  const handleSearch = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axiosInstance.post('/search-homepage', { keyword });
-      console.log(response.data);
-    } catch (error) {
-      console.error('Error searching', error);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const user = JSON.parse(atob(token.split('.')[1]));
+      setUserRole(user.role);
+    } else {
+      setUserRole(null);
     }
-  };
+  }, []);
   return (
     <>
       <Box maxWidth="100%">
@@ -160,29 +158,6 @@ function Header() {
                   Đối tác
                 </Typography>
               </Link>
-              <form onClick={handleSearch}>
-                <TextField
-                  label="Tìm kiếm"
-                  variant="outlined"
-                  size="small"
-                  onChange={(e) => { setKeyword(e.target.value) }}
-                  sx={{
-                    bgcolor: "white",
-                    borderRadius: "4px",
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "#FFF",
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "#FFF",
-                      },
-                    },
-                  }}
-                />
-                <Button type="submit" variant="contained" color="primary">
-                  Search
-                </Button>
-              </form>
               <Stack direction="row" spacing={10} alignItems="center">
                 <Badge badgeContent={4} color="primary">
                   <MailIcon style={{ color: "#FFF" }} />
@@ -206,7 +181,6 @@ function Header() {
               id="account-menu"
               open={open}
               onClose={handleClose}
-              onClick={handleClose}
               PaperProps={{
                 elevation: 0,
                 sx: {
@@ -236,44 +210,55 @@ function Header() {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem onClick={handleClose}>
-                <Avatar />
-                <Link to="/userinfo" style={{ textDecoration: "none", color: "black" }}>
-                  Thông tin cá nhân
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <Avatar />
-                <Link to="/myaccount" style={{ textDecoration: "none", color: "black" }}>
-                  Tài khoản của tôi
-                </Link>
-              </MenuItem>
-              <Divider />
-              <MenuItem onClick={handleClose}>
-                <Avatar />
-                <Link to="/dashboard" style={{ textDecoration: "none", color: "black" }}>
-                  Clinic Owner
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <Avatar />
-                <Link to="/dashboardsystem" style={{ textDecoration: "none", color: "black" }}>
-                  Admin System
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                  <Settings fontSize="small" />
-                </ListItemIcon>
-                Cài đặt
-              </MenuItem>
-              <MenuItem onClick={handleLogout}>
-                <ListItemIcon >
-                  <Logout fontSize="small" />
+              {!userRole ? (
+                <MenuItem onClick={handleClose}>
+                  <Avatar />
+                  <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
+                    Đăng nhập
+                  </Link>
+                </MenuItem>
+              ) : [
+                userRole === 1 && (
+                  <MenuItem key="admin-link" onClick={handleClose}>
+                    <Avatar />
+                    <Link to="/dashboardsystem" style={{ textDecoration: "none", color: "black" }}>
+                      Admin System
+                    </Link>
+                  </MenuItem>
+                ),
+                userRole === 2 && (
+                  <MenuItem key="profile-link" onClick={handleClose}>
+                    <Avatar />
+                    <Link to="/userinfo" style={{ textDecoration: "none", color: "black" }}>
+                      Thông tin cá nhân
+                    </Link>
+                  </MenuItem>
+                ),
+                userRole === 3 && (
+                  <MenuItem key="doctor-link" onClick={handleClose}>
+                    <Avatar />
+                    <Link to="/userinfo" style={{ textDecoration: "none", color: "black" }}>
+                      Thông tin bác sĩ
+                    </Link>
+                  </MenuItem>
+                ),
+                userRole === 4 && (
+                  <MenuItem key="clinic-link" onClick={handleClose}>
+                    <Avatar />
+                    <Link to="/dashboardclinic" style={{ textDecoration: "none", color: "black" }}>
+                      Clinic Owner
+                    </Link>
+                  </MenuItem>
+                ),
+                <MenuItem key="logout" onClick={handleLogout}>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
                   Đăng xuất
-                </ListItemIcon>
-              </MenuItem>
+                </MenuItem>
+              ]}
             </Menu>
+
           </Grid>
         </Grid>
       </Box>
