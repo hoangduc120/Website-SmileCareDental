@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography } from '@mui/material';
-import { CalendarToday, Logout, AccountCircle} from '@mui/icons-material';
+import { CalendarToday, Logout, AccountCircle } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 
 const SidebarDoctor = () => {
@@ -20,7 +20,7 @@ const SidebarDoctor = () => {
     { text: 'Tài khoản của tôi', icon: <AccountCircle />, path: '/doctoraccount' },
     { text: 'Xem lịch khám', icon: <CalendarToday />, path: '/doctorviewappointments' },
   ];
-  
+
   return (
     <Drawer
       variant="permanent"
