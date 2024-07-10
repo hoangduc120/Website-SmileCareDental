@@ -74,26 +74,6 @@ export const getDentistsByClinic = async (id) => {
   return axiosInstance.get(`/clinic/${id}/dentists`);
 };
 
-
-
-// Clinic Owner API
-export const updateClinic = async (clinicData) => {
-  return axiosInstance.put(`/clinic-owner/clinic/update`, clinicData);
-};
-
-export const createClinic = async (clinicData) => {
-  return axiosInstance.post(`/clinic-owner/clinic/create`, clinicData);
-};
-
-export const deleteClinicById = async (clinicId) => {
-  return axiosInstance.delete(`/clinic-owner/clinic/delete`, { data: { id: clinicId } });
-};
-
-export const searchDentistsByName = async (name) => {
-  return axiosInstance.get(`/clinic-owner/dentist/searchdentist`, { params: { name } });
-};
-
-
 // Admin API
 export const createUser = async (userData) => {
   return axiosInstance.post('/admin/users', userData);
@@ -137,3 +117,26 @@ export const confirmAppointment = async () => {
   return axiosInstance.get('/appointments/confirm/:appointmentId');
 }
 
+// Dentist 
+export const getSchedule = async () => {
+  return axiosInstance.get('/dentist/schedule')
+}
+export const getPatients = async () => {
+  return axiosInstance.get('/dentist/patients')
+}
+
+export const getHistory = async (id) => {
+  return axiosInstance.get(`/dentist/patients/${id}/history`)
+}
+
+export const getReappointment = async () => {
+  return axiosInstance.post('/dentist/reappointment')
+}
+
+export const getResult = async () => {
+  return axiosInstance.post('/dentist/examination-result')
+}
+
+export const getAvailable = async (id) => {
+  return axiosInstance.get(`/dentists/${id}/available-slots`)
+}

@@ -33,7 +33,7 @@ import DoctorAccount from './pages/doctor/DoctorAccount.js';
 import DoctorInfo from './pages/doctor/DoctorInfo.js';
 import ViewPatientList from './pages/doctor/ViewPatienList.js';
 import ViewScheduleAppointment from './pages/doctor/ViewScheduleAppointment.js';
-import ExaminationResult from './pages/doctor/ExaminationResult.js';
+import ExaminationResult from './pages/users/profile/ExaminationResult.js';
 function App() {
   return (
     <div className="App">
@@ -55,6 +55,7 @@ function App() {
               <Route path="/forgetpassword2" element={<ForgetPassword2 />} />
 
               <Route path="/book-appointment/:doctorId" element={<Booking />} />
+              {/* DOCTOR */}
               <Route element={<ProtectedRoute roles={[3]} />}>
                 <Route path="/doctoraccount" element={<DoctorAccount />} />
                 <Route path="/doctorinfo" element={<DoctorInfo />} />

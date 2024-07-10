@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Box, CardContent, CardMedia, Grid, Typography, Stack, Container, List, ListItem, ListItemText } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { ListIntros } from '../../../components/datatest/technology/Technology.js'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DisplayButton from "../../../components/layout/DisplayButton.js";
 import { useState } from 'react';

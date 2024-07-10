@@ -237,7 +237,7 @@ function Header() {
                 userRole === 3 && (
                   <MenuItem key="doctor-link" onClick={handleClose}>
                     <Avatar />
-                    <Link to="/userinfo" style={{ textDecoration: "none", color: "black" }}>
+                    <Link to="/doctoraccount" style={{ textDecoration: "none", color: "black" }}>
                       Thông tin bác sĩ
                     </Link>
                   </MenuItem>

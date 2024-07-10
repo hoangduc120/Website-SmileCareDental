@@ -1,59 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Typography, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions, MenuItem } from '@mui/material';
-
-const doctorSchedules = [
-    {
-        doctorName: 'Bác sĩ Nguyễn Văn A',
-        appointments: [
-            {
-                id: 1,
-                date: '2024-07-08',
-                time: '09:00 AM',
-                patient: 'Nguyễn Văn A',
-                address: '123 Đường ABC, Quận XYZ, TP HCM',
-                email: 'nguyenvana@example.com',
-                phone: '0987654321',
-                reappointmentDate: '2024-07-15',
-                isPeriodic: true,
-                periodicInterval: '1 tháng',
-                serviceId: 'Service A',
-                slotId: 'Slot 1',
-                result: 'Kết quả khám: Bệnh nhân thiếu răng, cần trồng thêm răng.'
-            },
-            {
-                id: 2,
-                date: '2024-07-09',
-                time: '10:30 AM',
-                patient: 'Trần Thị B',
-                address: '456 Đường DEF, Quận UVW, Hà Nội',
-                email: 'tranthib@example.com',
-                phone: '0123456789',
-                reappointmentDate: '2024-07-20',
-                isPeriodic: false,
-                periodicInterval: '',
-                serviceId: 'Service B',
-                slotId: 'Slot 2',
-                result: 'Kết quả khám: Bệnh nhân sâu răng, cần nhổ răng.'
-            },
-            {
-                id: 3,
-                date: '2024-07-10',
-                time: '02:00 PM',
-                patient: 'Phạm Văn C',
-                address: '789 Đường GHI, Quận MNO, Đà Nẵng',
-                email: 'phamvanc@example.com',
-                phone: '0909090909',
-                reappointmentDate: '2024-07-18',
-                isPeriodic: true,
-                periodicInterval: '2 tháng',
-                serviceId: 'Service C',
-                slotId: 'Slot 3',
-                result: 'Kết quả khám: Bệnh nhân bị thiếu răng'
-            },
-        ]
-    },
-];
-const slots = ["Slot 1", "Slot 2", "Slot 3"];
+import { getPatients } from '../../api/api';
 
 const ViewPatientList = () => {
     const [openReappointmentDialog, setOpenReappointmentDialog] = useState(false);
@@ -62,6 +9,20 @@ const ViewPatientList = () => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [selectedDate, setSelectedDate] = useState(null);
     const [searchName, setSearchName] = useState('');
+    const [doctorSchedules, setDoctorSchedules] = useState([]);
+    useEffect(() => {
+        const fetchPatients = async () => {
+            try {
+                const response = await getPatients()
+                setDoctorSchedules(response.data);
+            } catch (error) {
+                console.error("Error fetching patients data:", error);
+            }
+        };
+
+        fetchPatients();
+    }, []);
+
 
     const handleViewResult = (appointment) => {
         setSelectedAppointment(appointment);

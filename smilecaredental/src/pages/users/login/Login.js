@@ -39,7 +39,7 @@ function Login() {
         } else if (user.role === 4) {
           navigate('/dashboardclinic')
         } else if (user.role === 3) {
-          navigate('/doctoraccount')      
+          navigate('/doctorinfo')      
         } else {
           navigate('/home')
         }
