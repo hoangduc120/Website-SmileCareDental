@@ -1,12 +1,12 @@
-import React from "react";
-import { Box } from "@mui/material";
-import { Outlet, useLocation } from "react-router-dom";
-import Header from "./Header";
-import SidebarProfile from "../../pages/users/profile/SidebarProfile";
-import SidebarOwner from "../../pages/admin/clinicOwner/SidebarOwner";
-import SidebarSystem from "../../pages/admin/adminSystem/SidebarSystem";
-import SiddbarDoctor from "../../pages/doctor/SideBarDoctor";
-import Footer from "../Layout/Footer";
+import React from 'react';
+import { Box } from '@mui/material';
+import { Outlet, useLocation } from 'react-router-dom';
+import Header from './Header';
+import SidebarProfile from '../../pages/users/profile/SidebarProfile';
+import SidebarOwner from '../../pages/admin/clinicOwner/SidebarOwner'
+import SidebarSystem from '../../pages/admin/adminSystem/SidebarSystem';
+import SiddbarDoctor from '../../pages/doctor/SidebarDoctor';
+import Footer from '../layout/Footer';
 const MainLayout = () => {
   const location = useLocation();
   const isUserProfileRoute = [

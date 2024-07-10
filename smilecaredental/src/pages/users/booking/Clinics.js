@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import DisplayButton from "../../../components/Layout/DisplayButton.js";
+import DisplayButton from "../../../components/layout/DisplayButton.js";
 import { getPageAllClinics } from "../../../api/api.js";
 
 function Clinics() {

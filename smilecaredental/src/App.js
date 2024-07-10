@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider } from './authContext/AuthContext.js';
 import ProtectedRoute from './protecedRouted/ProtectedRoute.js'
-import MainLayout from './components/Layout/MainLayout.js';
+import MainLayout from './components/layout/MainLayout.js';
 import Home from './pages/users/homepage/Home.js'
 import Service from './pages/users/homepage/Service.js';
 import SignRegistration from './pages/users/homepage/SignRegistration.js';

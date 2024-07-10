@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
-import DisplayButton from "../../../components/Layout/DisplayButton";
+import DisplayButton from "../../../components/layout/DisplayButton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
