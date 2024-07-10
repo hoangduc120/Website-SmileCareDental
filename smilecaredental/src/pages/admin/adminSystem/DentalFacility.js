@@ -1,50 +1,80 @@
-import React, { useState } from 'react';
-import { Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { Add, Edit, Delete } from '@mui/icons-material';
 import { useFormik, Formik, Form } from 'formik';
 import * as Yup from 'yup';
-
+import { createUser, deleteUser, getAllClinics, updateUser } from '../../../api/api';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 const DentalFacility = () => {
-  const [facilities, setFacilities] = useState([
-    { id: 1, name: 'Nha Khoa Hoàn Mỹ', address: '123 Đường A, Quận 1, TP HCM', phone: '0123456789', email: 'hoanmy@example.com' },
-    { id: 2, name: 'Nha Khoa Việt Đức', address: '456 Đường B, Quận 9, TPHCM', phone: '0987654321', email: 'vietduc@example.com' },
-    { id: 3, name: 'Nha Khoa Hoàng An', address: '123 Đường A, Quận 1, TP HCM', phone: '0123456789', email: 'hoangan@example.com' },
-    { id: 4, name: 'Nha Khoa Kim', address: '456 Đường B, Quận 9, TPHCM', phone: '0987654321', email: 'kim@example.com' },
-  ]);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [selectedDeleteId, setSelectedDeleteId] = useState(null);
+  const [facilities, setFacilities] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
+  useEffect(() => {
+    const fetchDentals = async () => {
+      try {
+        const res = await getAllClinics()
+        setFacilities(res.data || []);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchDentals();
+  }, [])
   const handleAdd = () => {
     setIsEdit(false);
     formik.resetForm();
-    setOpenEditDialog(true);
+    setOpenDialog(true);
   };
 
   const handleEdit = (facility) => {
     setIsEdit(true);
     formik.setValues(facility);
-    setOpenEditDialog(true);
+    setOpenDialog(true);
   };
 
-  const handleConfirmDelete = (id) => {
-    setSelectedDeleteId(id);
-    setOpenConfirmDialog(true);
-  };
-
-  const handleDelete = () => {
-    setFacilities(facilities.filter((facility) => facility.id !== selectedDeleteId));
-    setOpenConfirmDialog(false);
-  };
-
-  const handleAddOrEdit = (values) => {
-    if (values.id) {
-      setFacilities(facilities.map((facility) => (facility.id === values.id ? values : facility)));
-    } else {
-      setFacilities([...facilities, { ...values, id: facilities.length + 1 }]);
+  const handleDelete = async (id) => {
+    const confirm = window.confirm("Are you sure you want to delete");
+    if (confirm) {
+      try {
+        await deleteUser(`${id}`);
+        setFacilities(facilities.filter(facilities => facilities.id !== id));
+        toast.success("Data delete susccessfully!");
+      } catch (error) {
+        console.error('Failed to delete user', error);
+      }
     }
-    setOpenEditDialog(false);
+  };
+  const handleAddDental = async (values) => {
+    try {
+      const status = values.status === '1'; // Convert '1' to true, '0' to false
+      const res = await createUser({
+        ...values,
+        status: status,
+      });
+      setFacilities([...facilities, { ...values, id: res.data.facilities.id, status: status }]);
+      setOpenDialog(false);
+      toast.success("Thêm người dùng thành công!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Thêm người dùng thất bại!");
+    }
+  };
+  const handleUpdateDental = async (values) => {
+    try {
+      const status = values.status === '1'; // Convert '1' to true, '0' to false
+      await updateUser(values.id, {
+        ...values,
+        status: status,
+      });
+      setFacilities(facilities.map(facilities => (facilities.id === values.id ? { ...values, status: status } : facilities)));
+      setOpenDialog(false);
+      toast.success("Cập nhật người dùng thành công!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Cập nhật người dùng thất bại!");
+    }
   };
 
   const formik = useFormik({
@@ -56,7 +86,11 @@ const DentalFacility = () => {
       email: '',
     },
     onSubmit: (values, props) => {
-      handleAddOrEdit(values);
+      if (isEdit) {
+        handleUpdateDental(values);
+      } else {
+        handleAddDental(values);
+      }
       setTimeout(() => {
         props.resetForm();
         props.setSubmitting(false);
@@ -72,6 +106,7 @@ const DentalFacility = () => {
 
   return (
     <div style={{ padding: '16px' }}>
+      <ToastContainer />
       <Typography variant="h4" gutterBottom sx={{ marginBottom: '20px', textAlign: 'center', color: '#0D47A1', fontWeight: 'bold' }}>
         Quản lí cơ sở nha khoa
       </Typography>
@@ -100,7 +135,7 @@ const DentalFacility = () => {
                   <IconButton color="primary" onClick={() => handleEdit(facility)}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="secondary" onClick={() => handleConfirmDelete(facility.id)}>
+                  <IconButton color="secondary" onClick={() => handleDelete(facility.id)}>
                     <Delete />
                   </IconButton>
                 </TableCell>
@@ -110,7 +145,7 @@ const DentalFacility = () => {
         </Table>
       </TableContainer>
 
-      <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle style={{ backgroundColor: '#0D47A1', color: '#ffffff' }}>
           {isEdit ? 'Chỉnh sửa cơ sở nha khoa' : 'Thêm cơ sở nha khoa'}
         </DialogTitle>
@@ -163,7 +198,7 @@ const DentalFacility = () => {
                   helperText={formik.touched.email && formik.errors.email}
                 />
                 <DialogActions>
-                  <Button onClick={() => setOpenEditDialog(false)} color="secondary">
+                  <Button onClick={() => setOpenDialog(false)} color="secondary">
                     Hủy
                   </Button>
                   <Button onClick={props.handleSubmit} color="primary">
@@ -174,21 +209,6 @@ const DentalFacility = () => {
             )}
           </Formik>
         </DialogContent>
-      </Dialog>
-
-      <Dialog open={openConfirmDialog} onClose={() => setOpenConfirmDialog(false)}>
-        <DialogTitle>Xác nhận xóa</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Bạn có chắc chắn muốn xóa cơ sở nha khoa này không ?</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenConfirmDialog(false)} color="primary">
-            Hủy
-          </Button>
-          <Button onClick={handleDelete} color="secondary">
-            Xóa
-          </Button>
-        </DialogActions>
       </Dialog>
     </div>
   );

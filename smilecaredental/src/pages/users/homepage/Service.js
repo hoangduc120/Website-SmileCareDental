@@ -5,8 +5,22 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DisplayButton from "../../../components/layout/DisplayButton.js";
 import { ListServices } from '../../../components/datatest/service/ListService.js';
 import CircleIcon from '@mui/icons-material/Circle'; // Thêm icon dấu chấm tròn
+import { useState } from 'react';
+import { useEffect } from 'react';
+import axiosInstance from '../../../api/axiosInstance.js';
 
 function Service() {
+    const [services, setServices] = useState([])
+    useEffect(() => {
+        axiosInstance.get("/all-services")
+            .then(res => {
+                setServices(res.data.services)
+            })
+            .catch(error => {
+                console.error("...", error)
+            })
+    },[])
+
     return (
         <>
             <Box textAlign="center" height="20vh">
