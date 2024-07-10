@@ -5,8 +5,9 @@ import Header from './Header';
 import SidebarProfile from '../../pages/users/profile/SidebarProfile';
 import SidebarOwner from '../../pages/admin/clinicOwner/SidebarOwner'
 import SidebarSystem from '../../pages/admin/adminSystem/SidebarSystem';
-import SidebarDoctor from '../../pages/doctor/SideBarDoctor';
+
 import Footer from '../layout/Footer';
+import SidebarDoctor from '../../pages/doctor/SidebarDoctor';
 const MainLayout = () => {
     const location = useLocation();
     const isUserProfileRoute = ['/userinfo', '/myaccount', '/changepassword', '/viewappointments'].includes(location.pathname);
