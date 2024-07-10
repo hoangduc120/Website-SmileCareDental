@@ -1,25 +1,23 @@
 
 import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography } from '@mui/material';
-import { CalendarToday, Logout, AccountCircle, Lock } from '@mui/icons-material';
+import { CalendarToday, Logout, AccountCircle } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../../../api/authService';
 
 const SidebarProfile = () => {
   const navigate = useNavigate();
   const [userName] = useState('Hoàng Việt Đức'); // Mock admin name
   const [selectedItem, setSelectedItem] = useState('/userinfo'); // Default selected item
-
   const handleLogout = () => {
-    console.log('User logged out'); // Implement your logout logic
-    setSelectedItem('logout');
-    navigate('/login'); // Redirect to login page
+    logout();
+    navigate('/login'); // Điều hướng về trang đăng nhập sau khi đăng xuất
   };
-
   const menuItems = [
     { text: 'Thông tin cá nhân', icon: <AccountCircle />, path: '/userinfo' },
     { text: 'Tài khoản của tôi', icon: <AccountCircle />, path: '/myaccount' },
-    { text: 'Thay đổi mật khẩu', icon: <Lock />, path: '/changepassword' },
     { text: 'Xem lịch khám', icon: <CalendarToday />, path: '/viewappointments' },
+    { icon: <Logout />, text: 'Đăng xuất', onClick: handleLogout }
   ];
 
   return (

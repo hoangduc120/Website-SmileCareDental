@@ -4,7 +4,24 @@ import { Link } from 'react-router-dom'
 import { ListIntros } from '../../../components/datatest/technology/Technology.js'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DisplayButton from "../../../components/Layout/DisplayButton";
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { getPageAllServices } from '../../../api/api.js';
 function Introduce() {
+    const [services, setServices] = useState([])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await getPageAllServices()
+                setServices(response.data.services);
+            } catch (error) {
+                console.error("Error fetching clinics:", error);
+            }
+        }
+        fetchData()
+    }, []);
+
     return (
         <>
             <Box textAlign="center" height="20vh">
@@ -116,8 +133,8 @@ function Introduce() {
                 </Typography>
                 <Box sx={{ paddingX: "15px" }}>
                     <Grid container spacing={2}>
-                        {ListIntros.map((ListIntro, index) => (
-                            <Grid item xs={4} key={index}>
+                        {services.map((service) => (
+                            <Grid item xs={4} key={service.id}>
                                 <Box
                                     display="flex"
                                     flexDirection="column"
@@ -126,47 +143,26 @@ function Introduce() {
                                 >
                                     <CardMedia
                                         component="img"
-                                        image={ListIntro.img}
-                                        alt={ListIntro.name}
+                                        image={service.image}
+                                        alt={service.name}
                                         height="200"
                                     />
                                     <CardContent>
-                                        <Typography variant="h6" component="div" color="#0477CA">
-                                            {ListIntro.name}
-                                        </Typography>
+                                        <Link to={`/Service/${service.id}`} style={{ textDecoration: "none" }}>
+                                            <Typography variant="h6" component="div" color="#0477CA">
+                                                {service.name}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                Giá: ${service.price}
+                                            </Typography>
+                                        </Link>
                                     </CardContent>
                                 </Box>
                             </Grid>
                         ))}
                     </Grid>
                 </Box>
-                <Typography variant="h4" component="h1" gutterBottom color="#0477CA" fontWeight={700}>
-                    Liên hệ
-                </Typography>
-                <Typography variant="body1" paragraph>
-                    Nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ, đừng ngần ngại liên hệ với chúng tôi qua:
-                </Typography>
-                <List>
-                    <ListItem>
-                        <ListItemText
-                            primary={
-                                <Typography variant="h6">
-                                    Email: support@bookingsmile.com
-                                </Typography>
-                            }
-                        />
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText
-                            primary={
-                                <Typography variant="h6">
-                                    Hotline: 1900-123-456
-                                </Typography>
-                            }
-                        />
-                    </ListItem>
-                </List>
-            </Container >
+            </Container>
             <hr />
             <Box>
                 <DisplayButton />

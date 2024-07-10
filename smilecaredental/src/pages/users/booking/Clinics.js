@@ -10,25 +10,25 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import DisplayButton from "../../../components/Layout/DisplayButton";
-import axios from "axios";
+import DisplayButton from "../../../components/Layout/DisplayButton.js";
+import { getPageAllClinics } from "../../../api/api.js";
 
 function Clinics() {
   const [clinics, setClinics] = useState([]);
 
   // call api clinics
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/all-clinics")
-      .then((response) => {
-        // trả về dữ liệu của cái clinics 
+    const fetchClinics = async () => {
+      try {
+        const response = await getPageAllClinics()
         setClinics(response.data.clinics);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching clinics:", error);
-        setClinics([]); // nếu nó bị lỗi thì in ra
-      });
+      }
+    }
+    fetchClinics()
   }, []);
+
 
   return (
     <>
@@ -88,8 +88,8 @@ function Clinics() {
                     margin: "0 auto ",
                     border: "3px solid #2098D1",
                   }}
-                  //ảnh
-                  image={clinic.imageRoom} 
+                  image={clinic.image}
+
                 />
                 <CardContent>
                   <Typography
@@ -101,7 +101,6 @@ function Clinics() {
                       fontSize: { xs: "1rem", sm: "1.25rem" },
                     }}
                   >
-                    {/* tên */}
                     {clinic.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -127,7 +126,8 @@ function Clinics() {
                     component={Link}
                     to={`/clinic/${clinic.id}`}
                   >
-                    Đặt Lịch
+                    Các bác sĩ trong phòng khám
+
                   </Button>
                   <Button variant="outlined" sx={{ width: "100%" }}>
                     <Link
