@@ -21,7 +21,6 @@ const SidebarDoctor = () => {
     { text: 'Xem lịch khám', icon: <CalendarToday />, path: '/doctorviewappointments' },
   ];
   
-  
   return (
     <Drawer
       variant="permanent"
