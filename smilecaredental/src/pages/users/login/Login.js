@@ -39,7 +39,7 @@ function Login() {
         } else if (user.role === 4) {
           navigate('/dashboardclinic')
         } else if (user.role === 3) {
-          navigate('/doctorinfo')      
+          navigate('/doctorinfo')
         } else {
           navigate('/home')
         }
@@ -142,9 +142,9 @@ function Login() {
                 </Button>
               </Link>
             </Stack>
-            <GoogleButton
+            {/* <GoogleButton
               onClick={() => { console.log('Google button clicked') }}
-            />
+            /> */}
           </Stack>
         </Paper>
       </Grid>

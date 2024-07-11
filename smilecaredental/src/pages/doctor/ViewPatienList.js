@@ -1,377 +1,241 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions, MenuItem } from '@mui/material';
-import { getPatients } from '../../api/api';
+import {
+    Grid,
+    Typography,
+    Table,
+    TableContainer,
+    TableHead,
+    TableBody,
+    TableRow,
+    TableCell,
+    Paper,
+    Button,
+    TextField,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Dialog
+} from '@mui/material';
+import { createExaminationResult, getHistory, getPatients } from '../../api/api';
 
-const ViewPatientList = () => {
-    const [openReappointmentDialog, setOpenReappointmentDialog] = useState(false);
-    const [openResultDialog, setOpenResultDialog] = useState(false);
-    const [openCreateResultDialog, setOpenCreateResultDialog] = useState(false);
-    const [selectedAppointment, setSelectedAppointment] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(null);
+const PatientList = () => {
+    const [openDialog, setOpenDialog] = useState(false);
+    const [openCreateDialog, setOpenCreateDialog] = useState(false);
+    const [selectedPatient, setSelectedPatient] = useState(null);
     const [searchName, setSearchName] = useState('');
-    const [doctorSchedules, setDoctorSchedules] = useState([]);
+    const [patients, setPatients] = useState([]);
+    const [examinationResult, setExaminationResult] = useState('');
+
     useEffect(() => {
         const fetchPatients = async () => {
             try {
-                const response = await getPatients()
-                setDoctorSchedules(response.data);
+                const response = await getPatients();
+                setPatients(response.data);
             } catch (error) {
-                console.error("Error fetching patients data:", error);
+                console.error('Error fetching patients:', error);
             }
         };
 
         fetchPatients();
     }, []);
 
-
-    const handleViewResult = (appointment) => {
-        setSelectedAppointment(appointment);
-        setOpenResultDialog(true);
+    const handleViewResult = async (customerId) => {
+        try {
+            const response = await getHistory(customerId);
+            setSelectedPatient(response.data); // Assuming the API response is an array of results
+            setOpenDialog(true);
+        } catch (error) {
+            console.error("Error fetching patient history:", error);
+        }
     };
 
-    const handleReappointment = (appointment) => {
-        setSelectedAppointment(appointment);
-        setOpenReappointmentDialog(true);
-    };
-
-    const handleCreateResult = (appointment) => {
-        setSelectedAppointment(appointment);
-        setOpenCreateResultDialog(true);
-    };
-
-    const handleCloseReappointmentDialog = () => {
-        setOpenReappointmentDialog(false);
-    };
-
-    const handleCloseResultDialog = () => {
-        setOpenResultDialog(false);
-    };
-
-    const handleCloseCreateResultDialog = () => {
-        setOpenCreateResultDialog(false);
-    };
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+        setSelectedPatient(null);
     };
 
     const handleSearchChange = (event) => {
         setSearchName(event.target.value);
     };
 
-    const filterAppointments = (appointments) => {
-        if (selectedDate && selectedDate !== '') {
-            appointments = appointments.filter(appointment => appointment.date === selectedDate);
-        }
+    const filterPatients = (patients) => {
         if (searchName.trim() !== '') {
-            appointments = appointments.filter(appointment =>
-                appointment.patient.toLowerCase().includes(searchName.trim().toLowerCase())
+            return patients.filter(patient =>
+                patient.customer.name.toLowerCase().includes(searchName.trim().toLowerCase())
             );
         }
-        return appointments;
+        return patients;
     };
 
-    const handleSaveResult = (appointment, result) => {
-        console.log(`Saving result for appointment ID ${appointment.id}: ${result}`);
+    const handleOpenCreateDialog = (patient) => {
+        setSelectedPatient(patient);
+        setOpenCreateDialog(true);
+    };
+
+    const handleCloseCreateDialog = () => {
+        setOpenCreateDialog(false);
+        setSelectedPatient(null);
+        setExaminationResult('');
+    };
+
+    const handleCreateResult = async () => {
+        try {
+            const response = await createExaminationResult({
+                appointmentId: selectedPatient.appointmentId,
+                result: examinationResult
+            });
+            console.log('Examination result created:', response.data);
+            const updatedResponse = await getHistory(selectedPatient.customer.id);
+            setSelectedPatient(updatedResponse.data);
+            setOpenDialog(true);
+            handleCloseCreateDialog();
+        } catch (error) {
+            console.error("Error creating examination result:", error);
+        }
     };
 
     return (
         <Grid container spacing={3}>
-            {doctorSchedules.map((doctorSchedule, index) => (
-                <Grid item xs={12} key={index}>
-                    <Typography variant="h4" gutterBottom style={{ marginBottom: '16px' }}>
-                        Lịch khám và Danh sách bệnh nhân của {doctorSchedule.doctorName}
-                    </Typography>
-                    <Grid container spacing={2} alignItems="center">
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                label="Tìm kiếm theo tên bệnh nhân"
-                                variant="outlined"
-                                fullWidth
-                                value={searchName}
-                                onChange={handleSearchChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                id="date"
-                                label="Chọn ngày"
-                                type="date"
-                                defaultValue=""
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                fullWidth
-                                onChange={(e) => handleDateChange(e.target.value)}
-                            />
-                        </Grid>
-                    </Grid>
-                    <TableContainer component={Paper} elevation={3} style={{ marginTop: '16px' }}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Tên bệnh nhân</TableCell>
-                                    <TableCell>Email</TableCell>
-                                    <TableCell>Số điện thoại</TableCell>
-                                    <TableCell>Ngày</TableCell>
-                                    <TableCell>Hành động</TableCell>
+            <Grid item xs={12}>
+                <Typography variant="h4" gutterBottom>
+                    Danh sách bệnh nhân
+                </Typography>
+                <TextField
+                    label="Tìm kiếm theo tên bệnh nhân"
+                    variant="outlined"
+                    fullWidth
+                    value={searchName}
+                    onChange={handleSearchChange}
+                />
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Tên bệnh nhân</TableCell>
+                                <TableCell>Email</TableCell>
+                                <TableCell>Số điện thoại</TableCell>
+                                <TableCell>Ngày</TableCell>
+                                <TableCell>Hành Động</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {filterPatients(patients).map((patient, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{patient.customer.name}</TableCell>
+                                    <TableCell>{patient.customer.email}</TableCell>
+                                    <TableCell>{patient.customer.phonenumber}</TableCell>
+                                    <TableCell>{patient.date}</TableCell>
+                                    <TableCell>
+                                        <Button
+                                            variant="outlined"
+                                            style={{ marginRight: '10px' }}
+                                            onClick={() => handleViewResult(patient.customer.id)}
+                                        >
+                                            Xem bệnh nhân
+                                        </Button>
+                                        <Button
+                                            variant="outlined"
+                                            onClick={() => handleOpenCreateDialog(patient)}
+                                        >
+                                            Tạo kết quả khám
+                                        </Button>
+                                    </TableCell>
                                 </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {filterAppointments(doctorSchedule.appointments).map((appointment) => (
-                                    <TableRow key={appointment.id}>
-                                        <TableCell>{appointment.patient}</TableCell>
-                                        <TableCell>{appointment.email}</TableCell>
-                                        <TableCell>{appointment.phone}</TableCell>
-                                        <TableCell>{appointment.date}</TableCell>
-                                        <TableCell>
-                                            <Button
-                                                variant="outlined"
-                                                style={{ marginRight: '10px' }}
-                                                onClick={() => handleViewResult(appointment)}
-                                            >
-                                                Xem kết quả
-                                            </Button>
-                                            <Button
-                                                variant="outlined"
-                                                style={{ marginRight: '10px' }}
-                                                onClick={() => handleReappointment({ ...appointment, doctorName: doctorSchedule.doctorName })}
-                                            >
-                                                Đặt lịch tái khám
-                                            </Button>
-                                            <Button
-                                                variant="outlined"
-                                                onClick={() => handleCreateResult(appointment)}
-                                            >
-                                                Tạo kết quả khám
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Grid>
-            ))}
-            <ReappointmentDetailDialog isOpen={openReappointmentDialog} onClose={handleCloseReappointmentDialog} appointment={selectedAppointment} />
-            <ResultDetailDialog isOpen={openResultDialog} onClose={handleCloseResultDialog} appointment={selectedAppointment} />
-            <CreateResultDialog isOpen={openCreateResultDialog} onClose={handleCloseCreateResultDialog} appointment={selectedAppointment} onSave={handleSaveResult} />
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Grid>
+            {selectedPatient && (
+                <Dialog
+                    open={openDialog}
+                    onClose={handleCloseDialog}
+                    maxWidth="lg"
+                    fullWidth
+                    PaperProps={{
+                        style: {
+                            backgroundColor: "rgba(255, 255, 255, 0.95)",
+                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                            borderRadius: "8px",
+                            padding: "20px",
+                            border: "1px solid rgba(0, 0, 0, 0.3)",
+                        },
+                    }}
+                >
+                    <DialogTitle
+                        style={{ fontSize: "1.5rem", fontWeight: "bold", textAlign: "center" }}
+                    >
+                        Kết quả khám
+                    </DialogTitle>
+                    <DialogContent style={{ padding: "20px" }}>
+                        {Array.isArray(selectedPatient) ? (
+                            selectedPatient.map((result, index) => (
+                                <div key={index} style={{ marginBottom: '20px' }}>
+                                    <Typography style={{ display: "flex", alignItems: "center" }}>
+                                        <span style={{ fontWeight: "bold", width: "150px", backgroundColor: "white" }}>
+                                            ID bệnh nhân:
+                                        </span>{" "}
+                                        {result.customer_id}
+                                    </Typography>
+                                    <Typography style={{ display: "flex", alignItems: "center" }}>
+                                        <span style={{ fontWeight: "bold", width: "150px", backgroundColor: "white" }}>
+                                            Tên bệnh nhân:
+                                        </span>{" "}
+                                        {result.name || "N/A"}
+                                    </Typography>
+                                    <Typography style={{ display: "flex", alignItems: "center" }}>
+                                        <span style={{ fontWeight: "bold", width: "150px", backgroundColor: "white" }}>
+                                            Kết quả khám:
+                                        </span>{" "}
+                                        {result.result || "No result found"}
+                                    </Typography>
+                                </div>
+                            ))
+                        ) : (
+                            <Typography>No results found</Typography>
+                        )}
+                    </DialogContent>
+                    <DialogActions style={{ justifyContent: "center" }}>
+                        <Button onClick={handleCloseDialog} color="primary">
+                            Đóng
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            )}
+            {selectedPatient && (
+                <Dialog
+                    open={openCreateDialog}
+                    onClose={handleCloseCreateDialog}
+                    maxWidth="sm"
+                    fullWidth
+                >
+                    <DialogTitle>Tạo kết quả khám</DialogTitle>
+                    <DialogContent>
+                        <Typography>Tên bệnh nhân: {selectedPatient.customer?.name || "N/A"}</Typography>
+
+                        <TextField
+                            label="Kết quả khám"
+                            variant="outlined"
+                            fullWidth
+                            multiline
+                            rows={4}
+                            value={examinationResult}
+                            onChange={(e) => setExaminationResult(e.target.value)}
+                            style={{ marginTop: '20px' }}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseCreateDialog} color="secondary">
+                            Hủy
+                        </Button>
+                        <Button onClick={handleCreateResult} color="primary">
+                            Tạo
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            )}
         </Grid>
     );
 };
 
-const ResultDetailDialog = ({ isOpen, onClose, appointment }) => {
-    return (
-        <Dialog
-            open={isOpen}
-            onClose={onClose}
-            maxWidth="lg"
-            fullWidth
-            PaperProps={{
-                style: {
-                    backgroundColor: "rgba(255, 255, 255, 0.95)", // Tăng độ trong suốt
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                    borderRadius: "8px",
-                    padding: "20px",
-                    border: "1px solid rgba(0, 0, 0, 0.3)", // Đường viền rõ hơn
-                },
-            }}
-        >
-            <DialogTitle
-                style={{ fontSize: "1.5rem", fontWeight: "bold", textAlign: "center" }}
-            >
-                Kết quả khám
-            </DialogTitle>
-            <DialogContent style={{ padding: "20px" }}>
-                {appointment && (
-                    <div
-                        style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-                    >
-                        <Typography style={{ display: "flex", alignItems: "center" }}>
-                            <span style={{ fontWeight: "bold", width: "150px", backgroundColor: "white" }}>
-                                ID bệnh nhân:
-                            </span>{" "}
-                            {appointment.id}
-                        </Typography>
-                        <Typography style={{ display: "flex", alignItems: "center" }}>
-                            <span style={{ fontWeight: "bold", width: "150px", backgroundColor: "white" }}>
-                                Tên bệnh nhân:
-                            </span>{" "}
-                            {appointment.patient}
-                        </Typography>
-                        <Typography style={{ display: "flex", alignItems: "center" }}>
-                            <span style={{ fontWeight: "bold", width: "150px", backgroundColor: "white" }}>
-                                Kết quả:
-                            </span>{" "}
-                            {appointment.result}
-                        </Typography>
-                    </div>
-                )}
-            </DialogContent>
-            <DialogActions style={{ justifyContent: "center" }}>
-                <Button onClick={onClose} color="primary">
-                    Đóng
-                </Button>
-            </DialogActions>
-        </Dialog>
-    );
-};
-
-const ReappointmentDetailDialog = ({ isOpen, onClose, appointment }) => {
-    const [periodicInterval, setPeriodicInterval] = useState(appointment ? appointment.periodicInterval : '');
-    const [periodicCount, setPeriodicCount] = useState(appointment ? appointment.periodicCount : '');
-    const [selectedSlot, setSelectedSlot] = useState(appointment ? appointment.slotId : '');
-
-    const handleSubmit = () => {
-        // Xử lý submit dữ liệu ở đây
-        console.log({
-            patientName: appointment.patient,
-            doctorName: appointment.doctorName,
-            serviceId: appointment.serviceId,
-            periodicInterval,
-            periodicCount,
-            selectedSlot,
-        });
-        onClose();
-    };
-
-    if (!appointment) return null;
-
-    return (
-        <Dialog
-            open={isOpen}
-            onClose={onClose}
-            maxWidth="md"
-            fullWidth
-            PaperProps={{
-                style: {
-                    backgroundColor: "rgba(255, 255, 255, 0.95)",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                    borderRadius: "8px",
-                    padding: "20px",
-                    border: "1px solid rgba(0, 0, 0, 0.3)"
-                },
-            }}
-        >
-            <DialogTitle>Đặt lịch tái khám</DialogTitle>
-            <DialogContent dividers>
-                <TextField
-                    label="Tên bệnh nhân"
-                    fullWidth
-                    margin="normal"
-                    value={appointment.patient} // Fix cứng
-                    InputProps={{
-                        readOnly: true,
-                        style: { backgroundColor: "white" }
-                    }}
-                />
-                <TextField
-                    label="Tên bác sĩ"
-                    fullWidth
-                    margin="normal"
-                    value={appointment.doctorName} // Fix cứng
-                    InputProps={{
-                        readOnly: true,
-                        style: { backgroundColor: "white" }
-                    }}
-                />
-                <TextField
-                    label="Dịch vụ tái khám"
-                    fullWidth
-                    margin="normal"
-                    value={appointment.serviceId} // Fix cứng
-                    InputProps={{
-                        readOnly: true,
-                        style: { backgroundColor: "white" }
-                    }}
-                />
-                <TextField
-                    label="Thời gian định kỳ"
-                    type="number"
-                    fullWidth
-                    margin="normal"
-                    value={periodicInterval}
-                    onChange={(e) => setPeriodicInterval(e.target.value)}
-                    InputProps={{
-                        style: { backgroundColor: "white" }
-                    }}
-                />
-                <TextField
-                    label="Số lần định kỳ"
-                    type="number"
-                    fullWidth
-                    margin="normal"
-                    value={periodicCount}
-                    onChange={(e) => setPeriodicCount(e.target.value)}
-                    InputProps={{
-                        style: { backgroundColor: "white" }
-                    }}
-                />
-                <TextField
-                    label="Slot tái khám"
-                    select
-                    fullWidth
-                    margin="normal"
-                    value={selectedSlot}
-                    onChange={(e) => setSelectedSlot(e.target.value)}
-                    InputProps={{
-                        style: { backgroundColor: "white" }
-                    }}
-                >
-                    {slots.map((slot, index) => (
-                        <MenuItem key={index} value={slot}>
-                            {slot}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose} color="primary">
-                    Đóng
-                </Button>
-                <Button onClick={handleSubmit} color="primary">
-                    Submit
-                </Button>
-            </DialogActions>
-        </Dialog>
-    );
-};
-
-const CreateResultDialog = ({ isOpen, onClose, appointment, onSave }) => {
-    const [result, setResult] = useState('');
-
-    const handleSave = () => {
-        onSave(appointment, result);
-        onClose();
-    };
-
-    return (
-        <Dialog open={isOpen} onClose={onClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Tạo kết quả khám</DialogTitle>
-            <DialogContent>
-                <Typography variant="h6" gutterBottom>
-                    Tên bệnh nhân: {appointment?.patient}
-                </Typography>
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="result"
-                    label="Kết quả khám"
-                    type="text"
-                    fullWidth
-                    value={result}
-                    onChange={(e) => setResult(e.target.value)}
-                />
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose} color="primary">
-                    Hủy
-                </Button>
-                <Button onClick={handleSave} color="primary">
-                    Lưu
-                </Button>
-            </DialogActions>
-        </Dialog>
-    );
-};
-export default ViewPatientList;
+export default PatientList;

@@ -53,32 +53,24 @@ function ViewScheduleAppointment() {
         const day = date.getDay();
         const diff = date.getDate() - day + (day === 0 ? -6 : 1);
         return new Date(date.setDate(diff));
-
     };
 
     const getSlotDetails = (appointments = [], date, slotId) => {
-        console.log("Date:", date);
-        console.log("Slot ID:", slotId);
-        console.log("Appointments:", appointments);
-
         const filteredAppointments = appointments.filter(
-            (appointment) => appointment.date === date
+            (appointment) => appointment.date === date && appointment.slot.slot_id === slotId
         );
-        console.log("Appointments:", appointments);
-        const slotDetail = filteredAppointments[0];
-        console.log("Slot Detail:", slotDetail);
-        if (slotDetail) {
+
+        if (filteredAppointments.length > 0) {
+            const slotDetail = filteredAppointments[0];
+            const { start_time, end_time } = slotDetail.slot;
             return {
-                start_time: slotDetail.slot.start_time,
-                end_time: slotDetail.slot.end_time,
+                timeRange: `${start_time} - ${end_time}`,
                 patients: slotDetail.current_patients,
                 status: slotDetail.status || "not yet",
             };
         }
-        return null
+        return null;
     };
-
-
 
     const selectedDoctorSchedule = schedules.find(
         (schedule) => schedule.dentist.name === selectedDoctor
@@ -141,7 +133,7 @@ function ViewScheduleAppointment() {
                                                 {slotDetail ? (
                                                     <>
                                                         <Typography variant="body2">
-                                                            {`${slotDetail.start_time} - ${slotDetail.end_time}`}
+                                                            {slotDetail.timeRange}
                                                         </Typography>
                                                         <Typography variant="body2">{`Số bệnh nhân: ${slotDetail.patients}`}</Typography>
                                                         <Typography
@@ -173,4 +165,3 @@ function ViewScheduleAppointment() {
 }
 
 export default ViewScheduleAppointment;
-

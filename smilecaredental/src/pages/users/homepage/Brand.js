@@ -35,6 +35,7 @@ function Brand() {
         const res = await getDetailClinicPage(id);
         setClinics(res.data.clinic);
         setLoading(false);
+        console.log("Clinic details:", clinics);
       } catch (error) {
         setError(error);
         setLoading(false);

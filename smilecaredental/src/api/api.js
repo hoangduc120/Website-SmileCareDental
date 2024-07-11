@@ -102,10 +102,11 @@ export const getAllDentists = async () => {
 }
 
 export const getAvailableSlotsForDate = async (dentistId, selectedDate) => {
-  return axiosInstance.get(`/dentists/${dentistId}/available-slots`, {
-    params: {
-      date: selectedDate,
-    }
+  return axiosInstance.get(`/dentists/${dentistId}/available-slots?date=${selectedDate}`, {
+    // params: {
+    //   date: selectedDate,
+
+    // }
   });
 }
 export const createAppointment = async (appointmentData) => {
@@ -129,12 +130,12 @@ export const getHistory = async (id) => {
   return axiosInstance.get(`/dentist/patients/${id}/history`)
 }
 
-export const getReappointment = async () => {
+export const postReappointment = async () => {
   return axiosInstance.post('/dentist/reappointment')
 }
 
-export const getResult = async () => {
-  return axiosInstance.post('/dentist/examination-result')
+export const createExaminationResult = async (appointmentId, result) => {
+  return axiosInstance.post('/dentist/examination-result', { appointmentId, result })
 }
 
 export const getAvailable = async (id) => {

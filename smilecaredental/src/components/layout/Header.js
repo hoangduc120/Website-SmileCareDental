@@ -31,17 +31,23 @@ function Header() {
   };
   const handleLogout = () => {
     logout();
+    localStorage.removeItem("token");
+    localStorage.removeItem("userRole");
+    setUserRole(null);
     navigate('/login'); // Điều hướng về trang đăng nhập sau khi đăng xuất
   };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       const user = JSON.parse(atob(token.split('.')[1]));
       setUserRole(user.role);
+      localStorage.setItem("userRole", user.role); // Lưu role vào localStorage
     } else {
       setUserRole(null);
     }
-  }, []);
+  }, [localStorage.getItem('token')]); // Thêm token vào mảng dependencies để useEffect gọi lại khi token thay đổi
+
   return (
     <>
       <Box maxWidth="100%">
