@@ -15,38 +15,42 @@ import { getSchedule } from "../../api/api";
 
 function ViewScheduleAppointment() {
     const [schedules, setSchedules] = useState([]);
-    const [selectedDate, setSelectedDate] = useState("");
-    const [selectedDoctor, setSelectedDoctor] = useState("");
+    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
     const [weekDates, setWeekDates] = useState([]);
+
+    // Function to get start of week dates
+    const getStartOfWeekDates = (date) => {
+        const startOfWeekDate = getMonday(new Date(date));
+        const dates = [...Array(7)].map((_, i) => {
+            const newDate = new Date(startOfWeekDate);
+            newDate.setDate(newDate.getDate() + i);
+            return newDate.toISOString().split("T")[0];
+        });
+        return dates;
+    };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await getSchedule();
-                const data = res.data;
+                const data = await getSchedule(selectedDate);
                 console.log("Schedule data:", data);
                 setSchedules(data);
-                if (data.length > 0) {
-                    setSelectedDoctor(data[0].dentist.name);
-                }
+                // Set weekDates here
+                setWeekDates(getStartOfWeekDates(selectedDate));
             } catch (e) {
                 console.error("Error fetching schedule:", e);
             }
         };
+
         fetchData();
-    }, []);
+    }, [selectedDate]);
 
     const handleDateChange = (event) => {
         const selectedDate = event.target.value;
         setSelectedDate(selectedDate);
 
-        const startOfWeekDate = getMonday(new Date(selectedDate));
-        const dates = [...Array(7)].map((_, i) => {
-            const date = new Date(startOfWeekDate);
-            date.setDate(date.getDate() + i);
-            return date.toISOString().split("T")[0];
-        });
-        setWeekDates(dates);
+        // Update weekDates on date change
+        setWeekDates(getStartOfWeekDates(selectedDate));
     };
 
     const getMonday = (date) => {
@@ -57,38 +61,27 @@ function ViewScheduleAppointment() {
 
     const getSlotDetails = (appointments = [], date, slotId) => {
         const filteredAppointments = appointments.filter(
-            (appointment) => appointment.date === date && appointment.slot.slot_id === slotId
+            (appointment) => appointment.date === date && appointment.slot.id === slotId
         );
 
         if (filteredAppointments.length > 0) {
             const slotDetail = filteredAppointments[0];
             const { start_time, end_time } = slotDetail.slot;
+            const status = new Date(date) < new Date() ? "completed" : "not yet";
             return {
                 timeRange: `${start_time} - ${end_time}`,
                 patients: slotDetail.current_patients,
-                status: slotDetail.status || "not yet",
+                status,
             };
         }
         return null;
     };
 
-    const selectedDoctorSchedule = schedules.find(
-        (schedule) => schedule.dentist.name === selectedDoctor
-    );
-
-    if (!selectedDoctorSchedule) {
-        return (
-            <Typography variant="h5" align="center">
-                No schedule available.
-            </Typography>
-        );
-    }
-
     return (
         <Container>
             <div>
                 <Typography variant="h5" align="center" gutterBottom>
-                    {`Lịch khám của bác sĩ ${selectedDoctor}`}
+                    {`Lịch khám của bác sĩ`}
                 </Typography>
                 <TextField
                     type="date"
@@ -124,7 +117,7 @@ function ViewScheduleAppointment() {
                                     <TableCell>{`Slot ${slotIndex + 1}`}</TableCell>
                                     {weekDates.map((date, dateIndex) => {
                                         const slotDetail = getSlotDetails(
-                                            selectedDoctorSchedule.appointments,
+                                            schedules,
                                             date,
                                             slotIndex + 1 // Slot ID starts from 1
                                         );
@@ -133,7 +126,7 @@ function ViewScheduleAppointment() {
                                                 {slotDetail ? (
                                                     <>
                                                         <Typography variant="body2">
-                                                            {slotDetail.timeRange}
+                                                            Giờ: {slotDetail.timeRange}
                                                         </Typography>
                                                         <Typography variant="body2">{`Số bệnh nhân: ${slotDetail.patients}`}</Typography>
                                                         <Typography
@@ -141,8 +134,8 @@ function ViewScheduleAppointment() {
                                                             style={{
                                                                 color:
                                                                     slotDetail.status === "not yet"
-                                                                        ? "red"
-                                                                        : "green",
+                                                                        ? "green"
+                                                                        : "red",
                                                             }}
                                                         >
                                                             {`Trạng thái: ${slotDetail.status}`}

@@ -1,17 +1,40 @@
-import React, { useState } from 'react';
-import {Typography,TableContainer,Table,TableHead,TableRow,TableCell,TableBody,Paper,Box, Container,} from '@mui/material';
-
+import React, { useState, useEffect } from 'react';
+import { Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Box, Container } from '@mui/material';
+import { getAppsAndReasByCustomer } from "../../../api/api";
 
 const ViewAppointments = () => {
-  // Sample appointment data (replace with your actual data)
-  const appointmentsData = [
-    { doctorName: 'Nguyen Van A', time: '10:00 - 10:45', date: '2024-05-28', address: 'Nha khoa Kim', isCompleted: true },
-    { doctorName: 'Tran Thi B', time: '11:30 - 12:15', date: '2024-05-29', address: 'Nha khoa ClinicDental', isCompleted: false },
-    { doctorName: 'Le Van C', time: '14:00 - 14:45', date: '2024-05-30', address: 'Nha khoa SmileCare', isCompleted: true },
-  ];
-
   // State to manage appointments
-  const [appointments] = useState(appointmentsData);
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch appointments data from API
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await getAppsAndReasByCustomer();
+        // Check if response is an array
+        if (Array.isArray(response)) {
+          setAppointments(response);
+        } else {
+          console.error("API response is not an array");
+        }
+      } catch (error) {
+        console.error("Error fetching appointments:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAppointments();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!Array.isArray(appointments)) {
+    return <div>Error: Expected appointments to be an array</div>;
+  }
 
   return (
     <Container maxWidth='lg'>
@@ -38,18 +61,18 @@ const ViewAppointments = () => {
                 <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Giờ khám</TableCell>
                 <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Ngày khám</TableCell>
                 <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Cơ sở</TableCell>
-                <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Trạng thái khám</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Loại khám</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {appointments.map((appointment, index) => (
-                <TableRow key={index}>
+                <TableRow key={appointment.id}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{appointment.doctorName}</TableCell>
-                  <TableCell>{appointment.time}</TableCell>
+                  <TableCell>{appointment.dentist.name}</TableCell>
+                  <TableCell>{`${appointment.slot.start_time} - ${appointment.slot.end_time}`}</TableCell>
                   <TableCell>{appointment.date}</TableCell>
-                  <TableCell>{appointment.address}</TableCell>
-                  <TableCell>{appointment.isCompleted ? 'Đã khám' : 'Chưa khám'}</TableCell>
+                  <TableCell>{appointment.clinic.name}</TableCell>
+                  <TableCell>{appointment.type === "appointment" ? "Khám thường" : "Tái khám"}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

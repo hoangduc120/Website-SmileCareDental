@@ -29,13 +29,16 @@ function Brand() {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedSlot, setSelectedSlot] = useState("");
   const [slots, setSlots] = useState([]);
+  const [feedbacks, setFeedbacks] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await getDetailClinicPage(id);
         setClinics(res.data.clinic);
+        setFeedbacks(res.data.clinic.feedbacks);
+        console.log(res.data.clinic.feedbacks);
         setLoading(false);
-        console.log("Clinic details:", clinics);
       } catch (error) {
         setError(error);
         setLoading(false);
@@ -53,8 +56,8 @@ function Brand() {
       try {
         console.log("Fetching slots for doctor:", selectedDoctor, "on date:", date);
         const response = await getAvailableSlotsForDate(selectedDoctor, date);
-        console.log("Slots response:", response.data);
-        setSlots(response.data.map(item => item.slot));
+        console.log(response.data);
+        setSlots(response.data); // Set slots with response.data.slots
       } catch (error) {
         console.error("Error fetching available slots:", error);
       }
@@ -64,7 +67,7 @@ function Brand() {
   const formik = useFormik({
     initialValues: {
       date: "",
-      clinicId: "", 
+      clinicId: "",
       time: "",
       dentistId: "",
       serviceId: "",
@@ -314,9 +317,7 @@ function Brand() {
                 ))}
             </Box>
 
-            {/* Introduction */}
             <Box
-              id="introduction"
               sx={{
                 backgroundColor: "#E0F7FA",
                 padding: "12px",
@@ -325,80 +326,40 @@ function Brand() {
               }}
             >
               <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
-                Giới Thiệu
+                Đánh giá
               </Typography>
-              <Typography>{description}</Typography>
+              {/* Display feedbacks */}
+              {feedbacks.length > 0 ? (
+                feedbacks.map((feedback) => (
+                  <Box key={feedback.id} sx={{ marginBottom: "10px" }}>
+                    <Typography variant="subtitle1">{feedback.feedback_text}</Typography>
+                    <Box sx={{ display: "flex", alignItems: "center", marginTop: "5px" }}>
+                      <TextRating value={feedback.rating} readOnly />
+                      <Typography variant="body2" sx={{ marginLeft: "10px" }}>
+                        {new Date(feedback.feedback_date).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </Typography>
+                      <Typography variant="body2" sx={{ marginLeft: "10px" }}>
+                        {feedback.customer.name}
+                      </Typography>
+                    </Box>
+                  </Box>
+                ))
+              ) : (
+                <Typography>Chưa có đánh giá nào cho phòng khám này.</Typography>
+              )}
             </Box>
 
-            {/* Reviews */}
-            <Box
-              id="review"
-              sx={{
-                border: "2px solid #9FD7F9",
-                padding: "10px",
-                borderRadius: "5px",
-                marginTop: "20px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
-                Đánh Giá
-              </Typography>
-
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <TextRating
-                  sx={{ marginRight: "10px", alignSelf: "center" }}
-                ></TextRating>
-
-                <Button variant="contained" onClick={handleWriteReview}>
-                  Viết Đánh Giá
-                </Button>
-              </Box>
-            </Box>
-            {/* Review Input */}
-            {showReviewInput && (
-              <Box
-                sx={{
-                  border: "2px solid #9FD7F9",
-                  padding: "10px",
-                  borderRadius: "5px",
-                  marginTop: "20px",
-                }}
-              >
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Viết Đánh Giá"
-                  multiline
-                  rows={4}
-                  value={reviewContent}
-                  onChange={handleChangeReviewContent}
-                  variant="outlined"
-                  fullWidth
-                  sx={{ marginBottom: "10px" }}
-                />
-                <Button
-                  variant="contained"
-                  onClick={handleSubmitReview}
-                  sx={{ marginRight: "10px" }}
-                >
-                  Gửi Đánh Giá
-                </Button>
-                <Button
-                  variant="outlined"
-                  onClick={() => setShowReviewInput(false)}
-                >
-                  Hủy
-                </Button>
-              </Box>
-            )}
           </Grid>
+
           {/* Booking Section */}
           <Grid item xs={12} md={4}>
             <Box
               sx={{
-                backgroundColor: "#E0F7FA",
+                backgroundColor: "#ffffff",
                 padding: "12px",
                 borderRadius: "4px",
                 marginBottom: "20px",
@@ -466,22 +427,43 @@ function Brand() {
                 <FormControl fullWidth margin="normal">
                   <FormLabel component="legend">Chọn giờ khám</FormLabel>
                   <Grid container spacing={1}>
-                    {slots.map((slot, index) => (
-                      <Grid item xs={6} sm={4} md={3} key={index}>
-                        <Button
-                          variant={selectedSlot === slot.id ? "contained" : "outlined"}
-                          fullWidth
-                          onClick={() => handleSlotSelect(slot.id)}
-                        >
-                          {`${slot.start_time} - ${slot.end_time}`}
-                        </Button>
+                    {slots.length > 0 ? (
+                      slots.map((slot, index) => (
+                        <Grid item xs={6} sm={4} md={3} key={index}>
+                          <Button
+                            variant={selectedSlot === slot.slot_id ? "contained" : "outlined"}
+                            fullWidth
+                            disabled={slot.current_patients >= slot.slot.max_patients}
+                            sx={{
+                              backgroundColor:
+                                slot.current_patients >= slot.slot.max_patients
+                                  ? "red"
+                                  : selectedSlot === slot.slot_id
+                                    ? "#3f51b5"
+                                    : "inherit",
+                              color:
+                                slot.current_patients >= slot.slot.max_patients
+                                  ? "#ffffff"
+                                  : "inherit",
+                              fontWeight: selectedSlot === slot.slot_id ? "bold" : "normal",
+                            }}
+                            onClick={() => handleSlotSelect(slot.slot_id)}
+                          >
+                            {`${slot.slot.start_time} - ${slot.slot.end_time}`}
+                          </Button>
+                        </Grid>
+                      ))
+                    ) : (
+                      <Grid item xs={12}>
+                        <Typography color="error">Không có giờ khám khả dụng</Typography>
                       </Grid>
-                    ))}
+                    )}
                   </Grid>
                   {formik.touched.time && formik.errors.time && (
                     <Typography color="error">{formik.errors.time}</Typography>
                   )}
                 </FormControl>
+
                 <Button
                   type="submit"
                   variant="contained"

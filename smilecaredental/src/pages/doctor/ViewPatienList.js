@@ -25,6 +25,7 @@ const PatientList = () => {
     const [searchName, setSearchName] = useState('');
     const [patients, setPatients] = useState([]);
     const [examinationResult, setExaminationResult] = useState('');
+    const [appointmentId, setAppointmentId] = useState('');
 
     useEffect(() => {
         const fetchPatients = async () => {
@@ -69,6 +70,7 @@ const PatientList = () => {
 
     const handleOpenCreateDialog = (patient) => {
         setSelectedPatient(patient);
+        setAppointmentId(patient.appointmentId);
         setOpenCreateDialog(true);
     };
 
@@ -76,12 +78,13 @@ const PatientList = () => {
         setOpenCreateDialog(false);
         setSelectedPatient(null);
         setExaminationResult('');
+        setAppointmentId('');
     };
 
     const handleCreateResult = async () => {
         try {
             const response = await createExaminationResult({
-                appointmentId: selectedPatient.appointmentId,
+                appointmentId: appointmentId,
                 result: examinationResult
             });
             console.log('Examination result created:', response.data);
@@ -131,7 +134,7 @@ const PatientList = () => {
                                             style={{ marginRight: '10px' }}
                                             onClick={() => handleViewResult(patient.customer.id)}
                                         >
-                                            Xem bệnh nhân
+                                            Xem hồ sơ
                                         </Button>
                                         <Button
                                             variant="outlined"
@@ -181,7 +184,7 @@ const PatientList = () => {
                                         <span style={{ fontWeight: "bold", width: "150px", backgroundColor: "white" }}>
                                             Tên bệnh nhân:
                                         </span>{" "}
-                                        {result.name || "N/A"}
+                                        {result.customer.name || "N/A"}
                                     </Typography>
                                     <Typography style={{ display: "flex", alignItems: "center" }}>
                                         <span style={{ fontWeight: "bold", width: "150px", backgroundColor: "white" }}>
@@ -212,7 +215,7 @@ const PatientList = () => {
                     <DialogTitle>Tạo kết quả khám</DialogTitle>
                     <DialogContent>
                         <Typography>Tên bệnh nhân: {selectedPatient.customer?.name || "N/A"}</Typography>
-
+                        <input type="hidden" value={selectedPatient?.appointmentId} />
                         <TextField
                             label="Kết quả khám"
                             variant="outlined"

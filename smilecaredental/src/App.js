@@ -61,13 +61,13 @@ function App() {
                 <Route path="/doctorinfo" element={<DoctorInfo />} />
                 <Route path="/viewpatienlist" element={<ViewPatientList />} />
                 <Route path="/viewscheduleappointment" element={<ViewScheduleAppointment />} />
-                <Route path="/examinationresult" element={<ExaminationResult />} />
               </Route>
               {/* USER */}
               <Route element={<ProtectedRoute roles={[2]} />}>
                 <Route path="/userinfo" element={<UserInfo />} />
                 <Route path="/myaccount" element={<MyAccount />} />
                 <Route path="/viewappointments" element={<ViewAppointments />} />
+                <Route path="/examinationresult" element={<ExaminationResult />} />
               </Route>
               {/* CLINIC OWNER */}
               <Route element={<ProtectedRoute roles={[4]} />}>

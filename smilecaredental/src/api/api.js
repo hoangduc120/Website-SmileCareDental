@@ -1,4 +1,6 @@
 import axiosInstance from './axiosInstance';
+const moment = require('moment');
+
 
 // Authentication API
 export const register = async (userData) => {
@@ -71,7 +73,7 @@ export const getDetailClinicPage = async (id) => {
 };
 
 export const getDentistsByClinic = async (id) => {
-  return axiosInstance.get(`/clinic/${id}/dentists`);
+  return axiosInstance.get('/clinic-owner/clinic/dentists');
 };
 
 // Admin API
@@ -119,9 +121,19 @@ export const confirmAppointment = async () => {
 }
 
 // Dentist 
-export const getSchedule = async () => {
-  return axiosInstance.get('/dentist/schedule')
-}
+export const getSchedule = async (selectedDate) => {
+  try {
+    // Đảm bảo định dạng ngày là YYYY-MM-DD
+    const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
+    const response = await axiosInstance.get(`/dentist/schedule?date=${formattedDate}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching schedule:", error);
+    throw error;
+  }
+}; 
+
 export const getPatients = async () => {
   return axiosInstance.get('/dentist/patients')
 }
@@ -141,3 +153,79 @@ export const createExaminationResult = async (appointmentId, result) => {
 export const getAvailable = async (id) => {
   return axiosInstance.get(`/dentists/${id}/available-slots`)
 }
+
+export const getAppsAndReasByCustomer = async () => {
+  try {
+    const response = await axiosInstance.get(`/customer/appointments`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+    throw error;
+  }
+};
+
+export const getResultByCustomer = async () => {
+  try {
+    const response = await axiosInstance.get(`/customer/histories`)
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+    throw error;
+  }
+}
+
+export const createFeedbackByCustomer = async (examinationResultId, feedbackContent, rating) => {
+  try {
+    const response = await axiosInstance.post(`/customer/feedback/${examinationResultId}`, {
+      rating,
+      feedback_text: feedbackContent
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error create feedback:", error);
+    throw error;
+  }
+};
+
+export const updateFeedbackByCustomer = async (examinationResultId, feedbackContent, rating) => {
+  try {
+    const response = await axiosInstance.put(`/customer/feedback/${examinationResultId}`, {
+      rating,
+      feedback_text: feedbackContent
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error update feedback:", error);
+    throw error;
+  }
+};
+
+export const updateDentist = async (dentistId, updatedDentistInfo) => {
+  try {
+    const response = await axiosInstance.put(`/clinic-owner/clinic/dentists/${dentistId}`, updatedDentistInfo);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating dentist:", error);
+    throw error;
+  }
+}; 
+
+export const deleteDentist = async (dentistId) => {
+  try {
+    const response = await axiosInstance.delete(`/clinic-owner/clinic/dentists/${dentistId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error delete dentist:", error);
+    throw error;
+  }
+}; 
+
+export const addDentist = async (formData) => {
+  try {
+      const response = await axiosInstance.post(`/clinic-owner/clinic/dentists`, formData);
+      return response.data;
+  } catch (error) {
+      console.error("Error adding dentist:", error);
+      throw error;
+  }
+};
