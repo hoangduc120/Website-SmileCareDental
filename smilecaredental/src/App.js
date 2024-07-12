@@ -34,6 +34,8 @@ import DoctorInfo from './pages/doctor/DoctorInfo.js';
 import ViewPatientList from './pages/doctor/ViewPatienList.js';
 import ViewScheduleAppointment from './pages/doctor/ViewScheduleAppointment.js';
 import ExaminationResult from './pages/users/profile/ExaminationResult.js';
+import AppointmentFilter from './pages/admin/clinicOwner/AppointmentFilter.js';
+import AppointmentReviewPage from './pages/admin/clinicOwner/AppointmentReviewPage.js';
 function App() {
   return (
     <div className="App">
@@ -76,6 +78,8 @@ function App() {
                 <Route path="/doctor" element={<DoctorManagement />} />
                 <Route path="/patient" element={<PatientManagement />} />
                 <Route path="/appointment" element={<AppointmentManagement />} />
+                <Route path="/appointmentfilter" element={<AppointmentFilter />} />
+                <Route path="/appointments/review" element={<AppointmentReviewPage />} />
               </Route>
               {/* ADMIN SYSTEM  */}
               <Route element={<ProtectedRoute roles={[1]} />}>

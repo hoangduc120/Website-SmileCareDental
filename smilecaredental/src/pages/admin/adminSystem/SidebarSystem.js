@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { HomeWork, Article, Home, Logout, People } from '@mui/icons-material';
-import { logout } from '../../../api/authService';
+import { logout } from '../../../api/api';
 
 const SidebarSystem = () => {
   const navigate = useNavigate();

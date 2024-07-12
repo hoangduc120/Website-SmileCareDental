@@ -7,6 +7,9 @@ export const register = async (userData) => {
   return axiosInstance.post('/api/auth/register', userData);
 };
 
+export const logout = async () => {
+  return axiosInstance.post('/api/auth/logout');
+};
 export const login = async (userData) => {
   return axiosInstance.post('/api/auth/login', userData);
 };
@@ -132,7 +135,7 @@ export const getSchedule = async (selectedDate) => {
     console.error("Error fetching schedule:", error);
     throw error;
   }
-}; 
+};
 
 export const getPatients = async () => {
   return axiosInstance.get('/dentist/patients')
@@ -208,7 +211,7 @@ export const updateDentist = async (dentistId, updatedDentistInfo) => {
     console.error("Error updating dentist:", error);
     throw error;
   }
-}; 
+};
 
 export const deleteDentist = async (dentistId) => {
   try {
@@ -218,14 +221,14 @@ export const deleteDentist = async (dentistId) => {
     console.error("Error delete dentist:", error);
     throw error;
   }
-}; 
+};
 
 export const addDentist = async (formData) => {
   try {
-      const response = await axiosInstance.post(`/clinic-owner/clinic/dentists`, formData);
-      return response.data;
+    const response = await axiosInstance.post(`/clinic-owner/clinic/dentists`, formData);
+    return response.data;
   } catch (error) {
-      console.error("Error adding dentist:", error);
-      throw error;
+    console.error("Error adding dentist:", error);
+    throw error;
   }
 };

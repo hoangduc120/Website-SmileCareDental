@@ -119,8 +119,6 @@ const DentalFacility = () => {
             <TableRow>
               <TableCell>Tên cơ sở</TableCell>
               <TableCell>Địa chỉ</TableCell>
-              <TableCell>Số điện thoại</TableCell>
-              <TableCell>Email</TableCell>
               <TableCell>Hành động</TableCell>
             </TableRow>
           </TableHead>
@@ -129,8 +127,6 @@ const DentalFacility = () => {
               <TableRow key={facility.id}>
                 <TableCell>{facility.name}</TableCell>
                 <TableCell>{facility.address}</TableCell>
-                <TableCell>{facility.phone}</TableCell>
-                <TableCell>{facility.email}</TableCell>
                 <TableCell>
                   <IconButton color="primary" onClick={() => handleEdit(facility)}>
                     <Edit />

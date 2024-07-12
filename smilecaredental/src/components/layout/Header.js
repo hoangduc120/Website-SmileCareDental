@@ -10,43 +10,24 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import MailIcon from "@mui/icons-material/Mail";
 import PersonIcon from "@mui/icons-material/Person";
 import { Logout } from "@mui/icons-material";
-import { logout } from "../../api/authService";
-
+import { AuthContext } from '../../authContext/AuthContext';
 function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const [userRole, setUserRole] = useState(null);
-  const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleLogout = () => {
-    logout();
-    localStorage.removeItem("token");
-    localStorage.removeItem("userRole");
-    setUserRole(null);
-    navigate('/login'); // Điều hướng về trang đăng nhập sau khi đăng xuất
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const user = JSON.parse(atob(token.split('.')[1]));
-      setUserRole(user.role);
-      localStorage.setItem("userRole", user.role); // Lưu role vào localStorage
-    } else {
-      setUserRole(null);
-    }
-  }, [localStorage.getItem('token')]); // Thêm token vào mảng dependencies để useEffect gọi lại khi token thay đổi
 
   return (
     <>
@@ -216,7 +197,7 @@ function Header() {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              {!userRole ? (
+              {!user ? (
                 <MenuItem onClick={handleClose}>
                   <Avatar />
                   <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
@@ -224,7 +205,7 @@ function Header() {
                   </Link>
                 </MenuItem>
               ) : [
-                userRole === 1 && (
+                user.role === "1" && (
                   <MenuItem key="admin-link" onClick={handleClose}>
                     <Avatar />
                     <Link to="/dashboardsystem" style={{ textDecoration: "none", color: "black" }}>
@@ -232,7 +213,7 @@ function Header() {
                     </Link>
                   </MenuItem>
                 ),
-                userRole === 2 && (
+                user.role === "2" && (
                   <MenuItem key="profile-link" onClick={handleClose}>
                     <Avatar />
                     <Link to="/userinfo" style={{ textDecoration: "none", color: "black" }}>
@@ -240,7 +221,7 @@ function Header() {
                     </Link>
                   </MenuItem>
                 ),
-                userRole === 3 && (
+                user.role === "3" && (
                   <MenuItem key="doctor-link" onClick={handleClose}>
                     <Avatar />
                     <Link to="/doctoraccount" style={{ textDecoration: "none", color: "black" }}>
@@ -248,7 +229,7 @@ function Header() {
                     </Link>
                   </MenuItem>
                 ),
-                userRole === 4 && (
+                user.role === "4" && (
                   <MenuItem key="clinic-link" onClick={handleClose}>
                     <Avatar />
                     <Link to="/dashboardclinic" style={{ textDecoration: "none", color: "black" }}>
@@ -256,26 +237,17 @@ function Header() {
                     </Link>
                   </MenuItem>
                 ),
-                <MenuItem key="logout" onClick={handleLogout}>
+                <MenuItem key="logout" onClick={logout}>
                   <ListItemIcon>
                     <Logout fontSize="small" />
                   </ListItemIcon>
                   Đăng xuất
-                </MenuItem>
+                </MenuItem>,
               ]}
             </Menu>
-
           </Grid>
         </Grid>
       </Box>
-      <style>
-        {`
-            @keyframes fadeIn {
-              0% { opacity: 0; }
-              100% { opacity: 1; }
-            }
-          `}
-      </style>
     </>
   );
 }

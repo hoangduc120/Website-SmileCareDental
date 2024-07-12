@@ -27,7 +27,5 @@ export const fetchAdminPanel = async () => {
         console.error('Lỗi khi truy cập admin:', error.response.data);
     }
 };
-export const logout = () => {
-    localStorage.removeItem('token');
-  };
+
   

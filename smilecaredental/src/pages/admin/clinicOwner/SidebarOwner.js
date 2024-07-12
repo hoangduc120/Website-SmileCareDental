@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography, Stack, Avatar } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Book, CalendarToday, Home, Logout, People } from '@mui/icons-material';
-import { logout } from '../../../api/authService';
+import { logout } from '../../../api/api';
 
 const SidebarOwner = () => {
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ const SidebarOwner = () => {
     { to: '/doctor', icon: <People />, text: 'Quản lý bác sĩ' },
     { to: '/patient', icon: <People />, text: 'Quản lý bệnh nhân' },
     { to: '/appointment', icon: <CalendarToday />, text: 'Quản lý lịch khám' },
+    { to: '/appointmentfilter', icon: <CalendarToday />, text: 'Xét duyệt lịch hẹn' },
     { icon: <Logout />, text: 'Đăng xuất', onClick: handleLogout }
   ];
   

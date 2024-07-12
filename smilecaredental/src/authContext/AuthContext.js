@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axiosInstance from '../api/axiosInstance';
-
+import { logout as apiLogout } from '../api/api';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -9,13 +9,15 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            axiosInstance.get('/auth/me').then(response => {
-                setUser(response.data);
-            }).catch(error => {
-                console.error('Failed to fetch user data:', error);
-                localStorage.removeItem('token');
-                setUser(null);
-            });
+            axiosInstance.get('/auth/me')
+                .then(response => {
+                    setUser(response.data.user);
+                })
+                .catch(error => {
+                    console.error('Failed to fetch user data:', error);
+                    localStorage.removeItem('token');
+                    setUser(null);
+                });
         }
     }, []);
 
@@ -24,9 +26,14 @@ export const AuthProvider = ({ children }) => {
         setUser(userData);
     };
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        setUser(null);
+    const logout = async () => {
+        try {
+            await apiLogout();
+            localStorage.removeItem('token');
+            setUser(null);
+        } catch (error) {
+            console.error('Failed to logout:', error);
+        }
     };
 
     return (

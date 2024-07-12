@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography } from '@mui/material';
 import { CalendarToday, Logout, AccountCircle } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
-import { logout } from '../../api/authService';
+import { logout } from '../../api/api';
 
 const SidebarDoctor = () => {
   const navigate = useNavigate();
