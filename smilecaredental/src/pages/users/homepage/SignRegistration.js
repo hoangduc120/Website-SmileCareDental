@@ -2,47 +2,69 @@ import { Box, Button, Container, List, ListItem, ListItemText, Stack, TextField,
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { registerClinicRequest } from '../../../api/api'; 
 
 function SignRegistration() {
-    const [avatar, setAvatar] = useState()
+    const [avatar, setAvatar] = useState(null);
+
     useEffect(() => {
-        // cleanup
+        // Cleanup
         return () => {
-            avatar && URL.revokeObjectURL(avatar.preview)
-        }
-    }, [avatar])
+            avatar && URL.revokeObjectURL(avatar.preview);
+        };
+    }, [avatar]);
+
     const handlePreviewAvatar = (e) => {
-        const file = e.target.files[0]
+        const file = e.target.files[0];
+        file.preview = URL.createObjectURL(file);
+        setAvatar(file);
+    };
 
-        file.preview = URL.createObjectURL(file)
-
-        setAvatar(file)
-    }
     const initialValues = {
-        username: "",
+        name: "",
         email: "",
-        phoneNumber: "",
-        content: "",
-    }
-    const onSubmit = (values, props) => {
-        setTimeout(() => {
-            props.resetForm()
-            props.setSubmitting(false)
-        }, 2000)
-    }
+        phonenumber: "",
+        address: "",
+        image: null, // Thêm trường image vào initialValues
+    };
+
+    const onSubmit = async (values, { setSubmitting, resetForm }) => {
+        try {
+            const formData = new FormData();
+            formData.append("name", values.name);
+            formData.append("email", values.email);
+            formData.append("phonenumber", values.phonenumber);
+            formData.append("address", values.address);
+            if (avatar) {
+                formData.append("image", avatar); // Thêm hình ảnh vào FormData nếu tồn tại
+            }
+
+            // Gọi hàm gửi yêu cầu từ service và xử lý kết quả
+            const response = await registerClinicRequest(formData);
+            console.log('Response:', response); // In response để kiểm tra
+
+            // Xử lý thành công
+            alert("Yêu cầu đăng ký phòng khám đã được gửi thành công!");
+
+            // Reset form và đánh dấu đã xử lý xong
+            resetForm();
+            setSubmitting(false);
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert("Đã xảy ra lỗi khi gửi yêu cầu đăng ký phòng khám!");
+            setSubmitting(false);
+        }
+    };
 
     const validationSchema = Yup.object().shape({
-        username: Yup.string().required("Vui lòng nhập tên của bạn"),
-        email: Yup.string().email('Hãy nhập định dạng emai!').required("Không để trống!"),
-        phoneNumber: Yup
-            .string()
+        name: Yup.string().required("Vui lòng nhập tên phòng khám"),
+        email: Yup.string().email('Hãy nhập định dạng email!').required("Không để trống!"),
+        phonenumber: Yup.string()
             .matches(/^[0-9]+$/, "Số điện thoại chỉ chứa các số")
             .length(10, "Số điện thoại phải có ít nhất 10 chữ số")
             .required("Vui lòng nhập số điện thoại"),
-        content: Yup.string().required("Hãy nhập nội dung"),
-
+        address: Yup.string().required("Vui lòng nhập địa chỉ của phòng khám"),
     });
-
 
     return (
         <>
@@ -62,7 +84,7 @@ function SignRegistration() {
                     <Typography variant="h5" component="h2" gutterBottom fontWeight={700}>
                         Về Booking Smile:
                     </Typography>
-                    <Typography variant="body1" gutterBottom >
+                    <Typography variant="body1" gutterBottom>
                         Booking Smile là một nền tảng trực tuyến cho phép người dùng tìm kiếm và đặt hẹn với các phòng khám nha khoa trên khắp các quận huyện, tỉnh thành.
                         Chúng tôi cam kết mang lại sự thuận tiện nhất cho bệnh nhân và tạo điều kiện tốt nhất cho chủ phòng khám để họ tiếp cận một lượng lớn bệnh nhân tiềm năng.
                     </Typography>
@@ -101,36 +123,35 @@ function SignRegistration() {
                         {(props) => (
                             <Form>
                                 <Stack spacing={4} padding={'50px'}>
-                                    <Field as={TextField} fullWidth name="username" label='Nhập tên tài khoản'
-                                        placeholder="hoangduc" helperText={<ErrorMessage name="username" component="span" style={{ color: 'red' }} />} />
+                                    <Field as={TextField} fullWidth name="name" label='Nhập tên phòng khám'
+                                        placeholder="Nhập tên phòng khám" helperText={<ErrorMessage name="name" component="span" style={{ color: 'red' }} />} />
                                     <Field as={TextField} fullWidth name="email" label='Nhập email của bạn'
-                                        placeholder="hoangduc@example.com" helperText={<ErrorMessage name="email" component="span" style={{ color: 'red' }} />} />
-                                    <Field as={TextField} fullWidth name="phoneNumber" label='Nhập sđt của bạn'
-                                        placeholder="Nhập sđt của bạn" helperText={<ErrorMessage name="phoneNumber" component="span" style={{ color: 'red' }} />} />
-                                    <Field as={TextField} fullWidth name='content' multiline
-                                        label='Nội dung' placeholder="Nhập nội dung"
-                                        helperText={<ErrorMessage name="content" component="span" style={{ color: 'red' }} />} />
+                                        placeholder="Nhập email của bạn" helperText={<ErrorMessage name="email" component="span" style={{ color: 'red' }} />} />
+                                    <Field as={TextField} fullWidth name="phonenumber" label='Nhập số điện thoại của bạn'
+                                        placeholder="Nhập số điện thoại của bạn" helperText={<ErrorMessage name="phonenumber" component="span" style={{ color: 'red' }} />} />
+                                    <Field as={TextField} fullWidth name='address' multiline
+                                        label='Nhập địa chỉ của phòng khám' placeholder="Nhập địa chỉ của phòng khám"
+                                        helperText={<ErrorMessage name="address" component="span" style={{ color: 'red' }} />} />
                                     <div>
                                         <input
                                             type="file"
                                             onChange={handlePreviewAvatar}
                                         />
                                         {avatar && (
-                                            <img src={avatar.preview} alt="" width="20%" />
+                                            <img src={avatar.preview} alt="Preview" width="20%" />
                                         )}
                                     </div>
-                                    <Button variant="contained">Đăng Ký Ngay</Button>
+                                    <Button variant="contained" type="submit" disabled={props.isSubmitting}>
+                                        Đăng Ký Ngay
+                                    </Button>
                                 </Stack>
                             </Form>
                         )}
                     </Formik>
                 </Box>
-            </Container >
+            </Container>
         </>
     )
 }
+
 export default SignRegistration;
-
-
-
-

@@ -1,37 +1,90 @@
-import React, { useState } from 'react';
-import { Typography, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Tabs, Tab } from '@mui/material';
-import { Check, Clear, Delete } from '@mui/icons-material';
+import React, { useState, useEffect } from 'react';
+import { Typography, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Tabs, Tab, Snackbar, SnackbarContent } from '@mui/material';
+import { Check, Clear } from '@mui/icons-material';
+import { getAllClinicRequests, getAllClinicRequestsPending, getAllClinicRequestsApproved, getAllClinicRequestsRejected, approveClinicRequest, rejectClinicRequest } from '../../../api/api';
 
-const NewClinic = () => {
-  const [applications, setApplications] = useState([
-    { id: 1, name: 'Nha khoa Đông Nam', address: '123 Đường A, Quận 7, TPHCM', phone: '0123456789',date: '02/06/2024' ,status: 'Chưa phê duyệt' },
-    { id: 2, name: 'Nha khoa Daisy', address: '456 Đường B, Quận 8, TPHCM', phone: '0987654321', date: '02/06/2024' ,status: 'Chưa phê duyệt' },
-    { id: 3, name: 'Nha khoa Hạnh Phúc', address: '345 Đường C, Quận 9, TPHCM', phone: '0123456789', date: '03/06/2024' ,status: 'Chưa phê duyệt' },
-    { id: 4, name: 'Nha khoa Quốc tế Hali', address: '678 Đường D, Quận Bình Thạnh, TPHCM', phone: '0987654321', date: '03/06/2024' ,status: 'Chưa phê duyệt' },
-    { id: 5, name: 'Nha khoa Bảo Việt', address: '123 Đường E, Quận 1, TPHCM', phone: '0123456789', date: '03/06/2024' ,status: 'Chưa phê duyệt' },
-    { id: 6, name: 'Nha khoa Lạc Việt', address: '456 Đường F, Quận Gò Vấp, TPHCM', phone: '0987654321', date: '04/06/2024' ,status: 'Chưa phê duyệt' },
-    { id: 7, name: 'Nha khoa Khang', address: '123 Đường A, Quận 3, TPHCM', phone: '0123456789', date: '04/06/2024' ,status: 'Chưa phê duyệt' },
-    { id: 8, name: 'Nha khoa Việt Đức', address: '456 Đường B, Quận 4, TPHCM', phone: '0987654321', date: '04/06/2024' ,status: 'Chưa phê duyệt' },
-  ]);
+const ClinicRequests = () => {
+  const [clinicRequests, setClinicRequests] = useState([]);
   const [openConfirm, setOpenConfirm] = useState(false);
-  const [selectedApplicationId, setSelectedApplicationId] = useState(null);
+  const [selectedRequestId, setSelectedRequestId] = useState(null);
+  const [selectedRequestName, setSelectedRequestName] = useState('');
+  const [actionType, setActionType] = useState(''); 
   const [selectedTab, setSelectedTab] = useState(0);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success'); 
 
-  const handleApprove = (id) => {
-    setApplications(applications.map(app => app.id === id ? { ...app, status: 'Đã chấp nhận' } : app));
+  useEffect(() => {
+    fetchAllClinicRequests();
+  }, []);
+
+  const fetchAllClinicRequests = async () => {
+    try {
+      const data = await getAllClinicRequests();
+      setClinicRequests(data);
+    } catch (error) {
+      console.error('Error fetching clinic requests:', error);
+    }
   };
 
-  const handleReject = (id) => {
-    setApplications(applications.map(app => app.id === id ? { ...app, status: 'Đã từ chối' } : app));
+  const fetchPendingClinicRequests = async () => {
+    try {
+      const data = await getAllClinicRequestsPending();
+      setClinicRequests(data);
+    } catch (error) {
+      console.error('Error fetching pending clinic requests:', error);
+    }
   };
 
-  const handleDelete = () => {
-    setApplications(applications.filter(app => app.id !== selectedApplicationId));
-    setOpenConfirm(false);
+  const fetchApprovedClinicRequests = async () => {
+    try {
+      const data = await getAllClinicRequestsApproved();
+      setClinicRequests(data);
+    } catch (error) {
+      console.error('Error fetching approved clinic requests:', error);
+    }
   };
 
-  const handleOpenConfirm = (id) => {
-    setSelectedApplicationId(id);
+  const fetchRejectedClinicRequests = async () => {
+    try {
+      const data = await getAllClinicRequestsRejected();
+      setClinicRequests(data);
+    } catch (error) {
+      console.error('Error fetching rejected clinic requests:', error);
+    }
+  };
+
+  const handleApprove = async () => {
+    try {
+      console.log('Selected Request ID:', selectedRequestId);
+      await approveClinicRequest(selectedRequestId);
+      setClinicRequests(clinicRequests.map(request => request.id === selectedRequestId ? { ...request, status: 'Approved' } : request));
+      handleCloseConfirm();
+      showSnackbar('Duyệt đơn thành công', 'success');
+    } catch (error) {
+      console.error('Error approving clinic request:', error);
+      showSnackbar('Lỗi khi duyệt đơn', 'error');
+      // Handle error approving request
+    }
+  };
+
+  const handleReject = async () => {
+    try {
+      console.log('Selected Request ID:', selectedRequestId);
+      await rejectClinicRequest(selectedRequestId);
+      setClinicRequests(clinicRequests.map(request => request.id === selectedRequestId ? { ...request, status: 'Rejected' } : request));
+      handleCloseConfirm();
+      showSnackbar('Từ chối đơn thành công', 'success');
+    } catch (error) {
+      console.error('Error rejecting clinic request:', error);
+      showSnackbar('Lỗi khi từ chối đơn', 'error');
+    }
+  };
+
+  const handleOpenConfirm = (id, name, action) => {
+    setSelectedRequestId(id);
+    setSelectedRequestName(name);
+    setActionType(action); 
     setOpenConfirm(true);
   };
 
@@ -41,25 +94,45 @@ const NewClinic = () => {
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
+    switch (newValue) {
+      case 0:
+        fetchAllClinicRequests();
+        break;
+      case 1:
+        fetchPendingClinicRequests();
+        break;
+      case 2:
+        fetchApprovedClinicRequests();
+        break;
+      case 3:
+        fetchRejectedClinicRequests();
+        break;
+      default:
+        break;
+    }
   };
 
-  const filteredApplications = applications.filter(application => {
-    if (selectedTab === 0) return application.status === 'Chưa phê duyệt';
-    if (selectedTab === 1) return application.status === 'Đã chấp nhận';
-    if (selectedTab === 2) return application.status === 'Đã từ chối';
-    return true;
-  });
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
+
+  const closeSnackbar = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
     <div style={{ padding: '16px' }}>
       <Typography variant="h4" gutterBottom sx={{ marginBottom: '20px', textAlign: 'center', color: '#0D47A1', fontWeight: 'bold' }}>
-        Quản lý đơn đăng ký phòng khám mới
+        Quản lý đơn đăng ký phòng khám
       </Typography>
 
       <Tabs value={selectedTab} onChange={handleTabChange} centered>
-        <Tab label="Chưa phê duyệt" />
-        <Tab label="Đã chấp nhận" />
-        <Tab label="Đã từ chối" />
+        <Tab label="Tất cả đơn" />
+        <Tab label="Đang chờ" />
+        <Tab label="Đã duyệt" />
+        <Tab label="Bị từ chối" />
       </Tabs>
 
       <TableContainer component={Paper} sx={{ marginTop: '20px' }}>
@@ -75,22 +148,27 @@ const NewClinic = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredApplications.map((application) => (
-              <TableRow key={application.id}>
-                <TableCell>{application.name}</TableCell>
-                <TableCell>{application.address}</TableCell>
-                <TableCell>{application.phone}</TableCell>
-                <TableCell>{application.date}</TableCell>
-                <TableCell>{application.status}</TableCell>
+            {clinicRequests.map((request) => (
+              <TableRow key={request.id}>
+                <TableCell>{request.name}</TableCell>
+                <TableCell>{request.address}</TableCell>
+                <TableCell>{request.phonenumber}</TableCell>
+                <TableCell>{request.created_at}</TableCell>
+                <TableCell>{request.status}</TableCell>
                 <TableCell>
-                  <IconButton color="primary" onClick={() => handleApprove(application.id)} disabled={application.status !== 'Chưa phê duyệt'}>
+                  <IconButton
+                    color="primary"
+                    onClick={() => handleOpenConfirm(request.id, request.name, 'approve')}
+                    disabled={request.status !== 'Pending'}
+                  >
                     <Check />
                   </IconButton>
-                  <IconButton color="secondary" onClick={() => handleReject(application.id)} disabled={application.status !== 'Chưa phê duyệt'}>
+                  <IconButton
+                    color="secondary"
+                    onClick={() => handleOpenConfirm(request.id, request.name, 'reject')}
+                    disabled={request.status !== 'Pending'}
+                  >
                     <Clear />
-                  </IconButton>
-                  <IconButton color="error" onClick={() => handleOpenConfirm(application.id)}>
-                    <Delete />
                   </IconButton>
                 </TableCell>
               </TableRow>
@@ -103,23 +181,43 @@ const NewClinic = () => {
         open={openConfirm}
         onClose={handleCloseConfirm}
       >
-        <DialogTitle>Xác nhận xóa</DialogTitle>
+        <DialogTitle>Xác nhận hành động</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Bạn có chắc chắn muốn xóa đơn đăng ký này không?
+            Bạn có chắc chắn muốn {actionType === 'approve' ? 'duyệt' : 'từ chối'} đơn đăng ký của "{selectedRequestName}" không?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseConfirm} color="primary">
             Hủy
           </Button>
-          <Button onClick={handleDelete} color="secondary">
-            Xóa
-          </Button>
+          {actionType === 'approve' ? (
+            <Button onClick={handleApprove} color="primary">
+              Duyệt
+            </Button>
+          ) : (
+            <Button onClick={handleReject} color="secondary">
+              Từ chối
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={closeSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <SnackbarContent
+          sx={{
+            backgroundColor: snackbarSeverity === 'success' ? '#4CAF50' : '#F44336',
+          }}
+          message={snackbarMessage}
+        />
+      </Snackbar>
     </div>
   );
 };
 
-export default NewClinic;
+export default ClinicRequests;

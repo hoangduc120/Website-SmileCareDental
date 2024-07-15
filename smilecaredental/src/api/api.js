@@ -75,7 +75,7 @@ export const getDetailClinicPage = async (id) => {
   return axiosInstance.get(`/detail/clinic/${id}`);
 };
 
-export const getDentistsByClinic = async (id) => {
+export const getDentistsByClinic = async () => {
   return axiosInstance.get('/clinic-owner/clinic/dentists');
 };
 
@@ -118,10 +118,6 @@ export const createAppointment = async (appointmentData) => {
   return axiosInstance.post('/customer/create-appointment', appointmentData);
 }
 
-
-export const confirmAppointment = async () => {
-  return axiosInstance.get('/appointments/confirm/:appointmentId');
-}
 
 // Dentist 
 export const getSchedule = async (selectedDate) => {
@@ -232,3 +228,116 @@ export const addDentist = async (formData) => {
     throw error;
   }
 };
+
+export const registerClinicRequest = async (formData) => {
+  try {
+    const response = await axiosInstance.post('/register-clinic', formData);
+    return response.data;
+  } catch (error) {
+    console.error('Error registering clinic request:', error);
+    throw error;
+  }
+};
+
+export const getAllClinicRequests = async () => {
+  try {
+    const response = await axiosInstance.get('/admin/clinicrequests');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetch clinic request:', error);
+    throw error;
+  }
+};
+
+export const getAllClinicRequestsPending = async () => {
+  try {
+    const response = await axiosInstance.get('/admin/clinic-requests/pending');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetch pending clinic request:', error);
+    throw error;
+  }
+};
+
+export const getAllClinicRequestsApproved = async () => {
+  try {
+    const response = await axiosInstance.get('/admin/clinic-requests/approved');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetch approved clinic request:', error);
+    throw error;
+  }
+};
+
+export const getAllClinicRequestsRejected = async () => {
+  try {
+    const response = await axiosInstance.get('/admin/clinic-requests/rejected');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetch rejected clinic request:', error);
+    throw error;
+  }
+};
+
+export const approveClinicRequest = async (clinicRequestId) => {
+  try {
+    const response = await axiosInstance.post(`/admin/clinic-requests/approve/${clinicRequestId}`);
+    console.log('Response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error approving clinic request:', error);
+    throw error;
+  }
+};
+
+export const rejectClinicRequest = async (clinicRequestId) => {
+  try {
+    const response = await axiosInstance.put(`/admin/clinic-requests/rejected/${clinicRequestId}`);
+    console.log('Response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error rejecting clinic request:', error);
+    throw error;
+  }
+};
+
+
+export const confirmAppointment = async (appointmentId) => {
+  try {
+    const response = await axiosInstance.put(`/clinic-owner/appointments/confirm/${appointmentId}`);
+    return response.data; 
+  } catch (error) {
+    throw error; 
+  }
+};
+
+export const cancelAppointment = async (appointmentId) => {
+  try {
+    const response = await axiosInstance.put(`/clinic-owner/appointments/cancel/${appointmentId}`);
+    return response.data; 
+  } catch (error) {
+    throw error; 
+  }
+};
+
+
+export const getAppointmentsAndReappointments = async () => {
+  try {
+    const response = await axiosInstance.get('/clinic-owner/appointments');
+    return response.data; 
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const getFilteredAppointmentsAndReappointments = async (filters) => {
+  try {
+    const response = await axiosInstance.get('/clinic-owner/filtered-appointments', { params: filters });
+    return response.data; 
+  } catch (error) {
+    throw error; 
+  }
+};
+
+
