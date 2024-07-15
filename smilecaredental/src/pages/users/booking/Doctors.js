@@ -10,7 +10,7 @@ import {
   Button,
 
 } from "@mui/material";
-import { getDentistsByClinic } from "../../../api/api";
+import { getDentistsByClinicIdWithUser } from "../../../api/api";
 
 function Doctors() {
   const { id } = useParams();
@@ -19,7 +19,7 @@ function Doctors() {
   useEffect(() => {
     const fetchClinics = async () => {
       try {
-        const response = await getDentistsByClinic(id)
+        const response = await getDentistsByClinicIdWithUser(id)
         setClinic(response.data.clinic[0]);
       } catch (error) {
         console.error("Error fetching clinics:", error);

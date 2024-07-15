@@ -14,10 +14,10 @@ import {
   TextField,
   Typography,
   CircularProgress,
-  FormLabel,
-
+  FormLabel
 } from "@mui/material";
-import { createAppointment, getAvailableSlotsForDate, getDetailDoctorPage, getPageAllServices,  } from "../../../api/api";
+import { getDetailDoctorPage, createAppointment, getAvailableSlotsForDate } from "../../../api/api";
+
 function Booking() {
   const { doctorId } = useParams();
   const [doctor, setDoctor] = useState(null);
@@ -33,23 +33,20 @@ function Booking() {
   const trainingRef = useRef(null);
 
   useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await getPageAllServices();
-        setServices(response.data.services);
-      } catch (error) {
-        console.error("Error fetching services:", error);
-      }
-    };
-    fetchServices();
-  }, []);
-
-  useEffect(() => {
     const fetchDoctorDetails = async (id) => {
       try {
         const response = await getDetailDoctorPage(id);
-        setDoctor(response.data.doctor);
-        setClinicsData(response.data.clinic);
+        console.log("Doctor details response:", response.data); // Kiểm tra dữ liệu nhận được từ API
+
+        if (response.data.doctor) {
+          setDoctor(response.data.doctor);
+        }
+        if (response.data.doctor.dentist_info.clinic) {
+          setClinicsData(response.data.doctor.dentist_info.clinic);
+          if (response.data.doctor.dentist_info.clinic.clinic_services) {
+            setServices(response.data.doctor.dentist_info.clinic.clinic_services.map(cs => cs.service));
+          }
+        }
       } catch (error) {
         setError(error);
         console.error("Error fetching doctor details:", error);
@@ -63,11 +60,11 @@ function Booking() {
   const handleDateChange = async (event) => {
     const selectedDate = event.target.value;
     try {
-      if (!selectedDate) return
-      console.log("Fetching slots for date:", selectedDate)
-      const response = await getAvailableSlotsForDate(doctorId, selectedDate)
-      console.log("Slots response:", response.data)
-      setSlots(response.data.map(item => item.slot))
+      if (!selectedDate) return;
+      console.log("Fetching slots for date:", selectedDate);
+      const response = await getAvailableSlotsForDate(doctorId, selectedDate);
+      console.log("Slots response:", response.data);
+      setSlots(response.data.map(item => item.slot));
     } catch (error) {
       console.error("Error fetching available slots:", error);
       console.log("Doctor ID:", doctorId);
@@ -77,41 +74,29 @@ function Booking() {
 
   const handleSlotSelect = (slotId) => {
     setSelectedSlot(slotId);
-    formik.setFieldValue("time", slotId);
+    formik.setFieldValue("slotId", slotId);
   };
 
   const formik = useFormik({
     initialValues: {
       appointmentType: "",
-      name: "",
-      phone: "",
       date: "",
-      time: "",
-      clinicId: clinicsData?.id || "",
-      dentistId: doctorId,
-      serviceId: "",
       slotId: "",
-      appointmentDate: "",
     },
     validationSchema: Yup.object().shape({
       appointmentType: Yup.string().required("Vui lòng chọn loại dịch vụ"),
-      name: Yup.string().required("Vui lòng nhập tên của bạn"),
-      phone: Yup.string()
-        .matches(/^[0-9]+$/, "Số điện thoại chỉ chứa các số")
-        .length(10, "Số điện thoại phải có 10 chữ số")
-        .required("Vui lòng nhập số điện thoại"),
       date: Yup.date().required("Vui lòng chọn ngày khám"),
-      time: Yup.string().required("Vui lòng chọn giờ khám"),
+      slotId: Yup.string().required("Vui lòng chọn giờ khám"),
     }),
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
         const appointmentData = {
           clinicId: clinicsData.id,
-          dentistId: values.dentistId,
+          dentistId: doctorId,
           serviceId: values.appointmentType,
           slotId: values.slotId,
           appointmentDate: values.date,
-        }
+        };
         const response = await createAppointment(appointmentData);
         console.log("Appointment created successfully:", response.data);
         alert("Đặt lịch hẹn thành công!");
@@ -121,7 +106,6 @@ function Booking() {
         alert("Có lỗi xảy ra khi đặt lịch hẹn. Vui lòng thử lại.");
       } finally {
         setSubmitting(false);
-        resetForm();
       }
     },
   });
@@ -145,7 +129,6 @@ function Booking() {
 
   const doctorName = doctor?.name || "Bác sĩ chưa cập nhật tên";
   const doctorImage = doctor?.image || "default-image-url"; // Replace with a valid default image URL
-  const doctorSpecialty = doctor?.specialty || "Chưa cập nhật chuyên môn";
 
   return (
     <Box sx={{ flexGrow: 1, p: 3, backgroundColor: "#f0f8ff" }}>
@@ -170,9 +153,6 @@ function Booking() {
                 sx={{ fontWeight: "bold" }}
               >
                 {doctorName}
-              </Typography>
-              <Typography variant="subtitle2" color="textSecondary">
-                {doctorSpecialty}
               </Typography>
             </Box>
 
@@ -220,162 +200,202 @@ function Booking() {
             <Box mt={2} p={2} bgcolor="#f9f9f9" borderRadius={2} boxShadow={1}>
               <Box ref={generalRef}>
                 <Typography
-                  sx={{ fontWeight: "bold" }}
+                  sx={{
+                    fontWeight: "bold"
+                  }}
                   variant="h6"
-                  gutterBottom
+                  color="textPrimary"
                 >
-                  Thông tin chung
+                  Thông tin bác sĩ
                 </Typography>
-                {doctor.generalInfo &&
-                  doctor.generalInfo.split("\n").map((info, index) => (
-                    <Typography variant="body1" key={index} paragraph>
-                      {info}
-                    </Typography>
-                  ))}
+                <Typography variant="body1" color="textSecondary">
+                  {doctor?.dentist_info.description || "Không có mô tả"}
+                </Typography>
               </Box>
-              <Box ref={experienceRef} mt={4}>
+            </Box>
+
+
+            <Box mt={2} p={2} bgcolor="#f9f9f9" borderRadius={2} boxShadow={1}>
+              <Box ref={experienceRef}>
                 <Typography
                   sx={{ fontWeight: "bold" }}
                   variant="h6"
-                  gutterBottom
+                  color="textPrimary"
                 >
                   Kinh nghiệm
                 </Typography>
-                {doctor?.experience &&
-                  doctor.experience.split("\n").map((exp, index) => (
-                    <Typography variant="body1" key={index} paragraph>
-                      {exp}
-                    </Typography>
-                  ))}
+                <Typography variant="body1" color="textSecondary">
+                  {doctor?.dentist_info.actived_date || "Chưa cập nhật kinh nghiệm"}
+                </Typography>
               </Box>
-              <Box ref={trainingRef} mt={4}>
+            </Box>
+
+            <Box mt={2} p={2} bgcolor="#f9f9f9" borderRadius={2} boxShadow={1}>
+              <Box ref={trainingRef}>
                 <Typography
                   sx={{ fontWeight: "bold" }}
                   variant="h6"
-                  gutterBottom
+                  color="textPrimary"
                 >
                   Đào tạo
                 </Typography>
-                {doctor?.training &&
-                  doctor.training.split("\n").map((train, index) => (
-                    <Typography variant="body1" key={index} paragraph>
-                      {train}
-                    </Typography>
-                  ))}
+                <Typography variant="body1" color="textSecondary">
+                  {doctor?.dentist_info.degree || "Chưa cập nhật thông tin đào tạo"}
+                </Typography>
               </Box>
             </Box>
           </Box>
         </Grid>
+
         <Grid item xs={12} md={4}>
           <Box padding={2} bgcolor="#ffffff" borderRadius={2} boxShadow={3}>
-            <Typography variant="h6" gutterBottom>
+            <Typography
+              variant="h6"
+              color="textPrimary"
+              align="center"
+              sx={{ fontWeight: "bold" }}
+            >
               Đặt lịch hẹn
             </Typography>
+
             <form onSubmit={formik.handleSubmit}>
-              <TextField
-                fullWidth
-                id="date"
-                name="date"
-                label="Ngày khám"
-                type="date"
-                margin="normal"
-                value={formik.values.date}
-                onChange={(event) => {
-                  formik.handleChange(event);
-                  handleDateChange(event);
-                }}
-                onBlur={formik.handleBlur}
-                error={formik.touched.date && Boolean(formik.errors.date)}
-                helperText={formik.touched.date && formik.errors.date}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <FormControl fullWidth margin="normal">
-                <InputLabel>Loại Dịch Vụ</InputLabel>
+
+              <FormControl fullWidth variant="outlined" margin="normal">
+                <InputLabel id="clinicLabel">Phòng khám</InputLabel>
                 <Select
-                  labelId="appointmentType-label"
+                  labelId="clinicLabel"
+                  id="clinicId"
+                  name="clinicId"
+                  label="Phòng khám"
+                  value={formik.values.clinicId || doctor.dentist_info.clinic.id}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.clinicId && Boolean(formik.errors.clinicId)}
+                  helperText={formik.touched.clinicId && formik.errors.clinicId}
+                  disabled
+                >
+                  <MenuItem value={doctor.dentist_info.clinic.id}>
+                    {doctor.dentist_info.clinic.name}
+                  </MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth variant="outlined" margin="normal">
+                <InputLabel id="doctorLabel">Bác sĩ</InputLabel>
+                <Select
+                  labelId="doctorLabel"
+                  id="doctorId"
+                  name="doctorId"
+                  label="Bác sĩ"
+                  value={formik.values.doctorId || doctor.id}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.doctorId && Boolean(formik.errors.doctorId)}
+                  helperText={formik.touched.doctorId && formik.errors.doctorId}
+                  disabled
+                >
+                  <MenuItem value={doctor.id}>
+                    {doctor.name}
+                  </MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth variant="outlined" margin="normal">
+                <InputLabel id="appointmentTypeLabel">Loại dịch vụ</InputLabel>
+                <Select
+                  labelId="appointmentTypeLabel"
                   id="appointmentType"
                   name="appointmentType"
+                  label="Loại dịch vụ"
                   value={formik.values.appointmentType}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={formik.touched.appointmentType && Boolean(formik.errors.appointmentType)}
+                  helperText={formik.touched.appointmentType && formik.errors.appointmentType}
                 >
-                  {services.map((service) => (
+                  {services.map(service => (
                     <MenuItem key={service.id} value={service.id}>
                       {service.name}
                     </MenuItem>
                   ))}
                 </Select>
-                {formik.touched.appointmentType && formik.errors.appointmentType ? (
-                  <Typography variant="body2" color="error">
-                    {formik.errors.appointmentType}
-                  </Typography>
-                ) : null}
               </FormControl>
 
               <TextField
+                id="date"
+                name="date"
+                label="Chọn ngày"
+                type="date"
                 fullWidth
-                id="name"
-                name="name"
-                label="Họ và Tên"
+                variant="outlined"
                 margin="normal"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.name && Boolean(formik.errors.name)}
-                helperText={formik.touched.name && formik.errors.name}
-              />
-              <TextField
-                fullWidth
-                id="phone"
-                name="phone"
-                label="Số điện thoại"
-                margin="normal"
-                value={formik.values.phone}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.phone && Boolean(formik.errors.phone)}
-                helperText={formik.touched.phone && formik.errors.phone}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={formik.values.date}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  handleDateChange(e);
+                }}
+                error={formik.touched.date && Boolean(formik.errors.date)}
+                helperText={formik.touched.date && formik.errors.date}
               />
 
               <FormControl fullWidth margin="normal">
-                <FormLabel component="legend">Chọn giờ khám</FormLabel>
-                <Grid container spacing={1}>
-                  {slots.map((slot, index) => (
-                    <Grid item xs={6} sm={4} md={3} key={index}>
-                      <Button
-                        variant={selectedSlot === slot.id ? "contained" : "outlined"}
-                        fullWidth
-                        onClick={() => handleSlotSelect(slot.id)}
-                      >
-                        {`${slot.start_time} - ${slot.end_time}`}
-                      </Button>
-                    </Grid>
-                  ))}
-                </Grid>
-                {
-                  formik.touched.time && formik.errors.time && (
+                  <FormLabel component="legend">Chọn giờ khám</FormLabel>
+                  <Grid container spacing={1}>
+                    {slots.length > 0 ? (
+                      slots.map((slot, index) => (
+                        <Grid item xs={6} sm={4} md={3} key={index}>
+                          <Button
+                            variant={selectedSlot === slot.slot_id ? "contained" : "outlined"}
+                            fullWidth
+                            disabled={slot.current_patients >= slot.slot.max_patients}
+                            sx={{
+                              backgroundColor:
+                                slot.current_patients >= slot.slot.max_patients
+                                  ? "red"
+                                  : selectedSlot === slot.slot_id
+                                    ? "#3f51b5"
+                                    : "inherit",
+                              color:
+                                slot.current_patients >= slot.slot.max_patients
+                                  ? "#ffffff"
+                                  : "inherit",
+                              fontWeight: selectedSlot === slot.slot_id ? "bold" : "normal",
+                            }}
+                            onClick={() => handleSlotSelect(slot.slot_id)}
+                          >
+                            {`${slot.slot.start_time} - ${slot.slot.end_time}`}
+                          </Button>
+                        </Grid>
+                      ))
+                    ) : (
+                      <Grid item xs={12}>
+                        <Typography color="error">Không có giờ khám khả dụng</Typography>
+                      </Grid>
+                    )}
+                  </Grid>
+                  {formik.touched.time && formik.errors.time && (
                     <Typography color="error">{formik.errors.time}</Typography>
-                  )
-                }
-              </FormControl>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={formik.isSubmitting}
-                fullWidth
-                sx={{ mt: 3 }}
-              >
-                Đặt lịch
-              </Button>
+                  )}
+                </FormControl>
+
+
+              <Box mt={2} display="flex" justifyContent="center">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={formik.isSubmitting}
+                >
+                  Đặt lịch hẹn
+                </Button>
+              </Box>
             </form>
           </Box>
         </Grid>
       </Grid>
-     
     </Box>
   );
 }

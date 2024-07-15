@@ -79,6 +79,11 @@ export const getDentistsByClinic = async () => {
   return axiosInstance.get('/clinic-owner/clinic/dentists');
 };
 
+export const getDentistsByClinicIdWithUser = async (id) => {
+  return axiosInstance.get(`/clinic/${id}/dentists`);
+};
+
+
 // Admin API
 export const createUser = async (userData) => {
   return axiosInstance.post('/admin/users', userData);
