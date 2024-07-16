@@ -1,66 +1,58 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  Stack,
-  TextField,
-  Typography,
-  Link as MuiLink, Paper
-} from "@mui/material";
-import GoogleButton from 'react-google-button'
+import { Box, Button, Checkbox, FormControlLabel, Grid, Stack, TextField, Typography, Link as MuiLink, Paper } from "@mui/material";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { login } from '../../../api/api'
+import { login } from '../../../api/api';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Login() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
       remember: false
     },
+
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
         const res = await login({
           email: values.email,
           password: values.password,
-        })
-        console.log('Login successful', res.data)
-        alert('Login successful')
-        localStorage.setItem('token', res.data.token)
+        });
+        toast.success('Login successful');
+        console.log('Login successful', res.data);
+        localStorage.setItem('token', res.data.token);
 
-        const user = JSON.parse(atob(res.data.token.split('.')[1]))
+        const user = JSON.parse(atob(res.data.token.split('.')[1]));
+        localStorage.setItem('role', user.role); // Lưu role vào localStorage
+
         if (user.role === 1) {
-          navigate('/dashboardsystem')
+          navigate('/dashboardsystem');
         } else if (user.role === 4) {
-          navigate('/dashboardclinic')
+          navigate('/dashboardclinic');
         } else if (user.role === 3) {
-          navigate('/doctorinfo')
+          navigate('/doctorinfo');
         } else {
-          navigate('/home')
+          navigate('/home');
         }
-        resetForm()
-
+        resetForm();
       } catch (err) {
-        console.error('Login failed', err.response ? err.response.data : "lỗi")
-        console.log(err.data)
-
+        console.error('Login failed', err.response ? err.response.data : "lỗi");
       } finally {
-        setSubmitting(false)
+        setSubmitting(false);
       }
     },
     validationSchema: Yup.object().shape({
       email: Yup.string().required("Không để trống").email("Email không hợp lệ"),
       password: Yup.string().required("Không để trống")
     }),
-  })
+  });
 
   return (
-    <Grid container component="main" >
+    <Grid container component="main">
+      <ToastContainer />
       <Grid
         item
         xs={12}
@@ -80,7 +72,6 @@ function Login() {
             </Typography>
 
             <form onSubmit={formik.handleSubmit}>
-
               <Stack spacing={3}>
                 <TextField
                   label='Email'
@@ -118,7 +109,7 @@ function Login() {
                     }
                     label="Ghi nhớ tôi"
                   />
-                  <MuiLink component={Link} to="/forgetpassword" >
+                  <MuiLink component={Link} to="/forgetpassword">
                     <Typography variant="body2" color="primary">
                       Quên mật khẩu?
                     </Typography>
@@ -128,8 +119,6 @@ function Login() {
                   {formik.isSubmitting ? 'Đang xử lý...' : 'Đăng nhập'}
                 </Button>
               </Stack>
-
-
             </form>
 
             <Stack direction="row" alignItems="center" justifyContent="center" spacing={2}>
@@ -142,9 +131,6 @@ function Login() {
                 </Button>
               </Link>
             </Stack>
-            {/* <GoogleButton
-              onClick={() => { console.log('Google button clicked') }}
-            /> */}
           </Stack>
         </Paper>
       </Grid>

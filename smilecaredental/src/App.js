@@ -40,7 +40,7 @@ function App() {
   return (
     <div className="App">
       <AuthProvider>
-        <BrowserRouter>
+        <BrowserRouter className="main-conten">
           <Routes>
             <Route element={<MainLayout />}>
               <Route path="/home" element={<Home />} />

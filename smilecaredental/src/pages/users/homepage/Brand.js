@@ -31,6 +31,10 @@ function Brand() {
   const [slots, setSlots] = useState([]);
   const [feedbacks, setFeedbacks] = useState([]);
 
+  const today = new Date();
+  const oneWeekFromNow = new Date(today);
+  oneWeekFromNow.setDate(oneWeekFromNow.getDate() + 7);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -404,6 +408,11 @@ function Brand() {
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  inputProps={{
+                    min: new Date().toISOString().split("T")[0], // disable ngày quá khứ
+                    max: oneWeekFromNow.toISOString().split("T")[0], // Ngày hiện tại + 7 ngày 
+                  }}
+
                 />
 
                 <FormControl fullWidth sx={{ marginBottom: "10px" }}>

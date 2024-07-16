@@ -3,20 +3,43 @@ import { useFormik } from 'formik';
 import { format } from 'date-fns';
 import {
   TableContainer, Table, TableHead, TableBody, TableRow, TableCell,
-  Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Snackbar
+  Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Snackbar,
+  Chip,
+  InputLabel,
+  FormControl,
+  Select,
+  MenuItem,
+  Box
 } from '@mui/material';
 import { getDentistsByClinic, getFilteredAppointmentsAndReappointments, confirmAppointment, cancelAppointment } from '../../../api/api';
+import { TablePagination } from '@mui/material';
+
+const statusMap = {
+  'Confirmed': 'Đã xác nhận',
+  'Pending': 'Đang chờ',
+  'Completed': 'Hoàn thành',
+  'Cancelled': 'Đã hủy'
+};
+const statusColors = {
+  'Pending': 'warning',
+  'Confirmed': 'primary',
+  'Cancelled': 'error',
+  'Completed': 'success',
+};
 
 const AppointmentFilter = () => {
   const [appointments, setAppointments] = useState([]);
   const [reappointments, setReappointments] = useState([]);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const [actionType, setActionType] = useState('');
+  const [actionType, setActionType] = useState('confirm');
   const [dentists, setDentists] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // or 'error'
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Hiển thị 5 hàng mỗi trang
+
 
   const formik = useFormik({
     initialValues: {
@@ -136,6 +159,7 @@ const AppointmentFilter = () => {
     setConfirmDialogOpen(false);
   };
 
+
   const handleDateChange = (event) => {
     formik.setFieldValue('date', event.target.value);
     fetchAppointmentsAndReappointments({ ...formik.values, date: event.target.value });
@@ -145,13 +169,49 @@ const AppointmentFilter = () => {
     if (status === 'Pending') {
       return (
         <>
-          <Button variant="contained" color="primary" onClick={() => handleConfirm(id)}>Xác nhận</Button>
-          <Button variant="contained" color="error" onClick={() => handleCancel(id)}>Hủy</Button>
+          <Box sx={{ display: 'flex' }}>
+            <Button
+              variant="contained"
+              sx={{
+                height: 40, backgroundColor: '#1898F3', color: 'white', fontWeight: '700', fontSize: '12px', borderRadius: '8px',
+                '&:hover': {
+                  backgroundColor: '#000AFE', color: 'white',
+                },
+                margin: '5px',
+              }}
+              onClick={() => handleConfirm(id)}
+            >
+              Xác nhận
+            </Button>
+            <Button
+              variant="contained" sx={{
+                height: 40, backgroundColor: '#FF0000', color: 'white', fontWeight: '700', fontSize: '12px', borderRadius: '8px',
+                '&:hover': {
+                  backgroundColor: '#D32F2F', color: 'white',
+                },
+                margin: '5px',
+              }}
+              onClick={() => handleCancel(id)}
+            >
+              Hủy
+            </Button>
+          </Box>
         </>
       );
     } else if (status === 'Confirmed') {
       return (
-        <Button variant="contained" color="error" onClick={() => handleCancel(id)}>Hủy</Button>
+        <Button
+          variant="contained" sx={{
+            height: 40, backgroundColor: '#FF0000', color: 'white', fontWeight: '700', fontSize: '12px', borderRadius: '8px',
+            '&:hover': {
+              backgroundColor: '#D32F2F', color: 'white',
+            },
+          }
+          }
+          onClick={() => handleCancel(id)}
+        >
+          Hủy
+        </Button >
       );
     } else {
       return null;
@@ -167,53 +227,96 @@ const AppointmentFilter = () => {
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  const paginatedAppointments = appointments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const paginatedReappointments = reappointments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+  const getStatusChip = (status) => {
+    const statusInVietnamese = statusMap[status] || status;
+    switch (status) {
+      case 'Confirmed':
+        return <Chip label={statusInVietnamese} color={statusColors[status]} variant='outlined' />;
+      case 'Pending':
+        return <Chip label={statusInVietnamese} color={statusColors[status]} variant='outlined' />;
+      case 'Completed':
+        return <Chip label={statusInVietnamese} color={statusColors[status]} variant='outlined' />;
+      case 'Cancelled':
+        return <Chip label={statusInVietnamese} color={statusColors[status]} variant='outlined' />;
+      default:
+        return <Chip label={statusInVietnamese} />;
+    }
+  };
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
         <div style={{ marginBottom: '20px' }}>
-          <label>
-            Trạng thái:
-            <select
+          <FormControl style={{ width: '33.33%' }}>
+            <InputLabel id="status-select-label">Trạng thái</InputLabel>
+            <Select
+              labelId="status-select-label"
+              id="status-select"
               name="status"
               value={formik.values.status}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              label="Trạng thái"
             >
-              <option value="">Tất cả</option>
-              <option value="Pending">Đang chờ</option>
-              <option value="Confirmed">Đã xác nhận</option>
-              <option value="Cancelled">Đã hủy</option>
-              <option value="Completed">Hoàn thành</option>
-            </select>
-          </label>
-          <label style={{ marginLeft: '10px' }}>
-            Nha sĩ:
-            <select
+              <MenuItem value="">Tất cả</MenuItem>
+              <MenuItem value="Pending">
+                <Chip label="Đang chờ" variant='outlined' color={statusColors['Pending']} size="small" sx={{ marginRight: 1 }} />
+              </MenuItem>
+              <MenuItem value="Confirmed">
+                <Chip label="Đã xác nhận" variant='outlined' color={statusColors['Confirmed']} size="small" sx={{ marginRight: 1 }} />
+              </MenuItem>
+              <MenuItem value="Cancelled">
+                <Chip label="Đã hủy" variant='outlined' color={statusColors['Cancelled']} size="small" sx={{ marginRight: 1 }} />
+              </MenuItem>
+              <MenuItem value="Completed">
+                <Chip label="Hoàn thành" variant='outlined' color={statusColors['Completed']} size="small" sx={{ marginRight: 1 }} />
+              </MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl style={{ width: '33.33%' }}>
+            <InputLabel id="dentist-select-label">Bác sĩ</InputLabel>
+            <Select
+              labelId="dentist-select-label"
+              id="dentist-select"
               name="dentistId"
               value={formik.values.dentistId}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              label="Bác sĩ"
             >
-              <option value="">Tất cả</option>
+              <MenuItem value="">Tất cả</MenuItem>
               {dentists.map(dentist => (
-                <option key={dentist.id} value={dentist.id}>{dentist.name}</option>
+                <MenuItem key={dentist.id} value={dentist.id}>{dentist.name}</MenuItem>
               ))}
-            </select>
-          </label>
-          <label style={{ marginLeft: '10px' }}>
-            Loại:
-            <select
+            </Select>
+          </FormControl>
+          <FormControl style={{ width: '33.33%' }}>
+            <InputLabel id="type-select-label">Loại</InputLabel>
+            <Select
+              labelId="type-select-label"
+              id="type-select"
               name="type"
               value={formik.values.type}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              label="Loại"
             >
-              <option value="">Tất cả</option>
-              <option value="Appointment">Cuộc hẹn</option>
-              <option value="Reappointment">Cuộc tái khám</option>
-            </select>
-          </label>
+              <MenuItem value="">Tất cả</MenuItem>
+              <MenuItem value="Appointment">Cuộc hẹn</MenuItem>
+              <MenuItem value="Reappointment">Tái khám</MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             fullWidth
             id="date"
@@ -230,7 +333,19 @@ const AppointmentFilter = () => {
               shrink: true,
             }}
           />
-          <Button variant="contained" color="primary" type="submit" style={{ marginLeft: '10px' }}>Tìm Kiếm</Button>
+          <Button
+            variant="contained"
+            sx={{
+              marginTop: '20px', height: 50, backgroundColor: '#1898F3', color: 'white', fontWeight: '700', fontSize: '14px', borderRadius: '8px',
+              '&:hover': {
+                backgroundColor: '#000AFE', color: 'white',
+              },
+              display: 'block', margin: '20px auto 0',
+            }}
+            type='submit'
+          >
+            Tìm Kiếm
+          </Button>
         </div>
       </form>
 
@@ -238,37 +353,37 @@ const AppointmentFilter = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Tên bệnh nhân</TableCell>
-              <TableCell>Tên nha sĩ</TableCell>
-              <TableCell>Ngày hẹn</TableCell>
-              <TableCell>Thời gian hẹn</TableCell>
-              <TableCell>Trạng thái</TableCell>
-              <TableCell>Loại</TableCell>
-              <TableCell>Hành động</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Tên bệnh nhân</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Tên nha sĩ</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Ngày hẹn</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Thời gian hẹn</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Trạng thái</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Loại</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Hành động</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {appointments.map(appointment => (
+            {paginatedAppointments.map(appointment => (
               <TableRow key={appointment.id}>
                 <TableCell>{appointment.customer.name}</TableCell>
                 <TableCell>{appointment.dentist.name}</TableCell>
                 <TableCell>{format(new Date(appointment.appointment_date), 'dd/MM/yyyy')}</TableCell>
                 <TableCell>{appointment.slot.start_time + ' - ' + appointment.slot.end_time}</TableCell>
-                <TableCell>{appointment.status}</TableCell>
+                <TableCell>{getStatusChip(appointment.status)}</TableCell>
                 <TableCell>Cuộc hẹn</TableCell>
                 <TableCell>
                   {renderActionButtons(appointment.status, appointment.id, 'appointment')}
                 </TableCell>
               </TableRow>
             ))}
-            {reappointments.map(reappointment => (
+            {paginatedReappointments.map(reappointment => (
               <TableRow key={reappointment.id}>
                 <TableCell>{reappointment.customer.name}</TableCell>
                 <TableCell>{reappointment.dentist.name}</TableCell>
                 <TableCell>{format(new Date(reappointment.reappointment_date), 'dd/MM/yyyy')}</TableCell>
                 <TableCell>{reappointment.slot.start_time + ' - ' + reappointment.slot.end_time}</TableCell>
-                <TableCell>{reappointment.status}</TableCell>
-                <TableCell>Cuộc tái khám</TableCell>
+                <TableCell>{getStatusChip(reappointment.status)}</TableCell>
+                <TableCell>Tái khám</TableCell>
                 <TableCell>
                   {renderActionButtons(reappointment.status, reappointment.id, 'reappointment')}
                 </TableCell>
@@ -276,29 +391,41 @@ const AppointmentFilter = () => {
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={appointments.length + reappointments.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
-
       <Dialog open={confirmDialogOpen} onClose={handleCloseConfirmDialog}>
         <DialogTitle>Xác nhận hành động</DialogTitle>
         <DialogContent>
-          <DialogContentText>Bạn có chắc chắn muốn {actionType === 'confirm' ? 'xác nhận' : 'hủy'} hành động này?</DialogContentText>
+          <DialogContentText>
+            Bạn có chắc chắn muốn {actionType === 'confirm' ? 'xác nhận' : 'hủy'} hành động này?
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseConfirmDialog}>Hủy</Button>
           <Button onClick={handleConfirmAction} autoFocus>
-            {actionType === 'confirm' ? 'Xác nhận' : 'Hủy'}
+            {actionType || 'confirm' ? 'Xác nhận' : 'Hủy'}
           </Button>
+
         </DialogActions>
       </Dialog>
 
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         message={snackbarMessage}
         severity={snackbarSeverity}
       />
+
     </div>
   );
 };

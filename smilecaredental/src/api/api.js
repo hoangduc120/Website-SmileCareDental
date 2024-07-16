@@ -8,8 +8,17 @@ export const register = async (userData) => {
 };
 
 export const logout = async () => {
-  return axiosInstance.post('/api/auth/logout');
+  try {
+    await axiosInstance.post('/api/auth/logout');
+  } catch (error) {
+    console.error('Logout failed', error);
+  } finally {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    window.location.href = '/login'; // Điều hướng đến trang đăng nhập sau khi đăng xuất
+  }
 };
+
 export const login = async (userData) => {
   return axiosInstance.post('/api/auth/login', userData);
 };
@@ -310,18 +319,18 @@ export const rejectClinicRequest = async (clinicRequestId) => {
 export const confirmAppointment = async (appointmentId) => {
   try {
     const response = await axiosInstance.put(`/clinic-owner/appointments/confirm/${appointmentId}`);
-    return response.data; 
+    return response.data;
   } catch (error) {
-    throw error; 
+    throw error;
   }
 };
 
 export const cancelAppointment = async (appointmentId) => {
   try {
     const response = await axiosInstance.put(`/clinic-owner/appointments/cancel/${appointmentId}`);
-    return response.data; 
+    return response.data;
   } catch (error) {
-    throw error; 
+    throw error;
   }
 };
 
@@ -329,7 +338,7 @@ export const cancelAppointment = async (appointmentId) => {
 export const getAppointmentsAndReappointments = async () => {
   try {
     const response = await axiosInstance.get('/clinic-owner/appointments');
-    return response.data; 
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -339,9 +348,9 @@ export const getAppointmentsAndReappointments = async () => {
 export const getFilteredAppointmentsAndReappointments = async (filters) => {
   try {
     const response = await axiosInstance.get('/clinic-owner/filtered-appointments', { params: filters });
-    return response.data; 
+    return response.data;
   } catch (error) {
-    throw error; 
+    throw error;
   }
 };
 

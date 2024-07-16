@@ -1,3 +1,4 @@
+import React, { useContext, useEffect, useState } from "react";
 import {
   Avatar,
   Badge,
@@ -10,17 +11,18 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import MailIcon from "@mui/icons-material/Mail";
 import PersonIcon from "@mui/icons-material/Person";
 import { Logout } from "@mui/icons-material";
 import { AuthContext } from '../../authContext/AuthContext';
+
 function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, menuItems } = useContext(AuthContext);
 
+  useEffect(() => {
+  }, [user]);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -29,6 +31,30 @@ function Header() {
     setAnchorEl(null);
   };
 
+  const renderMenuItems = () => {
+    return menuItems.map((item, index) => (
+      item === 'Logout' ? (
+        <MenuItem key={index} onClick={logout}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Đăng xuất
+        </MenuItem>
+      ) : (
+        <MenuItem key={index} onClick={handleClose}>
+          <Avatar />
+          <Link to={
+            item === 'Admin System' ? "/dashboardsystem" :
+              item === 'Thông tin cá nhân' ? "/userinfo" :
+                item === 'Thông tin bác sĩ' ? "/doctoraccount" :
+                  "/dashboardclinic"
+          } style={{ textDecoration: "none", color: "black" }}>
+            {item}
+          </Link>
+        </MenuItem>
+      )
+    ));
+  };
   return (
     <>
       <Box maxWidth="100%">
@@ -146,9 +172,6 @@ function Header() {
                 </Typography>
               </Link>
               <Stack direction="row" spacing={10} alignItems="center">
-                <Badge badgeContent={4} color="primary">
-                  <MailIcon style={{ color: "#FFF" }} />
-                </Badge>
                 <Badge color="primary" style={{ color: "#FFF ", marginLeft: "40px" }}>
                   <PersonIcon
                     onClick={handleClick}
@@ -174,13 +197,8 @@ function Header() {
                   overflow: "visible",
                   filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                   mt: 1.5,
-                  "& .MuiAvatar-root": {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
-                  },
-                  "&::before": {
+                  "& .MuiAvatar-root": { width: 32, height: 32, ml: -0.5, mr: 1 },
+                  "&:before": {
                     content: '""',
                     display: "block",
                     position: "absolute",
@@ -197,53 +215,7 @@ function Header() {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              {!user ? (
-                <MenuItem onClick={handleClose}>
-                  <Avatar />
-                  <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
-                    Đăng nhập
-                  </Link>
-                </MenuItem>
-              ) : [
-                user.role === "1" && (
-                  <MenuItem key="admin-link" onClick={handleClose}>
-                    <Avatar />
-                    <Link to="/dashboardsystem" style={{ textDecoration: "none", color: "black" }}>
-                      Admin System
-                    </Link>
-                  </MenuItem>
-                ),
-                user.role === "2" && (
-                  <MenuItem key="profile-link" onClick={handleClose}>
-                    <Avatar />
-                    <Link to="/userinfo" style={{ textDecoration: "none", color: "black" }}>
-                      Thông tin cá nhân
-                    </Link>
-                  </MenuItem>
-                ),
-                user.role === "3" && (
-                  <MenuItem key="doctor-link" onClick={handleClose}>
-                    <Avatar />
-                    <Link to="/doctoraccount" style={{ textDecoration: "none", color: "black" }}>
-                      Thông tin bác sĩ
-                    </Link>
-                  </MenuItem>
-                ),
-                user.role === "4" && (
-                  <MenuItem key="clinic-link" onClick={handleClose}>
-                    <Avatar />
-                    <Link to="/dashboardclinic" style={{ textDecoration: "none", color: "black" }}>
-                      Clinic Owner
-                    </Link>
-                  </MenuItem>
-                ),
-                <MenuItem key="logout" onClick={logout}>
-                  <ListItemIcon>
-                    <Logout fontSize="small" />
-                  </ListItemIcon>
-                  Đăng xuất
-                </MenuItem>,
-              ]}
+              {renderMenuItems()}
             </Menu>
           </Grid>
         </Grid>
