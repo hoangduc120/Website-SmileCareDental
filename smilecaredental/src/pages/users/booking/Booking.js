@@ -32,6 +32,11 @@ function Booking() {
   const experienceRef = useRef(null);
   const trainingRef = useRef(null);
 
+
+  const today = new Date();
+  const oneWeekFromNow = new Date(today);
+  oneWeekFromNow.setDate(oneWeekFromNow.getDate() + 7);
+
   useEffect(() => {
     const fetchDoctorDetails = async (id) => {
       try {
@@ -64,7 +69,7 @@ function Booking() {
       console.log("Fetching slots for date:", selectedDate);
       const response = await getAvailableSlotsForDate(doctorId, selectedDate);
       console.log("Slots response:", response.data);
-      setSlots(response.data.map(item => item.slot));
+      setSlots(response.data);
     } catch (error) {
       console.error("Error fetching available slots:", error);
       console.log("Doctor ID:", doctorId);
@@ -337,49 +342,55 @@ function Booking() {
                   formik.handleChange(e);
                   handleDateChange(e);
                 }}
+                inputProps={{
+                  min: new Date().toISOString().split("T")[0], // disable ngày quá khứ
+                  max: oneWeekFromNow.toISOString().split("T")[0], // Ngày hiện tại + 7 ngày 
+                }}
                 error={formik.touched.date && Boolean(formik.errors.date)}
                 helperText={formik.touched.date && formik.errors.date}
               />
 
               <FormControl fullWidth margin="normal">
-                  <FormLabel component="legend">Chọn giờ khám</FormLabel>
-                  <Grid container spacing={1}>
-                    {slots.length > 0 ? (
-                      slots.map((slot, index) => (
-                        <Grid item xs={6} sm={4} md={3} key={index}>
-                          <Button
-                            variant={selectedSlot === slot.slot_id ? "contained" : "outlined"}
-                            fullWidth
-                            disabled={slot.current_patients >= slot.slot.max_patients}
-                            sx={{
-                              backgroundColor:
-                                slot.current_patients >= slot.slot.max_patients
-                                  ? "red"
-                                  : selectedSlot === slot.slot_id
-                                    ? "#3f51b5"
-                                    : "inherit",
-                              color:
-                                slot.current_patients >= slot.slot.max_patients
-                                  ? "#ffffff"
+                <FormLabel component="legend">Chọn giờ khám</FormLabel>
+                <Grid container spacing={1}>
+                  {slots.length > 0 ? (
+                    slots.map((slot, index) => (
+                      <Grid item xs={6} sm={4} md={3} key={index}>
+                        <Button
+                          variant={selectedSlot === slot.slot_id ? "contained" : "outlined"}
+                          fullWidth
+                          disabled={slot.current_patients >= slot.slot.max_patients}
+                          sx={{
+                            backgroundColor:
+                              slot.current_patients >= slot.slot.max_patients
+                                ? "red"
+                                : selectedSlot === slot.slot_id
+                                  ? "#3f51b5"
                                   : "inherit",
-                              fontWeight: selectedSlot === slot.slot_id ? "bold" : "normal",
-                            }}
-                            onClick={() => handleSlotSelect(slot.slot_id)}
-                          >
-                            {`${slot.slot.start_time} - ${slot.slot.end_time}`}
-                          </Button>
-                        </Grid>
-                      ))
-                    ) : (
-                      <Grid item xs={12}>
-                        <Typography color="error">Không có giờ khám khả dụng</Typography>
+                            color:
+                              slot.current_patients >= slot.slot.max_patients
+                                ? "#ffffff"
+                                : "inherit",
+                            fontWeight: selectedSlot === slot.slot_id ? "bold" : "normal",
+                          }}
+                          onClick={() => handleSlotSelect(slot.slot_id)}
+                        >
+                          {`${slot.slot.start_time} - ${slot.slot.end_time}`}
+                        </Button>
                       </Grid>
-                    )}
-                  </Grid>
-                  {formik.touched.time && formik.errors.time && (
-                    <Typography color="error">{formik.errors.time}</Typography>
+                    ))
+
+                  ) : (
+                    <Grid item xs={12}>
+                      <Typography color="error">Không có giờ khám khả dụng</Typography>
+                    </Grid>
                   )}
-                </FormControl>
+                </Grid>
+                {formik.touched.time && formik.errors.time && (
+                  <Typography color="error">{formik.errors.time}</Typography>
+                )}
+
+              </FormControl>
 
 
               <Box mt={2} display="flex" justifyContent="center">
@@ -388,6 +399,13 @@ function Booking() {
                   variant="contained"
                   color="primary"
                   disabled={formik.isSubmitting}
+                  sx={{
+                    marginTop: '20px', height: 50, backgroundColor: '#1898F3', color: 'white', fontWeight: '700', fontSize: '14px', borderRadius: '8px',
+                    '&:hover': {
+                      backgroundColor: '#000AFE', color: 'white',
+                    },
+                    display: 'block', margin: '20px auto 0',
+                  }}
                 >
                   Đặt lịch hẹn
                 </Button>

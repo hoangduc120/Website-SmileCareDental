@@ -183,7 +183,13 @@ function Home() {
             ))}
           </Slider>
           <div style={{ textAlign: "center", marginTop: "20px" }}>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" sx={{
+              marginTop: '20px', height: 50, backgroundColor: '#1898F3', color: 'white', fontWeight: '700', fontSize: '14px', borderRadius: '8px',
+              '&:hover': {
+                backgroundColor: '#000AFE', color: 'white',
+              },
+              display: 'block', margin: '20px auto 0',
+            }}>
               <Link to="/clinic" style={{ textDecoration: "none", color: "#ffff" }}>
                 Xem Thêm
               </Link>

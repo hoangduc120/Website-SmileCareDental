@@ -479,7 +479,13 @@ function Brand() {
                   color="primary"
                   disabled={formik.isSubmitting}
                   fullWidth
-                  sx={{ mt: 3 }}
+                  sx={{
+                    marginTop: '20px', height: 50, backgroundColor: '#1898F3', color: 'white', fontWeight: '700', fontSize: '14px', borderRadius: '8px',
+                    '&:hover': {
+                      backgroundColor: '#000AFE', color: 'white',
+                    },
+                    display: 'block', margin: '20px auto 0',
+                  }}
                 >
                   Đặt lịch
                 </Button>

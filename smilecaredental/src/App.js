@@ -7,7 +7,6 @@ import Home from './pages/users/homepage/Home.js'
 import Service from './pages/users/homepage/Service.js';
 import SignRegistration from './pages/users/homepage/SignRegistration.js';
 import Introduce from './pages/users/homepage/Introduce.js';
-import ClinicManagement from './pages/admin/clinicOwner/ClinicManagement.js';
 import DoctorManagement from './pages/admin/clinicOwner/DoctorManagement.js';
 import PatientManagement from './pages/admin/clinicOwner/PatientManegement.js';
 import AppointmentManagement from './pages/admin/clinicOwner/AppoinmentManagement.js';
@@ -36,6 +35,7 @@ import ViewScheduleAppointment from './pages/doctor/ViewScheduleAppointment.js';
 import ExaminationResult from './pages/users/profile/ExaminationResult.js';
 import AppointmentFilter from './pages/admin/clinicOwner/AppointmentFilter.js';
 import AppointmentReviewPage from './pages/admin/clinicOwner/AppointmentReviewPage.js';
+import CreateAppoinment from './pages/admin/clinicOwner/CreateAppoinment.js';
 function App() {
   return (
     <div className="App">
@@ -74,12 +74,12 @@ function App() {
               {/* CLINIC OWNER */}
               <Route element={<ProtectedRoute roles={[4]} />}>
                 <Route path="/dashboardclinic" element={<Dashboard />} />
-                <Route path="/clinicmanagement" element={<ClinicManagement />} />
                 <Route path="/doctor" element={<DoctorManagement />} />
                 <Route path="/patient" element={<PatientManagement />} />
                 <Route path="/appointment" element={<AppointmentManagement />} />
                 <Route path="/appointmentfilter" element={<AppointmentFilter />} />
                 <Route path="/appointments/review" element={<AppointmentReviewPage />} />
+                <Route path="/createappoinment" element={<CreateAppoinment />} />
               </Route>
               {/* ADMIN SYSTEM  */}
               <Route element={<ProtectedRoute roles={[1]} />}>

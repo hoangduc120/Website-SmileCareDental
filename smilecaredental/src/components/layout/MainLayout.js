@@ -11,7 +11,7 @@ import SidebarDoctor from '../../pages/doctor/SidebarDoctor';
 const MainLayout = () => {
     const location = useLocation();
     const isUserProfileRoute = ['/userinfo', '/myaccount', '/changepassword', '/viewappointments'].includes(location.pathname);
-    const isClinicRoute = ['/dashboardclinic', '/clinicmanagement', '/doctor', '/appointment', '/patient', '/appointmentfilter'].includes(location.pathname);
+    const isClinicRoute = ['/dashboardclinic', '/doctor', '/appointment', '/patient', '/appointmentfilter', '/createappoinment'].includes(location.pathname);
     const isAdminRoute = ['/dashboardsystem', '/newclinic', '/accountuser', '/dentalfacility'].includes(location.pathname);
     const isDoctor = ['/doctoraccount', '/doctorinfo', '/viewpatienlist', '/viewscheduleappointment', '/examinationresult'].includes(location.pathname);
     const sidebarComponent = isUserProfileRoute ? <SidebarProfile /> : isClinicRoute ? <SidebarOwner /> : isAdminRoute ? <SidebarSystem /> : isDoctor ? <SidebarDoctor /> : null;

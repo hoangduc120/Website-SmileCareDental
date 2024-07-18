@@ -60,15 +60,28 @@ function Doctors() {
                 <Typography variant="body2" color="text.secondary">
                   {dentist_info.degree}
                 </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  component={Link}
-                  to={`/book-appointment/${dentist_info.dentist_id}`}
-                  sx={{ marginTop: 2 }}
-                >
-                  Đặt lịch
-                </Button>
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    component={Link}
+                    to={`/book-appointment/${dentist_info.dentist_id}`}
+                    sx={{
+                      height: 50,
+                      backgroundColor: '#1898F3',
+                      color: 'white',
+                      fontWeight: '700',
+                      fontSize: '14px',
+                      borderRadius: '8px',
+                      '&:hover': {
+                        backgroundColor: '#000AFE',
+                        color: 'white',
+                      },
+                    }}
+                  >
+                    Đặt lịch
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </Grid>

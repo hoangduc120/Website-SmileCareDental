@@ -132,7 +132,19 @@ export const createAppointment = async (appointmentData) => {
   return axiosInstance.post('/customer/create-appointment', appointmentData);
 }
 
-
+// ClinicOwner
+export const getDetailClinicByClinicOwner = async () => {
+  return axiosInstance.get('/clinic-owner/clinic');
+}
+export const UpdateClinic = async () => {
+  return axiosInstance.put('/clinic-owner/clinic/update');
+}
+export const deleteClinicById = async () => {
+  return axiosInstance.delete('/clinic-owner/clinic/delete');
+}
+export const CreateClinic = async () => {
+  return axiosInstance.post('/clinic-owner/clinic/create');
+}
 // Dentist 
 export const getSchedule = async (selectedDate) => {
   try {

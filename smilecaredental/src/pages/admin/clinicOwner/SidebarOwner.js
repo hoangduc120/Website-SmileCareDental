@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography, Stack, Avatar } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { Book, CalendarToday, Home, Logout, People } from '@mui/icons-material';
+import { CalendarToday, Home, Logout, People } from '@mui/icons-material';
 import { logout } from '../../../api/api';
 
 const SidebarOwner = () => {
@@ -13,11 +13,11 @@ const SidebarOwner = () => {
   };
   const menuItems = [
     { to: '/dashboardclinic', icon: <Home />, text: 'Dash board' },
-    { to: '/clinicmanagement', icon: <Book />, text: 'Quản lý phòng khám' },
     { to: '/doctor', icon: <People />, text: 'Quản lý bác sĩ' },
     { to: '/patient', icon: <People />, text: 'Quản lý bệnh nhân' },
     { to: '/appointment', icon: <CalendarToday />, text: 'Quản lý lịch khám' },
     { to: '/appointmentfilter', icon: <CalendarToday />, text: 'Xét duyệt lịch hẹn' },
+    { to: '/createappoinment', icon: <CalendarToday />, text: 'Tạo lịch khám' },
     { icon: <Logout />, text: 'Đăng xuất', onClick: handleLogout }
   ];
   

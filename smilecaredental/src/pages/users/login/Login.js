@@ -115,7 +115,14 @@ function Login() {
                     </Typography>
                   </MuiLink>
                 </Stack>
-                <Button type="submit" variant="contained" fullWidth disabled={formik.isSubmitting}>
+                <Button type="submit" variant="contained" fullWidth disabled={formik.isSubmitting}
+                  sx={{
+                    marginTop: '20px', height: 50, backgroundColor: '#1898F3', color: 'white', fontWeight: '700', fontSize: '14px', borderRadius: '8px',
+                    '&:hover': {
+                      backgroundColor: '#000AFE', color: 'white',
+                    },
+                    display: 'block', margin: '20px auto 0',
+                  }}>
                   {formik.isSubmitting ? 'Đang xử lý...' : 'Đăng nhập'}
                 </Button>
               </Stack>

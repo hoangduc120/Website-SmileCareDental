@@ -82,7 +82,13 @@ function Register() {
                       label='Nhập lại mật khẩu' placeholder="Nhập lại mật khẩu"
                       helperText={<ErrorMessage name="confirmPassword" component="span" style={{ color: 'red' }} />} />
                     <FormControlLabel control={<Field as={Checkbox} name="agree" />} label="Tôi đồng ý với mọi điều khoản" />
-                    <Button type="submit" variant="contained" disabled={props.isSubmitting}>
+                    <Button type="submit" variant="contained" disabled={props.isSubmitting} sx={{
+                      marginTop: '20px', height: 50, backgroundColor: '#1898F3', color: 'white', fontWeight: '700', fontSize: '14px', borderRadius: '8px',
+                      '&:hover': {
+                        backgroundColor: '#000AFE', color: 'white',
+                      },
+                      display: 'block', margin: '20px auto 0',
+                    }}>
                       {props.isSubmitting ? 'Đang xử lý...' : 'Đăng Ký Ngay'}
                     </Button>
 
