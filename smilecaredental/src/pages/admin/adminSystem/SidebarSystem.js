@@ -7,6 +7,7 @@ import { logout } from '../../../api/api';
 const SidebarSystem = () => {
   const navigate = useNavigate();
   const [adminName] = useState('Hoàng Đức');
+  const [selectedItem, setSelectedItem] = useState('/dashboard'); // Default selected item
   const handleLogout = () => {
     logout();
     navigate('/login'); // Điều hướng về trang đăng nhập sau khi đăng xuất
@@ -16,7 +17,6 @@ const SidebarSystem = () => {
     { to: '/dentalfacility', icon: <HomeWork />, text: 'Quản lý cơ sở nha khoa' },
     { to: '/accountuser', icon: <People />, text: 'Quản lý tài khoản người dùng' },
     { to: '/newclinic', icon: <Article />, text: 'Quản lý đơn đăng ký phòng khám mới' },
-    { icon: <Logout />, text: 'Đăng xuất', onClick: handleLogout }
   ];
 
   return (
@@ -43,16 +43,33 @@ const SidebarSystem = () => {
             <ListItemButton
               component={Link}
               to={item.to}
+              onClick={() => setSelectedItem(item.to)}
               sx={{
                 '&:hover': { backgroundColor: '#1976D2' },
-                '& .MuiListItemIcon-root': { color: '#ffffff' }
+                '& .MuiListItemIcon-root': { color: '#ffffff' },
+                backgroundColor: selectedItem === item.path ? '#1565C0' : 'inherit',
+
               }}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
+          
         ))}
+         <ListItem disablePadding>
+          <ListItemButton
+            onClick={handleLogout}
+            sx={{
+              '&:hover': { backgroundColor: '#1565C0' },
+              backgroundColor: selectedItem === 'logout' ? '#1565C0' : 'inherit',
+            }}
+          >
+            <ListItemIcon sx={{ color: '#ffffff' }}><Logout /></ListItemIcon>
+            <ListItemText primary="Đăng xuất" />
+          </ListItemButton>
+        </ListItem>
+        
       </List>
     </Drawer>
   );

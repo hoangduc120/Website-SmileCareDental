@@ -18,7 +18,6 @@ const SidebarProfile = () => {
     { text: 'Tài khoản của tôi', icon: <AccountCircle />, path: '/myaccount' },
     { text: 'Xem lịch khám', icon: <CalendarToday />, path: '/viewappointments' },
     { text: 'Kết quả khám', icon: <CalendarToday />, path: '/examinationresult' },
-    { icon: <Logout />, text: 'Đăng xuất', onClick: handleLogout }
   ];
 
   return (
