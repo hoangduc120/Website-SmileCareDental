@@ -6,7 +6,7 @@ export const clinics = [
     info: "Địa chỉ: 123 Đường ABC, Quận 1, TP. Hồ Chí Minh. SĐT: 0909 123 456",
     doctors: [
       {
-        id: 1,
+        index: 1,
         name: "Bs Nguyễn Hữu Nam",
         specialty: "Tiến sĩ",
         image:
@@ -20,7 +20,7 @@ export const clinics = [
       },
 
       {
-        id: 2,
+        index: 2,
         name: <strong>Bs Ngô Quốc Dương</strong>,
         image: "https://nhakhoakim.com/wp-content/uploads/2022/07/Pictur2.png",
         specialty: "Thạc sĩ",
@@ -33,7 +33,7 @@ export const clinics = [
       },
 
       {
-        id: 3,
+        index: 3,
         name: <strong>Bs Bùi Ngọc Vĩnh Lộc</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/locsnhakhoakim.jpg",
@@ -56,7 +56,7 @@ export const clinics = [
     info: "Địa chỉ: 456 Đường DEF, Quận 3, TP. Hồ Chí Minh. SĐT: 0909 654 321",
     doctors: [
       {
-        id: 4,
+        index: 4,
         name: <strong>Bs Huỳnh Ngọc Dung Hiền</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/bsHiennhakhoaKim.jpg",
@@ -70,7 +70,7 @@ export const clinics = [
       },
 
       {
-        id: 5,
+        index: 5,
         name: <strong>Bs Phan Văn Phẩu</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/phaubsnhakhoakim.png",
@@ -83,7 +83,7 @@ export const clinics = [
           "• Sau khi tốt nghiệp đại học Y Dược, Bs Phan Văn Phẩu đã tham gia các khóa đào tạo và nâng cao kỹ năng tại các cơ sở y tế uy tín, đặc biệt trong lĩnh vực chỉnh nha.\n• Anh cũng đã tham gia các hội thảo và khóa học nâng cao chuyên môn để không ngừng cập nhật kiến thức và kỹ năng mới nhất.\n",
       },
       {
-        id: 6,
+        index: 6,
         name: <strong>Bs Lê Thị Thùy Dung</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/dungbsnhakhoakim.jpg",
@@ -105,7 +105,7 @@ export const clinics = [
     info: "Địa chỉ: 456 Đường DEF, Quận 3, TP. Hồ Chí Minh. SĐT: 0909 654 321",
     doctors: [
       {
-        id: 7,
+        index: 7,
         name: <strong>Bs Nguyễn Minh Thư</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2019/07/Nguyen-Minh-Thu-15.jpg",
@@ -119,7 +119,7 @@ export const clinics = [
       },
 
       {
-        id: 8,
+        index: 8,
         name: <strong>Bs Nguyễn Thị Lan Anh</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/Lannhbsnhakhoakim.jpg",
@@ -133,7 +133,7 @@ export const clinics = [
       },
 
       {
-        id: 9,
+        index: 9,
         name: <strong> Bs Lâm Vĩnh Phúc</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2019/07/Lam-Vinh-Phuc-01.jpg",
@@ -155,7 +155,7 @@ export const clinics = [
     info: "Địa chỉ: 456 Đường DEF, Quận 3, TP. Hồ Chí Minh. SĐT: 0909 654 321",
     doctors: [
       {
-        id: 10,
+        index: 10,
         name: <strong>Bs Phạm Xuân Giang Việt</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2020/05/Pham-Xuan-Giang-Viet-2.jpg",
@@ -169,7 +169,7 @@ export const clinics = [
       },
 
       {
-        id: 11,
+        index: 11,
         name: <strong> Bs Nguyễn Thị Minh Tâm</strong>,
         image: "https://nhakhoakim.com/wp-content/uploads/2019/05/MinhTam.jpg",
         specialty: "Chỉnh Nha",
@@ -182,7 +182,7 @@ export const clinics = [
       },
 
       {
-        id: 12,
+        index: 12,
         name: <strong>Bs Lê Nguyễn Thanh Tâm</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2020/05/Bac-Le-Nguyen-Thanh-Tam-15.jpg",
@@ -203,7 +203,7 @@ export const clinics = [
     info: "Địa chỉ: 456 Đường DEF, Quận 3, TP. Hồ Chí Minh. SĐT: 0909 654 321",
     doctors: [
       {
-        id: 13,
+        index: 13,
         name: <strong>Bs Trần Thị Ngọc Thư</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2020/07/Tran-Thi-Ngoc-Thu-14.jpg",
@@ -217,7 +217,7 @@ export const clinics = [
       },
 
       {
-        id: 14,
+        index: 14,
         name: <strong>Bs Đinh Hữu Tín</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/Dinh-Huu-Tin-2.jpg",
@@ -231,7 +231,7 @@ export const clinics = [
       },
 
       {
-        id: 15,
+        index: 15,
         name: <strong>Bs Nguyễn Linh Trang</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/Nguyen-Linh-Trang-17.jpg",
@@ -252,7 +252,7 @@ export const clinics = [
     info: "Địa chỉ: 456 Đường DEF, Quận 3, TP. Hồ Chí Minh. SĐT: 0909 654 321",
     doctors: [
       {
-        id: 16,
+        index: 16,
         name: <strong>Bs Tạ Công An Khang</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/khangbsnhakhoakim.jpg",
@@ -266,7 +266,7 @@ export const clinics = [
       },
 
       {
-        id: 17,
+        index: 17,
         name: <strong>Bs Nguyễn Thị Mỹ Huyền</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/huyenbsnhakhoakim.jpg",
@@ -280,7 +280,7 @@ export const clinics = [
       },
 
       {
-        id: 18,
+        index: 18,
         name: <strong>Bs Nguyễn Phan Quang Minh</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/Minhbsnhakhoakim.jpg",
@@ -301,7 +301,7 @@ export const clinics = [
     info: "Địa chỉ: 456 Đường DEF, Quận 3, TP. Hồ Chí Minh. SĐT: 0909 654 321",
     doctors: [
       {
-        id: 19,
+        index: 19,
         name: <strong>Bs Nguyễn Nam Anh</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/Nguyen-Nam-Anh-16.jpg",
@@ -315,7 +315,7 @@ export const clinics = [
       },
 
       {
-        id: 20,
+        index: 20,
         name: <strong>Bs Lâm Anh Tuấn</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/Bac-Lam-Anh-Tuan-11.jpg",
@@ -329,7 +329,7 @@ export const clinics = [
       },
 
       {
-        id: 21,
+        index: 21,
         name: <strong>Bs Nguyễn Thanh Thư</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/Nguyen-Thanh-Thu-25.jpg",
@@ -350,7 +350,7 @@ export const clinics = [
     info: "Địa chỉ: 456 Đường DEF, Quận 3, TP. Hồ Chí Minh. SĐT: 0909 654 321",
     doctors: [
       {
-        id: 22,
+        index: 22,
         name: <strong>Bs Nguyễn Thị Huyền</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/Nguyen-Thi-Huyen-3.jpg",
@@ -364,7 +364,7 @@ export const clinics = [
       },
 
       {
-        id: 23,
+        index: 23,
         name: <strong>Bs Nguyễn Thị Minh Hằng</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/bs-minh-hang.jpg",
@@ -378,7 +378,7 @@ export const clinics = [
       },
 
       {
-        id: 24,
+        index: 24,
         name: <strong>Bs Trương Thị Thu Hiền</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/Truong-Thi-Thu-Hien-23.jpg",
@@ -399,7 +399,7 @@ export const clinics = [
     info: "Địa chỉ: 456 Đường DEF, Quận 3, TP. Hồ Chí Minh. SĐT: 0909 654 321",
     doctors: [
       {
-        id: 25,
+        index: 25,
         name: <strong>Bs Nguyễn Thế Sơn</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2023/03/Bac-Nguyen-The-Son-13.jpg",
@@ -413,7 +413,7 @@ export const clinics = [
       },
 
       {
-        id: 26,
+        index: 26,
         name: <strong>Bs Trần Thị Hương Luy</strong>,
         image: "https://nhakhoakim.com/wp-content/uploads/2022/07/luynskim.png",
         specialty: "Chỉnh Nha",
@@ -426,7 +426,7 @@ export const clinics = [
       },
 
       {
-        id: 27,
+        index: 27,
         name: <strong>Bs Ngô Ngọc Bảo Trâm</strong>,
         image:
           "https://nhakhoakim.com/wp-content/uploads/2022/07/Ngo-Ngoc-Bao-Tram-4.jpg",

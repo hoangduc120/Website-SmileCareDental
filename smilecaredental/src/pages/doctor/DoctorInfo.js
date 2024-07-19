@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Grid, Card, CardContent, TextField, Button, Box, Container } from '@mui/material';
+import { Typography, Grid, Card, CardContent, TextField, Button, Select, MenuItem, Box, Container } from '@mui/material';
 
-const MyAccount = () => {
+const DoctorInfo = () => {
     const [userData, setUserData] = useState({
-        username: 'hoangduc',
-        phone: '+84 123456789',
-        email: 'hoangduc@example.com',
+        name: 'Hoàng Việt Đức',
+        dob: '2003-03-03',
+        gender: 'male',
+        address: 'Số 123, Phố XYZ, Quận ABC',
     });
 
     const [isEditing, setIsEditing] = useState(false);
@@ -45,27 +46,18 @@ const MyAccount = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Typography variant="h4" gutterBottom
-                            style={{ color: '#0477CA', display: 'flex', justifyContent: 'center', fontWeight: '400' }}>Tài khoản của tôi</Typography>
+                            style={{ color: '#0477CA', display: 'flex', justifyContent: 'center', fontWeight: '400' }}>
+                            Thông tin cá nhân</Typography>
                     </Grid>
                     <Grid item xs={12}>
                         <Card>
                             <CardContent>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
-                                        <Typography variant="body2">Tên đăng nhập:</Typography>
+                                        <Typography variant="body2">Họ và tên:</Typography>
                                         <TextField
-                                            id="username"
-                                            value={userData.username}
-                                            variant="outlined"
-                                            fullWidth
-                                            disabled
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Typography variant="body2">Số điện thoại:</Typography>
-                                        <TextField
-                                            id="phone"
-                                            value={userData.phone}
+                                            id="name"
+                                            value={userData.name}
                                             variant="outlined"
                                             fullWidth
                                             onChange={handleChange}
@@ -74,12 +66,41 @@ const MyAccount = () => {
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <Typography variant="body2">Email:</Typography>
+                                        <Typography variant="body2">Ngày sinh:</Typography>
                                         <TextField
-                                            id="email"
-                                            value={userData.email}
+                                            id="dob"
+                                            value={userData.dob}
                                             variant="outlined"
                                             fullWidth
+                                            type="date"
+                                            onChange={handleChange}
+                                            disabled={!isEditing}
+                                            InputLabelProps={{ shrink: true }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Typography variant="body2">Giới tính:</Typography>
+                                        <Select
+                                            id="gender"
+                                            value={userData.gender}
+                                            onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
+                                            fullWidth
+                                            disabled={!isEditing}
+                                        >
+                                            <MenuItem value="male">Nam</MenuItem>
+                                            <MenuItem value="female">Nữ</MenuItem>
+                                            <MenuItem value="other">Khác</MenuItem>
+                                        </Select>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Typography variant="body2">Địa chỉ:</Typography>
+                                        <TextField
+                                            id="address"
+                                            value={userData.address}
+                                            variant="outlined"
+                                            fullWidth
+                                            multiline
+                                            rows={4}
                                             onChange={handleChange}
                                             disabled={!isEditing}
                                             InputLabelProps={{ shrink: true }}
@@ -111,4 +132,4 @@ const MyAccount = () => {
     );
 };
 
-export default MyAccount;
+export default DoctorInfo;
