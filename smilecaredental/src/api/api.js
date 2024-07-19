@@ -366,4 +366,40 @@ export const getFilteredAppointmentsAndReappointments = async (filters) => {
   }
 };
 
+export const getAllSlots = async () => {
+  try {
+    const response = await axiosInstance.get('/all-slots');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
+export const getSlotsForDate = async (dentistId, date) => {
+  try {
+    const response = await axiosInstance.get('/dentist/slots', {
+      params: { dentistId, date }
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createDentistScheduleByDate = async (dentistScheduleData) => {
+  try {
+    const response = await axiosInstance.post('/clinic-owner/clinic/dentist-slots', dentistScheduleData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateDentistSlotsByDate = async (dentistScheduleData) => {
+  try {
+    const response = await axiosInstance.put('/clinic-owner/clinic/dentist-slots', dentistScheduleData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
