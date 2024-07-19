@@ -147,20 +147,6 @@ function Brand() {
     infoSection.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleWriteReview = () => {
-    setShowReviewInput(true);
-  };
-
-  const handleChangeReviewContent = (event) => {
-    setReviewContent(event.target.value);
-  };
-
-  const handleSubmitReview = () => {
-    console.log("Review submitted:", reviewContent);
-    setReviewContent("");
-    setShowReviewInput(false);
-  };
-
   const handleDoctorChange = (event) => {
     const doctorId = event.target.value;
     setSelectedDoctor(doctorId);

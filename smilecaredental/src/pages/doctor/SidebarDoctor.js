@@ -7,7 +7,7 @@ import { logout } from '../../api/api';
 
 const SidebarDoctor = () => {
   const navigate = useNavigate();
-  const [userName] = useState('Hoàng Việt Đức'); // Mock admin name
+  const [userName] = useState(); // Mock admin name
   const [selectedItem, setSelectedItem] = useState('/doctorinfo'); // Default selected item
 
   const handleLogout = () => {

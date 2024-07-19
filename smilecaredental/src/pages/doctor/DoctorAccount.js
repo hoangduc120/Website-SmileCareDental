@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Grid, Card, CardContent, TextField, Button, Box, Container } from '@mui/material';
 
 const DoctorAccount = () => {
-    const [userData, setUserData] = useState({
-        username: 'hoangduc',
-        phone: '+84 123456789',
-        email: 'hoangduc@doctor.com',
-    });
+    const [userData, setUserData] = useState({});
 
     const [isEditing, setIsEditing] = useState(false);
 

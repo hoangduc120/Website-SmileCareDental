@@ -23,6 +23,7 @@ import { createExaminationResult, getHistory, getPatients } from '../../api/api'
 const PatientList = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [openCreateDialog, setOpenCreateDialog] = useState(false);
+    const [openRescheduleDialog, setOpenRescheduleDialog] = useState(false);
     const [selectedPatient, setSelectedPatient] = useState(null);
     const [searchName, setSearchName] = useState('');
     const [patients, setPatients] = useState([]);
@@ -110,6 +111,15 @@ const PatientList = () => {
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
     };
+    const handleOpenRescheduleDialog = (patient) => {
+        setSelectedPatient(patient);
+        setOpenRescheduleDialog(true);
+    };
+
+    const handleCloseRescheduleDialog = () => {
+        setOpenRescheduleDialog(false);
+        setSelectedPatient(null);
+    };
 
     return (
         <Grid container spacing={3}>
@@ -158,6 +168,14 @@ const PatientList = () => {
                                         >
                                             {patient.examinationResult ? 'Chỉnh sửa kết quả khám' : 'Tạo kết quả khám'}
                                         </Button>
+                                        <Button
+                                            variant="outlined"
+                                            style={{ marginLeft: '10px' }}
+                                            onClick={() => handleOpenRescheduleDialog(patient)}
+                                        >
+                                            Tạo lịch tái khám
+                                        </Button>
+
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -249,6 +267,57 @@ const PatientList = () => {
                         </Button>
                         <Button onClick={handleCreateResult} color="primary">
                             {selectedPatient.examinationResult ? 'Lưu thay đổi' : 'Tạo'}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            )}
+            {selectedPatient && (
+                <Dialog
+                    open={openRescheduleDialog}
+                    onClose={handleCloseRescheduleDialog}
+                    maxWidth="sm"
+                    fullWidth
+                >
+                    <DialogTitle>Tạo lịch tái khám</DialogTitle>
+                    <DialogContent>
+                        <Typography>Tên bệnh nhân: {selectedPatient.customer?.name || "N/A"}</Typography>
+                        <TextField
+                            label="Tên bác sĩ"
+                            variant="outlined"
+                            fullWidth
+                            style={{ marginTop: '20px' }}
+                        />
+                        <TextField
+                            label="Dịch vụ"
+                            variant="outlined"
+                            fullWidth
+                            style={{ marginTop: '20px' }}
+                        />
+                         <TextField
+                            label="Thời gian định kỳ"
+                            variant="outlined"
+                            fullWidth
+                            style={{ marginTop: '20px' }}
+                        />
+                         <TextField
+                            label="Số lần định kỳ"
+                            variant="outlined"
+                            fullWidth
+                            style={{ marginTop: '20px' }}
+                        />
+                         <TextField
+                            label="Slot tái khám"
+                            variant="outlined"
+                            fullWidth
+                            style={{ marginTop: '20px' }}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseRescheduleDialog} color="secondary">
+                            Đóng
+                        </Button>
+                        <Button color="primary">
+                            Tạo
                         </Button>
                     </DialogActions>
                 </Dialog>
