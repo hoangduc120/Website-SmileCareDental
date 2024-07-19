@@ -14,7 +14,9 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    Dialog
+    Dialog,
+    Snackbar,
+    Alert
 } from '@mui/material';
 import { createExaminationResult, getHistory, getPatients } from '../../api/api';
 
@@ -26,6 +28,9 @@ const PatientList = () => {
     const [patients, setPatients] = useState([]);
     const [examinationResult, setExaminationResult] = useState('');
     const [appointmentId, setAppointmentId] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
     useEffect(() => {
         const fetchPatients = async () => {
@@ -43,7 +48,7 @@ const PatientList = () => {
     const handleViewResult = async (customerId) => {
         try {
             const response = await getHistory(customerId);
-            setSelectedPatient(response.data); // Assuming the API response is an array of results
+            setSelectedPatient(response.data);
             setOpenDialog(true);
         } catch (error) {
             console.error("Error fetching patient history:", error);
@@ -70,7 +75,8 @@ const PatientList = () => {
 
     const handleOpenCreateDialog = (patient) => {
         setSelectedPatient(patient);
-        setAppointmentId(patient.appointmentId);
+        setAppointmentId(patient.appointmentId ? Number(patient.appointmentId) : '');
+        setExaminationResult(patient.examinationResult || ''); // Load existing result if any
         setOpenCreateDialog(true);
     };
 
@@ -83,18 +89,26 @@ const PatientList = () => {
 
     const handleCreateResult = async () => {
         try {
-            const response = await createExaminationResult({
-                appointmentId: appointmentId,
-                result: examinationResult
-            });
+            const response = await createExaminationResult(appointmentId, examinationResult);
             console.log('Examination result created:', response.data);
+            setSnackbarMessage('Kết quả khám đã được tạo thành công!');
+            setSnackbarSeverity('success');
+            setSnackbarOpen(true);
+
             const updatedResponse = await getHistory(selectedPatient.customer.id);
             setSelectedPatient(updatedResponse.data);
             setOpenDialog(true);
             handleCloseCreateDialog();
         } catch (error) {
             console.error("Error creating examination result:", error);
+            setSnackbarMessage('Đã xảy ra lỗi khi tạo kết quả khám.');
+            setSnackbarSeverity('error');
+            setSnackbarOpen(true);
         }
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
     };
 
     return (
@@ -115,19 +129,21 @@ const PatientList = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Tên bệnh nhân</TableCell>
-                                <TableCell>Email</TableCell>
                                 <TableCell>Số điện thoại</TableCell>
                                 <TableCell>Ngày</TableCell>
+                                <TableCell>Dịch vụ</TableCell>
+                                <TableCell>Thời gian</TableCell>
                                 <TableCell>Hành Động</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {filterPatients(patients).map((patient, index) => (
-                                <TableRow key={index}>
+                            {filterPatients(patients).map((patient) => (
+                                <TableRow key={patient.appointmentId}>
                                     <TableCell>{patient.customer.name}</TableCell>
-                                    <TableCell>{patient.customer.email}</TableCell>
                                     <TableCell>{patient.customer.phonenumber}</TableCell>
                                     <TableCell>{patient.date}</TableCell>
+                                    <TableCell>{patient.serviceName}</TableCell>
+                                    <TableCell>{`${patient.slot.start_time} - ${patient.slot.end_time}`}</TableCell>
                                     <TableCell>
                                         <Button
                                             variant="outlined"
@@ -140,7 +156,7 @@ const PatientList = () => {
                                             variant="outlined"
                                             onClick={() => handleOpenCreateDialog(patient)}
                                         >
-                                            Tạo kết quả khám
+                                            {patient.examinationResult ? 'Chỉnh sửa kết quả khám' : 'Tạo kết quả khám'}
                                         </Button>
                                     </TableCell>
                                 </TableRow>
@@ -176,15 +192,15 @@ const PatientList = () => {
                                 <div key={index} style={{ marginBottom: '20px' }}>
                                     <Typography style={{ display: "flex", alignItems: "center" }}>
                                         <span style={{ fontWeight: "bold", width: "150px", backgroundColor: "white" }}>
-                                            ID bệnh nhân:
-                                        </span>{" "}
-                                        {result.customer_id}
-                                    </Typography>
-                                    <Typography style={{ display: "flex", alignItems: "center" }}>
-                                        <span style={{ fontWeight: "bold", width: "150px", backgroundColor: "white" }}>
                                             Tên bệnh nhân:
                                         </span>{" "}
                                         {result.customer.name || "N/A"}
+                                    </Typography>
+                                    <Typography style={{ display: "flex", alignItems: "center" }}>
+                                        <span style={{ fontWeight: "bold", width: "150px", backgroundColor: "white" }}>
+                                            Ngày khám:
+                                        </span>{" "}
+                                        {result.result_date}
                                     </Typography>
                                     <Typography style={{ display: "flex", alignItems: "center" }}>
                                         <span style={{ fontWeight: "bold", width: "150px", backgroundColor: "white" }}>
@@ -212,10 +228,10 @@ const PatientList = () => {
                     maxWidth="sm"
                     fullWidth
                 >
-                    <DialogTitle>Tạo kết quả khám</DialogTitle>
+                    <DialogTitle>{selectedPatient.examinationResult ? 'Chỉnh sửa kết quả khám' : 'Tạo kết quả khám'}</DialogTitle>
                     <DialogContent>
                         <Typography>Tên bệnh nhân: {selectedPatient.customer?.name || "N/A"}</Typography>
-                        <input type="hidden" value={selectedPatient?.appointmentId} />
+                        <input type="hidden" value={selectedPatient.appointmentId} />
                         <TextField
                             label="Kết quả khám"
                             variant="outlined"
@@ -232,11 +248,21 @@ const PatientList = () => {
                             Hủy
                         </Button>
                         <Button onClick={handleCreateResult} color="primary">
-                            Tạo
+                            {selectedPatient.examinationResult ? 'Lưu thay đổi' : 'Tạo'}
                         </Button>
                     </DialogActions>
                 </Dialog>
             )}
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                message={snackbarMessage}
+            >
+                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Grid>
     );
 };
