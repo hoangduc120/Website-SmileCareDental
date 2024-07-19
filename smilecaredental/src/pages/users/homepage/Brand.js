@@ -20,8 +20,6 @@ import * as Yup from "yup";
 function Brand() {
   const { id } = useParams();
   const [clinics, setClinics] = useState(null);
-  const [showReviewInput, setShowReviewInput] = useState(false);
-  const [reviewContent, setReviewContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedDoctor, setSelectedDoctor] = useState("");

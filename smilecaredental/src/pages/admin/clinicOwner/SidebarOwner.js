@@ -20,7 +20,7 @@ const SidebarOwner = () => {
     { to: '/createappoinment', icon: <CalendarToday />, text: 'Tạo lịch khám' },
     { icon: <Logout />, text: 'Đăng xuất', onClick: handleLogout }
   ];
-  
+
   return (
     <Drawer
       variant="permanent"
