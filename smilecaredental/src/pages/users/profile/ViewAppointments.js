@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Box, Container } from '@mui/material';
+import { Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Box, Container, TablePagination } from '@mui/material';
 import { getAppsAndReasByCustomer } from "../../../api/api";
 
 const ViewAppointments = () => {
   // State to manage appointments
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Hiển thị 5 hàng mỗi trang
 
   // Fetch appointments data from API
   useEffect(() => {
@@ -35,7 +37,14 @@ const ViewAppointments = () => {
   if (!Array.isArray(appointments)) {
     return <div>Error: Expected appointments to be an array</div>;
   }
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   return (
     <Container maxWidth='lg'>
       <Box>
@@ -65,7 +74,7 @@ const ViewAppointments = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {appointments.map((appointment, index) => (
+              {appointments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((appointment, index) => (
                 <TableRow key={appointment.id}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{appointment.dentist.name}</TableCell>
@@ -77,6 +86,15 @@ const ViewAppointments = () => {
               ))}
             </TableBody>
           </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={appointments.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </TableContainer>
       </Box>
     </Container>

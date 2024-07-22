@@ -7,7 +7,8 @@ import {
   Paper, IconButton,
   Dialog, DialogActions, DialogContent,
   DialogTitle, TextField, FormControl,
-  InputLabel, Select, MenuItem
+  InputLabel, Select, MenuItem,
+  TablePagination
 } from '@mui/material';
 import { Add, Edit, Delete } from '@mui/icons-material';
 import { useFormik, Formik, Form } from 'formik';
@@ -19,6 +20,8 @@ const AccountUser = () => {
   const [users, setUsers] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Hiển thị 5 hàng mỗi trang
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -106,7 +109,14 @@ const AccountUser = () => {
       email: Yup.string().required('Vui lòng nhập Email').email('Email không hợp lệ'),
     }),
   });
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   return (
     <div style={{ padding: '16px' }}>
       <ToastContainer />
@@ -128,7 +138,7 @@ const AccountUser = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map((user) => (
+            {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user) => (
               <TableRow key={user.id}>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.status ? 'Hoạt động' : 'Không hoạt động'}</TableCell>
@@ -146,6 +156,15 @@ const AccountUser = () => {
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={users.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
 
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>

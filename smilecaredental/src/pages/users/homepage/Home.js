@@ -15,7 +15,7 @@ import DisplayButton from "../../../components/layout/DisplayButton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { getPageAllClinics, getPageAllServices, getHomePage } from "../../../api/api";
+import { getPageAllClinics, getPageAllServices, getPageAllDoctors } from "../../../api/api";
 
 function Home() {
   const [services, setServices] = useState([]);
@@ -25,17 +25,17 @@ function Home() {
 
   const fetchServices = () => getPageAllServices();
   const fetchClinics = () => getPageAllClinics();
-  const fetchHomePage = () => getHomePage();
+  const fetchDoctor = () => getPageAllDoctors();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const servicesResponse = await fetchServices();
         const clinicsResponse = await fetchClinics();
-        const homePageResponse = await fetchHomePage();
+        const homePageResponse = await fetchDoctor();
         setServices(servicesResponse.data.services);
         setClinics(clinicsResponse.data.clinics);
-        setDentists(homePageResponse.data);
+        setDentists(homePageResponse.data.doctors);
       } catch (error) {
         console.error("Error fetching services, clinics, and homepage data:", error);
       } finally {
@@ -46,6 +46,7 @@ function Home() {
   }, []);
 
   const topServices = services.slice(0, 6);
+  const topDoctor = dentists.slice(0, 6);
   const bottomServices = services.slice(0, 8);
 
   const settings = {
@@ -125,9 +126,6 @@ function Home() {
                       <Typography variant="h6" component="div" color="#0477CA">
                         {service.name}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Giá: ${service.price}
-                      </Typography>
                     </Link>
                   </CardContent>
                 </Box>
@@ -156,16 +154,16 @@ function Home() {
           <Slider {...settings}>
             {clinics.map((clinic) => (
               <Box key={clinic.id} px={2}>
-                <Card sx={{ maxWidth: 300, margin: "0 auto", marginBottom: "20px" }}>
+                <Card sx={{ maxWidth: 300, margin: "0 auto", marginTop: "20px" }}>
                   <CardMedia
                     component="img"
-                    height="150"
+                    height="200"
                     image={clinic.image}
                     alt={clinic.name}
                   />
                   <CardContent sx={{ textAlign: "center" }}>
                     <Typography gutterBottom variant="h6" component="div">
-                      {clinic.name}
+                      <strong>{clinic.name}</strong>
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       Thời gian hoạt động: {clinic.time}
@@ -229,14 +227,15 @@ function Home() {
             Bác Sĩ Nổi Bật
           </Typography>
           <Slider {...settings}>
-            {dentists.slice(0, 6).map((dentist) => (
+            {topDoctor.map((dentist) => (
               <Box key={dentist.dentist_id} px={2}>
                 <Card sx={{ maxWidth: 300, margin: "0 auto", marginBottom: "20px" }}>
                   <CardMedia
                     component="img"
-                    height="150"
+                    height="350"
                     image={dentist.image || "default-dentist-image.jpg"}
                     alt={dentist.name}
+                    sx={{ objectFit: 'cover', paddingTop: '30px' }}
                   />
                   <CardContent sx={{ textAlign: "center" }}>
                     <Typography gutterBottom variant="h6" component="div">
@@ -253,7 +252,7 @@ function Home() {
                     <Button
                       variant="outlined"
                       component={Link}
-                      to={`/book-appointment/${dentist.dentist_id}`}
+                      to={`/book-appointment/${dentist.id}`}
                       style={{ textDecoration: "none" }}
                     >
                       Đặt Lịch
