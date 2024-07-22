@@ -167,12 +167,12 @@ export const getHistory = async (id) => {
   return axiosInstance.get(`/dentist/patients/${id}/history`)
 }
 
-export const postReappointment = async () => {
-  return axiosInstance.post('/dentist/reappointment')
+export const postReappointment = async (type, appointmentId, periodicInterval, reappointmentCount) => {
+  return axiosInstance.post('/dentist/reappointment', { type, appointmentId, periodicInterval, reappointmentCount })
 }
 
-export const createExaminationResult = async (appointmentId, result) => {
-  return axiosInstance.post('/dentist/examination-result', { appointmentId, result })
+export const createExaminationResult = async (appointmentId, result, type) => {
+  return axiosInstance.post('/dentist/examination-result', { appointmentId, result, type })
 }
 
 export const getAvailable = async (id) => {

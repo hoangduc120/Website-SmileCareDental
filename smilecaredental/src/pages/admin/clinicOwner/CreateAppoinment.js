@@ -37,17 +37,17 @@ const AppointmentForm = () => {
                         isBooked: slot.current_patients > 0
                     }));
 
-                    const transformedSlots = allSlotsResponse.filter(slot => {
-                        const slotDateTime = new Date(`${date}T${slot.start_time}`).getTime();
-                        return slotDateTime >= Date.now();
-                    }).map(slot => ({
-                        ...slot,
-                        isBooked: bookedSlots.find(bookedSlot => bookedSlot.slot_id === slot.id)?.isBooked || false
-                    }));
+                    // Filter slots to only include those that are yet to start
+                    const now = new Date();
+                    const transformedSlots = allSlotsResponse
+                        .filter(slot => new Date(`${date}T${slot.start_time}`).getTime() > now.getTime())
+                        .map(slot => ({
+                            ...slot,
+                            isBooked: bookedSlots.find(bookedSlot => bookedSlot.slot_id === slot.id)?.isBooked || false
+                        }));
 
                     setSlots(transformedSlots);
                     const currentSlotIds = bookedSlots.map(slot => slot.slot_id);
-                    console.log(currentSlotIds);
                     setSelectedSlots(currentSlotIds);
 
                 } catch (error) {
@@ -92,6 +92,7 @@ const AppointmentForm = () => {
                 }
 
                 setSelectedSlots([]);
+                // Fetch updated slots
                 const fetchSlots = async () => {
                     const [slotsResponse, allSlotsResponse] = await Promise.all([
                         getSlotsForDate(selectedDentist, date),
@@ -103,10 +104,12 @@ const AppointmentForm = () => {
                         isBooked: slot.current_patients > 0
                     }));
 
-                    const transformedSlots = allSlotsResponse.map(slot => ({
-                        ...slot,
-                        isBooked: bookedSlots.find(bookedSlot => bookedSlot.slot_id === slot.id)?.isBooked || false
-                    }));
+                    const transformedSlots = allSlotsResponse
+                        .filter(slot => new Date(`${date}T${slot.start_time}`).getTime() > new Date().getTime())
+                        .map(slot => ({
+                            ...slot,
+                            isBooked: bookedSlots.find(bookedSlot => bookedSlot.slot_id === slot.id)?.isBooked || false
+                        }));
 
                     setSlots(transformedSlots);
                     const currentSlotIds = bookedSlots.map(slot => slot.slot_id);
