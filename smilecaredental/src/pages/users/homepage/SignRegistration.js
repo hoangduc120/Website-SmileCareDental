@@ -1,5 +1,5 @@
 import { Box, Button, Container, List, ListItem, ListItemText, Stack, TextField, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { registerClinicRequest } from '../../../api/api';
@@ -20,6 +20,7 @@ function SignRegistration() {
             formData.append("email", values.email);
             formData.append("phonenumber", values.phonenumber);
             formData.append("address", values.address);
+            formData.append("image", values.image);
 
             // Gọi hàm gửi yêu cầu từ service và xử lý kết quả
             const response = await registerClinicRequest(formData);
