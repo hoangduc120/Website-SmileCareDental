@@ -13,6 +13,8 @@ const SidebarOwner = () => {
     // Lấy thông tin từ localStorage khi component được render
     const name = localStorage.getItem('name');
     const image = localStorage.getItem('image');
+    console.log(name);
+    console.log(image);
     setClinicOwnerName(name);
     setClinicOwnerImage(image);
   }, []);
