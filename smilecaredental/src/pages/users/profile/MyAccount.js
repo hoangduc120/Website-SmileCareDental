@@ -3,12 +3,9 @@ import { Typography, Grid, Card, CardContent, TextField, Button, Box, Container 
 
 const DoctorAccount = () => {
     const [userData, setUserData] = useState({});
-
     const [isEditing, setIsEditing] = useState(false);
 
-    useEffect(() => {
-        // Fetch initial user data from API or database here
-    }, []);
+
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -51,7 +48,7 @@ const DoctorAccount = () => {
                                         <Typography variant="body2">Tên của bạn:</Typography>
                                         <TextField
                                             id="username"
-                                            value={userData.username}
+                                            value={userData.userName}
                                             variant="outlined"
                                             onChange={handleChange}
                                             fullWidth

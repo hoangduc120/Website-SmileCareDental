@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
+import { Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, TablePagination } from '@mui/material';
 import { Add, Edit, Delete } from '@mui/icons-material';
 import { useFormik, Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -10,6 +10,8 @@ const DentalFacility = () => {
   const [facilities, setFacilities] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Hiển thị 5 hàng mỗi trang
 
   useEffect(() => {
     const fetchDentals = async () => {
@@ -104,6 +106,15 @@ const DentalFacility = () => {
     }),
   });
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <div style={{ padding: '16px' }}>
       <ToastContainer />
@@ -123,7 +134,7 @@ const DentalFacility = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {facilities.map((facility) => (
+            {facilities.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((facility) => (
               <TableRow key={facility.id}>
                 <TableCell>{facility.name}</TableCell>
                 <TableCell>{facility.address}</TableCell>
@@ -139,6 +150,15 @@ const DentalFacility = () => {
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={facilities.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
 
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
