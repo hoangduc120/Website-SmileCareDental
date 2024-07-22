@@ -20,15 +20,8 @@ function Banner() {
 
     const items = [
         {
-
-            image: 'https://png.pngtree.com/thumb_back/fh260/back_our/20190621/ourmid/pngtree-dental-beauty-oral-health-background-image_195889.jpg'
-        },
-        {
-            image: 'https://tamanhhospital.vn/wp-content/uploads/2023/11/nho-rang-khon.jpg',
-        },
-        {
-            image: 'https://iweb.tatthanh.com.vn/pic/3/blog/images/website-nha-khoa-dep-nhat-viet-nam-vietphap.jpg',
-        },
+            image: 'https://firebasestorage.googleapis.com/v0/b/lab202-5de90.appspot.com/o/banner%2F765c476b3f0c39922dc40143d2ffa561.webp?alt=media&token=ba3d0bfb-9747-4f6c-a5cb-0847b8a08e98',
+        },       
     ];
 
     return (
