@@ -11,7 +11,7 @@ import DoctorManagement from './pages/admin/clinicOwner/DoctorManagement.js';
 import PatientManagement from './pages/admin/clinicOwner/PatientManegement.js';
 import AppointmentManagement from './pages/admin/clinicOwner/AppoinmentManagement.js';
 import Dashboard from './pages/admin/clinicOwner/Dashboard.js';
-import UserInfo from './pages/users/profile/UserInfo.js';
+
 import ViewAppointments from './pages/users/profile/ViewAppointments';
 import MyAccount from './pages/users/profile/MyAccount';
 import Doctors from "./pages/users/booking/Doctors.js";
@@ -29,7 +29,6 @@ import NewClinic from './pages/admin/adminSystem/NewClinic.js';
 import DashboardSystem from './pages/admin/adminSystem/DashboardSystem.js';
 import NotAuthorized from './NotAuthorized.js'
 import DoctorAccount from './pages/doctor/DoctorAccount.js';
-import DoctorInfo from './pages/doctor/DoctorInfo.js';
 import ViewPatientList from './pages/doctor/ViewPatienList.js';
 import ViewScheduleAppointment from './pages/doctor/ViewScheduleAppointment.js';
 import ExaminationResult from './pages/users/profile/ExaminationResult.js';
@@ -60,13 +59,11 @@ function App() {
               {/* DOCTOR */}
               <Route element={<ProtectedRoute roles={[3]} />}>
                 <Route path="/doctoraccount" element={<DoctorAccount />} />
-                <Route path="/doctorinfo" element={<DoctorInfo />} />
                 <Route path="/viewpatienlist" element={<ViewPatientList />} />
                 <Route path="/viewscheduleappointment" element={<ViewScheduleAppointment />} />
               </Route>
               {/* USER */}
               <Route element={<ProtectedRoute roles={[2]} />}>
-                <Route path="/userinfo" element={<UserInfo />} />
                 <Route path="/myaccount" element={<MyAccount />} />
                 <Route path="/viewappointments" element={<ViewAppointments />} />
                 <Route path="/examinationresult" element={<ExaminationResult />} />

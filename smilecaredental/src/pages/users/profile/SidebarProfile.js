@@ -14,7 +14,6 @@ const SidebarProfile = () => {
     navigate('/login'); // Điều hướng về trang đăng nhập sau khi đăng xuất
   };
   const menuItems = [
-    { text: 'Thông tin cá nhân', icon: <AccountCircle />, path: '/userinfo' },
     { text: 'Tài khoản của tôi', icon: <AccountCircle />, path: '/myaccount' },
     { text: 'Xem lịch khám', icon: <CalendarToday />, path: '/viewappointments' },
     { text: 'Kết quả khám', icon: <CalendarToday />, path: '/examinationresult' },

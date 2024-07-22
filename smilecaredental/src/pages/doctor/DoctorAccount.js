@@ -48,13 +48,14 @@ const DoctorAccount = () => {
                             <CardContent>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
-                                        <Typography variant="body2">Tên đăng nhập:</Typography>
+                                        <Typography variant="body2">Tên của bạn:</Typography>
                                         <TextField
                                             id="username"
                                             value={userData.username}
                                             variant="outlined"
+                                            onChange={handleChange}
                                             fullWidth
-                                            disabled
+                                            disabled={!isEditing}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>

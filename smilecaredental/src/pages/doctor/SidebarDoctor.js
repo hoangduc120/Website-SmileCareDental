@@ -16,7 +16,6 @@ const SidebarDoctor = () => {
   };
 
   const menuItems = [
-    { text: 'Thông tin cá nhân', icon: <AccountCircle />, path: '/doctorinfo' },
     { text: 'Tài khoản của tôi', icon: <AccountCircle />, path: '/doctoraccount' },
     { text: 'Xem lịch hẹn', icon: <CalendarToday />, path: '/viewscheduleappointment' },
     { text: 'Danh sách bệnh nhân', icon: <CalendarToday />, path: '/viewpatienlist' },

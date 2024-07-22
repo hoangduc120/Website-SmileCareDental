@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Grid, Card, CardContent, TextField, Button, Box, Container } from '@mui/material';
 
-const MyAccount = () => {
-    const [userData, setUserData] = useState({
-        username: 'hoangduc',
-        phone: '+84 123456789',
-        email: 'hoangduc@example.com',
-    });
+const DoctorAccount = () => {
+    const [userData, setUserData] = useState({});
 
     const [isEditing, setIsEditing] = useState(false);
 
@@ -52,13 +48,14 @@ const MyAccount = () => {
                             <CardContent>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
-                                        <Typography variant="body2">Tên đăng nhập:</Typography>
+                                        <Typography variant="body2">Tên của bạn:</Typography>
                                         <TextField
                                             id="username"
                                             value={userData.username}
                                             variant="outlined"
+                                            onChange={handleChange}
                                             fullWidth
-                                            disabled
+                                            disabled={!isEditing}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -111,4 +108,4 @@ const MyAccount = () => {
     );
 };
 
-export default MyAccount;
+export default DoctorAccount;
