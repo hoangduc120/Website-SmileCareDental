@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography, Stack, Avatar } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { CalendarToday, Home, Logout, People } from '@mui/icons-material';
@@ -6,7 +6,18 @@ import { logout } from '../../../api/api';
 
 const SidebarOwner = () => {
   const navigate = useNavigate();
-  const [adminName] = useState('SmileCare Center');
+  const [clinicOwnerName, setClinicOwnerName] = useState('');
+  const [clinicOwnerImage, setClinicOwnerImage] = useState('');
+
+  useEffect(() => {
+    // Lấy thông tin từ localStorage khi component được render
+    const name = localStorage.getItem('name');
+    const image = localStorage.getItem('image');
+    setClinicOwnerName(name);
+    setClinicOwnerImage(image);
+  }, []);
+
+  
   const handleLogout = () => {
     logout();
     navigate('/login'); // Điều hướng về trang đăng nhập sau khi đăng xuất
@@ -34,12 +45,12 @@ const SidebarOwner = () => {
         },
       }}
     >
-      <div style={{ padding: '16px', textAlign: 'center', backgroundColor: '#1565C0', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)' }}>
+       <div style={{ padding: '16px', textAlign: 'center', backgroundColor: '#1565C0', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)' }}>
         <Stack direction="row" style={{ justifyContent: 'center' }}>
-          <Avatar alt="Remy Sharp" sx={{ width: 80, height: 80 }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx-WLohO5b-vvwezUCKexd-DF5VxCPoooWD8e2SyQYMcy5HCpOf6Del4A7rCO-cFM4J8s&usqp=CAU" />
+          <Avatar alt={clinicOwnerName} sx={{ width: 80, height: 80 }} src={clinicOwnerImage} />
         </Stack>
         <Typography variant="h6" sx={{ color: '#ffffff', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>
-          Nha khoa {adminName}
+          Xin chào, {clinicOwnerName}
         </Typography>
       </div>
 

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography } from '@mui/material';
 import { CalendarToday, Logout, AccountCircle } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,8 +7,15 @@ import { logout } from '../../../api/api';
 
 const SidebarProfile = () => {
   const navigate = useNavigate();
-  const [userName] = useState('Hoàng Việt Đức'); // Mock admin name
+  const [userName, setUserName] = useState('');
   const [selectedItem, setSelectedItem] = useState('/userinfo'); // Default selected item
+
+  
+  useEffect(() => {
+    const name = localStorage.getItem('name');
+    setUserName(name);
+  }, []);
+
   const handleLogout = () => {
     logout();
     navigate('/login'); // Điều hướng về trang đăng nhập sau khi đăng xuất
@@ -34,7 +41,7 @@ const SidebarProfile = () => {
       }}
     >
       <div style={{ padding: '16px', textAlign: 'center', backgroundColor: '#1565C0' }}>
-        <Typography variant="h6" sx={{ color: '#ffffff' }}>{userName}</Typography>
+        <Typography variant="h6" sx={{ color: '#ffffff' }}>Xin chào, {userName}</Typography>
       </div>
       <List>
         {menuItems.map((item, index) => (

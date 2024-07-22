@@ -26,7 +26,11 @@ function Login() {
         localStorage.setItem('token', res.data.token);
 
         const user = JSON.parse(atob(res.data.token.split('.')[1]));
-        localStorage.setItem('role', user.role); // Lưu role vào localStorage
+        localStorage.setItem('role', user.role);
+        localStorage.setItem('name', user.name); 
+        if (user.role === 4) {
+          localStorage.setItem('image', user.image);
+        }
 
         if (user.role === 1) {
           navigate('/dashboardsystem');

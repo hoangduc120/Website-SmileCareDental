@@ -28,11 +28,18 @@ export const verifyEmail = async (userId) => {
 };
 
 export const requestPasswordReset = async (email) => {
-  return axiosInstance.post('/api/auth/request-password-reset', { email });
+  return axiosInstance.post('/api/auth/request-password-reset', email );
 };
 
 export const resetPassword = async (data) => {
-  return axiosInstance.post('/api/auth/reset-password', data);
+  try {
+      const response = await axiosInstance.post('/api/auth/reset-password', data);
+      console.log('Response data:', response.data);
+      return response;
+  } catch (error) {
+      console.error('Error resetting password:', error.response ? error.response.data : error.message);
+      throw error;
+  }
 };
 
 // Home API
