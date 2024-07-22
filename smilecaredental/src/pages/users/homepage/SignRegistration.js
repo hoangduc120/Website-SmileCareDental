@@ -1,25 +1,10 @@
 import { Box, Button, Container, List, ListItem, ListItemText, Stack, TextField, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { registerClinicRequest } from '../../../api/api'; 
+import { registerClinicRequest } from '../../../api/api';
 
 function SignRegistration() {
-    const [avatar, setAvatar] = useState(null);
-
-    useEffect(() => {
-        // Cleanup
-        return () => {
-            avatar && URL.revokeObjectURL(avatar.preview);
-        };
-    }, [avatar]);
-
-    const handlePreviewAvatar = (e) => {
-        const file = e.target.files[0];
-        file.preview = URL.createObjectURL(file);
-        setAvatar(file);
-    };
-
     const initialValues = {
         name: "",
         email: "",
@@ -35,9 +20,7 @@ function SignRegistration() {
             formData.append("email", values.email);
             formData.append("phonenumber", values.phonenumber);
             formData.append("address", values.address);
-            if (avatar) {
-                formData.append("image", avatar); // Thêm hình ảnh vào FormData nếu tồn tại
-            }
+            formData.append("image", values.image);
 
             // Gọi hàm gửi yêu cầu từ service và xử lý kết quả
             const response = await registerClinicRequest(formData);
@@ -64,6 +47,7 @@ function SignRegistration() {
             .length(10, "Số điện thoại phải có ít nhất 10 chữ số")
             .required("Vui lòng nhập số điện thoại"),
         address: Yup.string().required("Vui lòng nhập địa chỉ của phòng khám"),
+        image: Yup.string().url().required("Không để trống")
     });
 
     return (
@@ -132,15 +116,8 @@ function SignRegistration() {
                                     <Field as={TextField} fullWidth name='address' multiline
                                         label='Nhập địa chỉ của phòng khám' placeholder="Nhập địa chỉ của phòng khám"
                                         helperText={<ErrorMessage name="address" component="span" style={{ color: 'red' }} />} />
-                                    <div>
-                                        <input
-                                            type="file"
-                                            onChange={handlePreviewAvatar}
-                                        />
-                                        {avatar && (
-                                            <img src={avatar.preview} alt="Preview" width="20%" />
-                                        )}
-                                    </div>
+                                    <Field as={TextField} fullWidth name="image" label='Nhập url'
+                                        placeholder="Nhập link url hình ảnh" helperText={<ErrorMessage name="image" component="span" style={{ color: 'red' }} />} />
                                     <Button variant="contained" type="submit" disabled={props.isSubmitting}>
                                         Đăng Ký Ngay
                                     </Button>

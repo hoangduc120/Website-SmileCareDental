@@ -45,7 +45,7 @@ function Header() {
           <Avatar />
           <Link to={
             item === 'Admin System' ? "/dashboardsystem" :
-              item === 'Thông tin cá nhân' ? "/userinfo" :
+              item === 'Thông tin cá nhân' ? "/myaccount" :
                 item === 'Thông tin bác sĩ' ? "/doctoraccount" :
                   "/dashboardclinic"
           } style={{ textDecoration: "none", color: "black" }}>

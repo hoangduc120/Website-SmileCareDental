@@ -21,7 +21,8 @@ function ForgetPassword() {
         const response = await requestPasswordReset({
           email: values.email,
         })
-        console.log("Reset password request successful", response.data)
+        console.log("Reset password request successful", response.data);
+        alert('Yêu cầu reset mật khẩu đã được gửi. Vui lòng kiểm tra email của bạn.'); // Hiển thị thông báo thành công
         resetForm();
         // navigate("/")
       } catch (error) {

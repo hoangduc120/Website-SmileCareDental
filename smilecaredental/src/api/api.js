@@ -15,6 +15,8 @@ export const logout = async () => {
   } finally {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('name');
+    localStorage.removeItem('image');
     window.location.href = '/login'; // Điều hướng đến trang đăng nhập sau khi đăng xuất
   }
 };
@@ -28,11 +30,18 @@ export const verifyEmail = async (userId) => {
 };
 
 export const requestPasswordReset = async (email) => {
-  return axiosInstance.post('/api/auth/request-password-reset', { email });
+  return axiosInstance.post('/api/auth/request-password-reset', email);
 };
 
 export const resetPassword = async (data) => {
-  return axiosInstance.post('/api/auth/reset-password', data);
+  try {
+    const response = await axiosInstance.post('/api/auth/reset-password', data);
+    console.log('Response data:', response.data);
+    return response;
+  } catch (error) {
+    console.error('Error resetting password:', error.response ? error.response.data : error.message);
+    throw error;
+  }
 };
 
 // Home API
@@ -167,12 +176,12 @@ export const getHistory = async (id) => {
   return axiosInstance.get(`/dentist/patients/${id}/history`)
 }
 
-export const postReappointment = async () => {
-  return axiosInstance.post('/dentist/reappointment')
+export const postReappointment = async (type, appointmentId, periodicInterval, reappointmentCount) => {
+  return axiosInstance.post('/dentist/reappointment', { type, appointmentId, periodicInterval, reappointmentCount })
 }
 
-export const createExaminationResult = async (appointmentId, result) => {
-  return axiosInstance.post('/dentist/examination-result', { appointmentId, result })
+export const createExaminationResult = async (appointmentId, result, type) => {
+  return axiosInstance.post('/dentist/examination-result', { appointmentId, result, type })
 }
 
 export const getAvailable = async (id) => {

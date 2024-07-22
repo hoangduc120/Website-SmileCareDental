@@ -16,7 +16,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  TablePagination
 } from '@mui/material';
 import {
   getResultByCustomer,
@@ -32,6 +33,8 @@ const ExaminationResult = () => {
   const [open, setOpen] = useState(false);
   const [feedbackSuccessOpen, setFeedbackSuccessOpen] = useState(false);
   const [feedbackErrorOpen, setFeedbackErrorOpen] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Hiển thị 5 hàng mỗi trang
 
   useEffect(() => {
     const fetchExaminationResults = async () => {
@@ -75,7 +78,7 @@ const ExaminationResult = () => {
         // Create new feedback if doesn't exist
         await createFeedbackByCustomer(selectedResult.id, reviewContent, rating);
       }
-      
+
       // Fetch updated examination results from API to get the latest data
       const updatedResults = await getResultByCustomer();
       setExaminationResults(updatedResults);
@@ -105,7 +108,14 @@ const ExaminationResult = () => {
   const handleFeedbackErrorClose = () => {
     setFeedbackErrorOpen(false);
   };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   return (
     <Container maxWidth='lg'>
       <Box>
@@ -136,7 +146,7 @@ const ExaminationResult = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {examinationResults.map((result, index) => (
+              {examinationResults.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((result, index) => (
                 <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{result.appointment.dentist.name}</TableCell>
@@ -158,6 +168,15 @@ const ExaminationResult = () => {
               ))}
             </TableBody>
           </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={examinationResults.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </TableContainer>
       </Box>
 

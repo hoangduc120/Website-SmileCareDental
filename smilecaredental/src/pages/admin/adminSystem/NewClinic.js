@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Tabs, Tab, Snackbar, SnackbarContent } from '@mui/material';
+import { Typography, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Tabs, Tab, Snackbar, SnackbarContent, TablePagination } from '@mui/material';
 import { Check, Clear } from '@mui/icons-material';
 import { getAllClinicRequests, getAllClinicRequestsPending, getAllClinicRequestsApproved, getAllClinicRequestsRejected, approveClinicRequest, rejectClinicRequest } from '../../../api/api';
 
@@ -8,11 +8,13 @@ const ClinicRequests = () => {
   const [openConfirm, setOpenConfirm] = useState(false);
   const [selectedRequestId, setSelectedRequestId] = useState(null);
   const [selectedRequestName, setSelectedRequestName] = useState('');
-  const [actionType, setActionType] = useState(''); 
+  const [actionType, setActionType] = useState('');
   const [selectedTab, setSelectedTab] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success'); 
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Hiển thị 5 hàng mỗi trang
 
   useEffect(() => {
     fetchAllClinicRequests();
@@ -84,7 +86,7 @@ const ClinicRequests = () => {
   const handleOpenConfirm = (id, name, action) => {
     setSelectedRequestId(id);
     setSelectedRequestName(name);
-    setActionType(action); 
+    setActionType(action);
     setOpenConfirm(true);
   };
 
@@ -121,6 +123,14 @@ const ClinicRequests = () => {
   const closeSnackbar = () => {
     setSnackbarOpen(false);
   };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <div style={{ padding: '16px' }}>
@@ -148,7 +158,7 @@ const ClinicRequests = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {clinicRequests.map((request) => (
+            {clinicRequests.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((request) => (
               <TableRow key={request.id}>
                 <TableCell>{request.name}</TableCell>
                 <TableCell>{request.address}</TableCell>
@@ -175,6 +185,15 @@ const ClinicRequests = () => {
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={clinicRequests.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
 
       <Dialog

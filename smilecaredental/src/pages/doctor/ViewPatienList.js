@@ -18,7 +18,7 @@ import {
     Snackbar,
     Alert
 } from '@mui/material';
-import { createExaminationResult, getHistory, getPatients } from '../../api/api';
+import { createExaminationResult, getHistory, getPatients, postReappointment } from '../../api/api';
 
 const PatientList = () => {
     const [openDialog, setOpenDialog] = useState(false);
@@ -28,27 +28,31 @@ const PatientList = () => {
     const [searchName, setSearchName] = useState('');
     const [patients, setPatients] = useState([]);
     const [examinationResult, setExaminationResult] = useState('');
+    const [type, setType] = useState('');
     const [appointmentId, setAppointmentId] = useState('');
+    const [periodicInterval, setPeriodicInterval] = useState('');
+    const [reappointmentCount, setReappointmentCount] = useState('');
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
     useEffect(() => {
-        const fetchPatients = async () => {
-            try {
-                const response = await getPatients();
-                setPatients(response.data);
-            } catch (error) {
-                console.error('Error fetching patients:', error);
-            }
-        };
-
         fetchPatients();
     }, []);
+
+    const fetchPatients = async () => {
+        try {
+            const response = await getPatients();
+            setPatients(response.data);
+        } catch (error) {
+            console.error('Error fetching patients:', error);
+        }
+    };
 
     const handleViewResult = async (customerId) => {
         try {
             const response = await getHistory(customerId);
+            console.log(response.data);
             setSelectedPatient(response.data);
             setOpenDialog(true);
         } catch (error) {
@@ -77,7 +81,8 @@ const PatientList = () => {
     const handleOpenCreateDialog = (patient) => {
         setSelectedPatient(patient);
         setAppointmentId(patient.appointmentId ? Number(patient.appointmentId) : '');
-        setExaminationResult(patient.examinationResult || ''); // Load existing result if any
+        setExaminationResult(patient.examination_results || ''); // Load existing result if any
+        setType(patient.type);
         setOpenCreateDialog(true);
     };
 
@@ -90,16 +95,21 @@ const PatientList = () => {
 
     const handleCreateResult = async () => {
         try {
-            const response = await createExaminationResult(appointmentId, examinationResult);
+            const response = await createExaminationResult(appointmentId, examinationResult, type);
             console.log('Examination result created:', response.data);
             setSnackbarMessage('Kết quả khám đã được tạo thành công!');
             setSnackbarSeverity('success');
             setSnackbarOpen(true);
 
+            await fetchPatients();
+
             const updatedResponse = await getHistory(selectedPatient.customer.id);
             setSelectedPatient(updatedResponse.data);
-            setOpenDialog(true);
-            handleCloseCreateDialog();
+
+            // Close the create dialog and reset state
+            setOpenCreateDialog(false);
+            setExaminationResult('');
+            setAppointmentId('');
         } catch (error) {
             console.error("Error creating examination result:", error);
             setSnackbarMessage('Đã xảy ra lỗi khi tạo kết quả khám.');
@@ -114,6 +124,8 @@ const PatientList = () => {
     const handleOpenRescheduleDialog = (patient) => {
         setSelectedPatient(patient);
         setOpenRescheduleDialog(true);
+        setOpenDialog(false);
+        setOpenCreateDialog(false);
     };
 
     const handleCloseRescheduleDialog = () => {
@@ -121,6 +133,39 @@ const PatientList = () => {
         setSelectedPatient(null);
     };
 
+    const handleCreateReappointment = async () => {
+        if (!periodicInterval || !reappointmentCount) {
+            setSnackbarMessage('Vui lòng điền đầy đủ thông tin.');
+            setSnackbarSeverity('warning');
+            setSnackbarOpen(true);
+            return;
+        }
+    
+        try {
+            const response = await postReappointment(
+                selectedPatient.type,
+                selectedPatient.appointmentId,
+                periodicInterval,
+                reappointmentCount
+            );
+            console.log('Reappointment created:', response.data);
+            setSnackbarMessage('Lịch tái khám đã được tạo thành công!');
+            setSnackbarSeverity('success');
+            setSnackbarOpen(true);
+    
+            // Reset state and close the dialog
+            setPeriodicInterval('');
+            setReappointmentCount('');
+            setOpenRescheduleDialog(false);
+            await fetchPatients();
+        } catch (error) {
+            console.error("Error creating reappointment:", error);
+            setSnackbarMessage('Đã xảy ra lỗi khi tạo lịch tái khám.');
+            setSnackbarSeverity('error');
+            setSnackbarOpen(true);
+        }
+    };
+    
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -282,41 +327,35 @@ const PatientList = () => {
                     <DialogContent>
                         <Typography>Tên bệnh nhân: {selectedPatient.customer?.name || "N/A"}</Typography>
                         <TextField
-                            label="Tên bác sĩ"
-                            variant="outlined"
-                            fullWidth
-                            style={{ marginTop: '20px' }}
-                        />
-                        <TextField
                             label="Dịch vụ"
                             variant="outlined"
                             fullWidth
                             style={{ marginTop: '20px' }}
+                            value={selectedPatient.serviceName}
+                            disabled
                         />
-                         <TextField
-                            label="Thời gian định kỳ"
+                        <TextField
+                            label="Thời gian định kỳ (Ngày)"
                             variant="outlined"
                             fullWidth
                             style={{ marginTop: '20px' }}
+                            value={periodicInterval}
+                            onChange={(e) => setPeriodicInterval(e.target.value)}
                         />
-                         <TextField
+                        <TextField
                             label="Số lần định kỳ"
                             variant="outlined"
                             fullWidth
                             style={{ marginTop: '20px' }}
-                        />
-                         <TextField
-                            label="Slot tái khám"
-                            variant="outlined"
-                            fullWidth
-                            style={{ marginTop: '20px' }}
+                            value={reappointmentCount}
+                            onChange={(e) => setReappointmentCount(e.target.value)}
                         />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleCloseRescheduleDialog} color="secondary">
                             Đóng
                         </Button>
-                        <Button color="primary">
+                        <Button onClick={handleCreateReappointment} color="primary">
                             Tạo
                         </Button>
                     </DialogActions>

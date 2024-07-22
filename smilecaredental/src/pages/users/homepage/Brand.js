@@ -300,7 +300,7 @@ function Brand() {
                     <Typography>
                       <strong>{service.service.name}:</strong>{" "}
                     </Typography>
-                    <Typography>{`${service.service.price} VNĐ`}</Typography>
+                    <Typography>{`${(service.service.price * 1000).toLocaleString('vi-VN')} VNĐ`}</Typography>
                   </Box>
                 ))}
             </Box>

@@ -1,12 +1,18 @@
 import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { useFormik } from "formik";
-import * as Yup from 'yup'
+import * as Yup from 'yup';
 import { resetPassword } from "../../../api/api";
+
 function ForgetPassword2() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const token = query.get('token');
+  const email = query.get('email');
+
 
   const formik = useFormik({
     initialValues: {
@@ -17,28 +23,31 @@ function ForgetPassword2() {
       password: Yup.string().required("Không để trống!").min(4, "Mật khẩu từ 4 ký tụ trở lên"),
       confirmPassword: Yup.string().oneOf([Yup.ref('password')], "Mật khẩu phải trùng").required("Không để trống!"),
     }),
-    onSubmit: async (values, { setSubmiting, resetForm }) => {
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
         const res = await resetPassword({
-          password: values.password,
-          confirmPassword: values.confirmPassword,
+          email,
+          token,
+          newPassword: values.password,
         });
-        console.log('Password reset successful', res.data)
-        resetForm()
-        navigate('/login')
+        console.log('API Response:', res); 
+        alert('Mật khẩu đã được cập nhật thành công');
+        resetForm();
+        navigate('/login'); 
       } catch (error) {
-        console.error('Password reset failed', error.res ? error.res.data : 'Lỗi')
+        console.error('Password reset failed', error.response ? error.response.data : 'Lỗi');
+        alert('Cập nhật mật khẩu thất bại'); 
       } finally {
-        setSubmiting(false)
+        setSubmitting(false);
       }
-    }
-  })
+    },
+  });
+
 
   return (
     <Grid
       container
       sx={{
-        // borderRadius: 1,
         bgcolor: "#2098D1",
         display: "flex",
         justifyContent: "center",

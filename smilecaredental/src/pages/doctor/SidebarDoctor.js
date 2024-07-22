@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Typography } from '@mui/material';
 import { CalendarToday, Logout, AccountCircle } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,8 +7,14 @@ import { logout } from '../../api/api';
 
 const SidebarDoctor = () => {
   const navigate = useNavigate();
-  const [userName] = useState(); // Mock admin name
+  const [userName, setUserName] = useState('');
   const [selectedItem, setSelectedItem] = useState('/doctorinfo'); // Default selected item
+
+  useEffect(() => {
+    const name = localStorage.getItem('name');
+    setUserName(name);
+  }, []);
+
 
   const handleLogout = () => {
     logout();
@@ -16,7 +22,6 @@ const SidebarDoctor = () => {
   };
 
   const menuItems = [
-    { text: 'Thông tin cá nhân', icon: <AccountCircle />, path: '/doctorinfo' },
     { text: 'Tài khoản của tôi', icon: <AccountCircle />, path: '/doctoraccount' },
     { text: 'Xem lịch hẹn', icon: <CalendarToday />, path: '/viewscheduleappointment' },
     { text: 'Danh sách bệnh nhân', icon: <CalendarToday />, path: '/viewpatienlist' },

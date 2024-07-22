@@ -10,10 +10,10 @@ import Footer from '../layout/Footer';
 import SidebarDoctor from '../../pages/doctor/SidebarDoctor';
 const MainLayout = () => {
     const location = useLocation();
-    const isUserProfileRoute = ['/userinfo', '/myaccount', '/changepassword', '/viewappointments', '/examinationresult'].includes(location.pathname);
+    const isUserProfileRoute = ['/myaccount', '/changepassword', '/viewappointments', '/examinationresult'].includes(location.pathname);
     const isClinicRoute = ['/dashboardclinic', '/doctor', '/appointment', '/patient', '/appointmentfilter', '/createappoinment'].includes(location.pathname);
     const isAdminRoute = ['/dashboardsystem', '/newclinic', '/accountuser', '/dentalfacility'].includes(location.pathname);
-    const isDoctor = ['/doctoraccount', '/doctorinfo', '/viewpatienlist', '/viewscheduleappointment',].includes(location.pathname);
+    const isDoctor = ['/doctoraccount', '/viewpatienlist', '/viewscheduleappointment',].includes(location.pathname);
     const sidebarComponent = isUserProfileRoute ? <SidebarProfile /> : isClinicRoute ? <SidebarOwner /> : isAdminRoute ? <SidebarSystem /> : isDoctor ? <SidebarDoctor /> : null;
 
     return (

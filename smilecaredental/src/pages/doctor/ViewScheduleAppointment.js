@@ -63,11 +63,16 @@ function ViewScheduleAppointment() {
         const filteredAppointments = appointments.filter(
             (appointment) => appointment.date === date && appointment.slot.id === slotId
         );
-
+    
         if (filteredAppointments.length > 0) {
             const slotDetail = filteredAppointments[0];
             const { start_time, end_time } = slotDetail.slot;
-            const status = new Date(date) < new Date() ? "completed" : "not yet";
+            const slotStart = new Date(`${date}T${start_time}`);
+            const slotEnd = new Date(`${date}T${end_time}`);
+            const now = new Date();
+    
+            const status = now < slotStart ? "not yet" : now > slotEnd ? "completed" : "ongoing";
+    
             return {
                 timeRange: `${start_time} - ${end_time}`,
                 patients: slotDetail.current_patients,
@@ -112,7 +117,7 @@ function ViewScheduleAppointment() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {[...Array(9)].map((_, slotIndex) => (
+                            {[...Array(8)].map((_, slotIndex) => (
                                 <TableRow key={slotIndex}>
                                     <TableCell>{`Slot ${slotIndex + 1}`}</TableCell>
                                     {weekDates.map((date, dateIndex) => {
