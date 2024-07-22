@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 import { login } from '../../../api/api';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from 'jwt-decode';
+
 function Login() {
   const navigate = useNavigate();
   const formik = useFormik({
@@ -25,9 +27,10 @@ function Login() {
         console.log('Login successful', res.data);
         localStorage.setItem('token', res.data.token);
 
-        const user = JSON.parse(atob(res.data.token.split('.')[1]));
+        const user = jwtDecode(res.data.token);  
+        console.log(user.name);
         localStorage.setItem('role', user.role);
-        localStorage.setItem('name', user.name); 
+        localStorage.setItem('name', user.name);
         if (user.role === 4) {
           localStorage.setItem('image', user.image);
         }
