@@ -5,7 +5,6 @@ import {
   Grid,
   Typography,
   Button,
-  Stack,
   Container,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -16,6 +15,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { getPageAllClinics, getPageAllServices, getPageAllDoctors } from "../../../api/api";
+import Banner from "../../../components/layout/Banner";
 
 function Home() {
   const [services, setServices] = useState([]);
@@ -80,20 +80,7 @@ function Home() {
 
   return (
     <>
-      <Box textAlign="center" height="20vh">
-        <Typography variant="h3" pt="25px" color="#0477CA">
-          Dịch vụ tốt nhất ở nha khoa
-        </Typography>
-        <Box display="flex" justifyContent="center" pt="15px">
-          <Stack direction="row" spacing={3}>
-            <Typography>
-              <Link to="/Home" style={{ textDecoration: "none", color: "#0477CA" }}>
-                Trang chủ
-              </Link>
-            </Typography>
-          </Stack>
-        </Box>
-      </Box>
+      <Banner />
       <Container>
         <Typography
           variant="h4"
@@ -154,7 +141,7 @@ function Home() {
           <Slider {...settings}>
             {clinics.map((clinic) => (
               <Box key={clinic.id} px={2}>
-                <Card sx={{ maxWidth: 300, margin: "0 auto", marginTop: "20px" }}>
+                <Card sx={{ maxWidth: 300, margin: "20px", marginTop: "20px" }}>
                   <CardMedia
                     component="img"
                     height="200"
@@ -177,7 +164,7 @@ function Home() {
                       variant="outlined"
                       component={Link}
                       to={`/clinic/${clinic.id}`}
-                      style={{ textDecoration: "none" }}
+                      style={{ textDecoration: "none", marginBottom: "10px" }}
                     >
                       Đặt Lịch
                     </Button>
@@ -229,13 +216,12 @@ function Home() {
           <Slider {...settings}>
             {topDoctor.map((dentist) => (
               <Box key={dentist.dentist_id} px={2}>
-                <Card sx={{ maxWidth: 300, margin: "0 auto", marginBottom: "20px" }}>
+                <Card sx={{ maxWidth: 300, margin: "20px", marginBottom: "20px" }}>
                   <CardMedia
                     component="img"
-                    height="350"
+                    height="300"
                     image={dentist.image || "default-dentist-image.jpg"}
                     alt={dentist.name}
-                    sx={{ objectFit: 'cover', paddingTop: '30px' }}
                   />
                   <CardContent sx={{ textAlign: "center" }}>
                     <Typography gutterBottom variant="h6" component="div">
@@ -253,7 +239,7 @@ function Home() {
                       variant="outlined"
                       component={Link}
                       to={`/book-appointment/${dentist.id}`}
-                      style={{ textDecoration: "none" }}
+                      style={{ textDecoration: "none", marginBottom: "10px" }}
                     >
                       Đặt Lịch
                     </Button>
