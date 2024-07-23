@@ -238,7 +238,7 @@ function Home() {
                     <Button
                       variant="outlined"
                       component={Link}
-                      to={`/book-appointment/${dentist.id}`}
+                      to={`/book-appointment/${dentist.dentist_id}`}
                       style={{ textDecoration: "none", marginBottom: "10px" }}
                     >
                       Đặt Lịch

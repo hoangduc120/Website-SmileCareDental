@@ -58,8 +58,34 @@ function Brand() {
       try {
         console.log("Fetching slots for doctor:", selectedDoctor, "on date:", date);
         const response = await getAvailableSlotsForDate(selectedDoctor, date);
-        console.log(response.data);
-        setSlots(response.data); // Set slots with response.data.slots
+        const slots = response.data; // Set slots with response.data.slots
+
+        // Get current date and time
+        const now = new Date();
+        const currentDate = now.toISOString().split("T")[0];
+        const currentTime = now.toTimeString().split(" ")[0].substring(0, 5); // 'HH:MM' format
+
+        console.log("Current date:", currentDate);
+        console.log("Current time:", currentTime);
+
+        // Disable slots that are past the current time for today
+        const updatedSlots = slots.map(slot => {
+          const slotStartTime = slot.slot.start_time;
+
+          // Check if the slot date is today and past the current time
+          if (date === currentDate && slotStartTime < currentTime) {
+            console.log("Disabling slot at:", slotStartTime);
+            return {
+              ...slot,
+              isDisabled: true,
+            };
+          }
+          return slot;
+        });
+
+        console.log("Updated slots:", updatedSlots);
+
+        setSlots(updatedSlots); // Update slots with the disabled status
       } catch (error) {
         console.error("Error fetching available slots:", error);
       }
@@ -82,31 +108,31 @@ function Brand() {
     }),
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
-        const appointmentData = {
-          clinicId: id,
-          dentistId: values.dentistId,
-          serviceId: values.serviceId,
-          slotId: values.slotId,
-          appointmentDate: values.date,
-        };
-        console.log("Appointment data being sent:", appointmentData);
-        const response = await createAppointment(appointmentData);
-        console.log("Appointment created successfully:", response.data);
-        alert("Đặt lịch hẹn thành công!");
-        setSelectedDoctor("");
-        setSelectedService("");
-        setSelectedDate("");
-        setSelectedSlot("");
-        resetForm();
-        setSlots([]);
+          const appointmentData = {
+              clinicId: id,
+              dentistId: values.dentistId,
+              serviceId: values.serviceId,
+              slotId: values.slotId,
+              appointmentDate: values.date,
+          };
+          console.log("Appointment data being sent:", appointmentData);
+          const response = await createAppointment(appointmentData);
+          console.log("Appointment created successfully:", response.data);
+          alert("Đặt lịch hẹn thành công! Vui lòng check Email để nhận được mail phản hồi từ Phòng Khám.");
+          resetForm();
       } catch (error) {
-        console.error("Error creating appointment:", error);
-        alert("Có lỗi xảy ra khi đặt lịch hẹn. Vui lòng thử lại.");
+          console.error("Error creating appointment:", error);
+          if (error.data && error.data.error) {
+              console.log("Thông báo lỗi từ back-end:", error.data.error); // Thêm console.log để kiểm tra
+              alert(`Có lỗi xảy ra: ${error.data.error}`);
+          } else {
+              alert("Có lỗi xảy ra khi đặt lịch hẹn. Vui lòng thử lại.");
+          }
       } finally {
-        setSubmitting(false);
-        resetForm();
+          setSubmitting(false);
+          resetForm();
       }
-    },
+  },
   });
 
   if (loading) {
@@ -135,9 +161,12 @@ function Brand() {
   } = clinics;
 
   const handleSlotSelect = (slotId) => {
-    setSelectedSlot(slotId);
-    formik.setFieldValue("slotId", slotId);
-    formik.setFieldValue("time", slotId);
+    const selectedSlot = slots.find(slot => slot.slot_id === slotId);
+    if (selectedSlot && !selectedSlot.isDisabled) {
+      setSelectedSlot(slotId);
+      formik.setFieldValue("slotId", slotId);
+      formik.setFieldValue("time", slotId);
+    }
   };
 
   const handleScrollToInfo = () => {
@@ -426,16 +455,16 @@ function Brand() {
                           <Button
                             variant={selectedSlot === slot.slot_id ? "contained" : "outlined"}
                             fullWidth
-                            disabled={slot.current_patients >= slot.slot.max_patients}
+                            disabled={slot.isDisabled || slot.current_patients >= slot.slot.max_patients}
                             sx={{
                               backgroundColor:
-                                slot.current_patients >= slot.slot.max_patients
+                                slot.isDisabled || slot.current_patients >= slot.slot.max_patients
                                   ? "red"
                                   : selectedSlot === slot.slot_id
                                     ? "#3f51b5"
                                     : "inherit",
                               color:
-                                slot.current_patients >= slot.slot.max_patients
+                                slot.isDisabled || slot.current_patients >= slot.slot.max_patients
                                   ? "#ffffff"
                                   : "inherit",
                               fontWeight: selectedSlot === slot.slot_id ? "bold" : "normal",
