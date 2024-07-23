@@ -125,13 +125,15 @@ function Booking() {
         resetForm();
       } catch (error) {
         console.error("Error creating appointment:", error);
-        if (error.response && error.response.data && error.response.data.error) {
-            alert(`Có lỗi xảy ra: ${error.response.data.error}`);
+        if (error.data && error.data.error) {
+          console.log("Thông báo lỗi từ back-end:", error.data.error); // Thêm console.log để kiểm tra
+          alert(`Có lỗi xảy ra: ${error.data.error}`);
         } else {
-            alert("Có lỗi xảy ra khi đặt lịch hẹn. Vui lòng thử lại.");
+          alert("Có lỗi xảy ra khi đặt lịch hẹn. Vui lòng thử lại.");
         }
       } finally {
         setSubmitting(false);
+        resetForm();
       }
     },
   });
