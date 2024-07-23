@@ -66,14 +66,31 @@ function Booking() {
     const selectedDate = event.target.value;
     try {
       if (!selectedDate) return;
+
       console.log("Fetching slots for date:", selectedDate);
       const response = await getAvailableSlotsForDate(doctorId, selectedDate);
       console.log("Slots response:", response.data);
-      setSlots(response.data);
+
+      const now = new Date();
+      const currentDate = now.toISOString().split("T")[0];
+      const currentTime = now.toTimeString().split(" ")[0].substring(0, 5); // 'HH:MM' format
+
+      const updatedSlots = response.data.map(slot => {
+        const slotStartTime = slot.slot.start_time;
+
+        // Vô hiệu hóa các slot đã qua giờ cho ngày hiện tại
+        if (selectedDate === currentDate && slotStartTime < currentTime) {
+          return {
+            ...slot,
+            disabled: true,
+          };
+        }
+        return slot;
+      });
+
+      setSlots(updatedSlots);
     } catch (error) {
       console.error("Error fetching available slots:", error);
-      console.log("Doctor ID:", doctorId);
-      console.log("Selected Date:", selectedDate);
     }
   };
 
@@ -104,13 +121,19 @@ function Booking() {
         };
         const response = await createAppointment(appointmentData);
         console.log("Appointment created successfully:", response.data);
-        alert("Đặt lịch hẹn thành công!");
+        alert("Đặt lịch hẹn thành công! Vui lòng check Email để nhận được mail phản hồi từ Phòng Khám.");
         resetForm();
       } catch (error) {
         console.error("Error creating appointment:", error);
-        alert("Có lỗi xảy ra khi đặt lịch hẹn. Vui lòng thử lại.");
+        if (error.data && error.data.error) {
+          console.log("Thông báo lỗi từ back-end:", error.data.error); // Thêm console.log để kiểm tra
+          alert(`Có lỗi xảy ra: ${error.data.error}`);
+        } else {
+          alert("Có lỗi xảy ra khi đặt lịch hẹn. Vui lòng thử lại.");
+        }
       } finally {
         setSubmitting(false);
+        resetForm();
       }
     },
   });
@@ -359,16 +382,16 @@ function Booking() {
                         <Button
                           variant={selectedSlot === slot.slot_id ? "contained" : "outlined"}
                           fullWidth
-                          disabled={slot.current_patients >= slot.slot.max_patients}
+                          disabled={slot.disabled || slot.current_patients >= slot.slot.max_patients}
                           sx={{
                             backgroundColor:
-                              slot.current_patients >= slot.slot.max_patients
+                              slot.disabled || slot.current_patients >= slot.slot.max_patients
                                 ? "red"
                                 : selectedSlot === slot.slot_id
                                   ? "#3f51b5"
                                   : "inherit",
                             color:
-                              slot.current_patients >= slot.slot.max_patients
+                              slot.disabled || slot.current_patients >= slot.slot.max_patients
                                 ? "#ffffff"
                                 : "inherit",
                             fontWeight: selectedSlot === slot.slot_id ? "bold" : "normal",
@@ -379,7 +402,6 @@ function Booking() {
                         </Button>
                       </Grid>
                     ))
-
                   ) : (
                     <Grid item xs={12}>
                       <Typography color="error">Không có giờ khám khả dụng</Typography>
@@ -389,7 +411,6 @@ function Booking() {
                 {formik.touched.time && formik.errors.time && (
                   <Typography color="error">{formik.errors.time}</Typography>
                 )}
-
               </FormControl>
 
 

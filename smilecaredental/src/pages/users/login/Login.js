@@ -23,11 +23,11 @@ function Login() {
           email: values.email,
           password: values.password,
         });
-        toast.success('Login successful');
+        alert('Đăng Nhập Thành Công');
         console.log('Login successful', res.data);
         localStorage.setItem('token', res.data.token);
 
-        const user = jwtDecode(res.data.token);  
+        const user = jwtDecode(res.data.token);
         console.log(user.name);
         localStorage.setItem('role', user.role);
         localStorage.setItem('name', user.name);
@@ -46,7 +46,9 @@ function Login() {
         }
         resetForm();
       } catch (err) {
-        console.error('Login failed', err.response ? err.response.data : "lỗi");
+
+        const errorMessage = err.response?.data?.error || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin';
+        toast.error(errorMessage);
       } finally {
         setSubmitting(false);
       }

@@ -138,9 +138,17 @@ export const getAvailableSlotsForDate = async (dentistId, selectedDate) => {
   });
 }
 export const createAppointment = async (appointmentData) => {
-  return axiosInstance.post('/customer/create-appointment', appointmentData);
-}
-
+  try {
+      const response = await axiosInstance.post('/customer/create-appointment', appointmentData);
+      return response;
+  } catch (error) {
+      if (error.response) {
+          throw error.response;
+      } else {
+          throw new Error('Có lỗi xảy ra khi kết nối với server. Vui lòng thử lại.');
+      }
+  }
+};
 // ClinicOwner
 export const getDetailClinicByClinicOwner = async () => {
   return axiosInstance.get('/clinic-owner/clinic');

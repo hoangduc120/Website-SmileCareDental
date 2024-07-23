@@ -14,7 +14,7 @@ import DisplayButton from "../../../components/layout/DisplayButton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { getPageAllClinics, getPageAllServices, getPageAllDoctors } from "../../../api/api";
+import { getPageAllClinics, getPageAllServices, getHomePage } from "../../../api/api";
 import Banner from "../../../components/layout/Banner";
 
 function Home() {
@@ -25,7 +25,7 @@ function Home() {
 
   const fetchServices = () => getPageAllServices();
   const fetchClinics = () => getPageAllClinics();
-  const fetchDoctor = () => getPageAllDoctors();
+  const fetchDoctor = () => getHomePage();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +35,7 @@ function Home() {
         const homePageResponse = await fetchDoctor();
         setServices(servicesResponse.data.services);
         setClinics(clinicsResponse.data.clinics);
-        setDentists(homePageResponse.data.doctors);
+        setDentists(homePageResponse.data);
       } catch (error) {
         console.error("Error fetching services, clinics, and homepage data:", error);
       } finally {
@@ -238,7 +238,7 @@ function Home() {
                     <Button
                       variant="outlined"
                       component={Link}
-                      to={`/book-appointment/${dentist.id}`}
+                      to={`/book-appointment/${dentist.dentist_id}`}
                       style={{ textDecoration: "none", marginBottom: "10px" }}
                     >
                       Đặt Lịch
