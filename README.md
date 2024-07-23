@@ -1,3 +1,8 @@
+# SmileCareDental
+![Logo](https://firebasestorage.googleapis.com/v0/b/lab202-5de90.appspot.com/o/Logophongkham%2FScreenshot%202024-07-23%20230119.jpg?alt=media&token=882fcd55-a56f-4a9c-b2c1-3e23e27c0748)
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
