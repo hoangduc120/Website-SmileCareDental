@@ -1,7 +1,26 @@
 # SmileCareDental
 ![Logo](https://firebasestorage.googleapis.com/v0/b/lab202-5de90.appspot.com/o/Logophongkham%2FScreenshot%202024-07-23%20230119.jpg?alt=media&token=882fcd55-a56f-4a9c-b2c1-3e23e27c0748)
 
+# MEMBER:
+1. Hoàng Việt Đức - Leader : Front-end Developer
+2. Văn Đình Quốc - Back-end Developer
 
+# Major Features
+- Online scheduling
+- Reviews and comments
+- Booking care
+- Register to own a clinic
+- User Account Administration
+- User Authentication and Management
+- Managing dentist clinics
+- Approving dental clinic registration applications
+- Manage patient status
+
+
+# Technology:
+1.Fontend: Reactjs, Mui
+2.Back-end: Nodejs
+3. Database: SQL server
 
 # Getting Started with Create React App
 
