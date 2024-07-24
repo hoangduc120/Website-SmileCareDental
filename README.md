@@ -53,42 +53,10 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Overview pictures
+![Home](https://firebasestorage.googleapis.com/v0/b/lab202-5de90.appspot.com/o/smileCareDental%2Fhome.png?alt=media&token=cda2a74c-ba16-497e-9a71-dc5e4e620f35)
+![Clinics](https://firebasestorage.googleapis.com/v0/b/lab202-5de90.appspot.com/o/smileCareDental%2Fclinics.png?alt=media&token=32e44d18-82ae-476d-b332-45aae917a743)
+![infor](https://firebasestorage.googleapis.com/v0/b/lab202-5de90.appspot.com/o/smileCareDental%2Finforclinic.png?alt=media&token=d204a74b-17c7-4e31-87ee-9a100f8902a2)
+![Booking](https://firebasestorage.googleapis.com/v0/b/lab202-5de90.appspot.com/o/smileCareDental%2Fbooking.png?alt=media&token=d5e48f3e-70c3-4d8c-98d2-4c0713a9da8f)
+![appointment](https://firebasestorage.googleapis.com/v0/b/lab202-5de90.appspot.com/o/smileCareDental%2Fappointment.png?alt=media&token=0eabecb4-567c-44a7-9e97-62d588e3c932)
+![newClinic](https://firebasestorage.googleapis.com/v0/b/lab202-5de90.appspot.com/o/smileCareDental%2Fnewclinic.png?alt=media&token=e9b9828d-9028-4343-b4c3-ddf44a87b534)
